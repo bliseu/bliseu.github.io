@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-06-22T10:08:57.421Z</updated>
+    <updated>2020-06-22T10:09:44.736Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -15,7 +15,7 @@
         <id>https://bliseu.github.io/post/cif2poscar/</id>
         <link href="https://bliseu.github.io/post/cif2poscar/">
         </link>
-        <updated>2020-06-22T03:06:44.000Z</updated>
+        <updated>2020-06-21T20:06:44.000Z</updated>
         <content type="html"><![CDATA[<p>调用pymatgen完成cif2poscar.py ，可以生成primitive cell的POSCAR，也可用于QE的输入文件。🌙</p>
 ]]></content>
     </entry>
