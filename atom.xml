@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-06-22T18:49:08.473Z</updated>
+    <updated>2020-06-23T09:51:01.808Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,6 +10,28 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
+    <entry>
+        <title type="html"><![CDATA[Typora]]></title>
+        <id>https://bliseu.github.io/post/typora/</id>
+        <link href="https://bliseu.github.io/post/typora/">
+        </link>
+        <updated>2020-06-23T02:45:39.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<p>使用typora，可以快速写文档，公式输入参考：<br>
+https://www.latexlive.com/</p>
+</li>
+<li>
+<p>导出tex文件，导出tex后生成的pdf很好，有页码，还会自动给图加标题，可以考虑今后用这个写文档。</p>
+</li>
+<li>
+<p>强制分页符：<br>
+要在文档上插入分页符，可以在书写时尝试输入HTML 。<br>
+<code>&lt;div style=&quot;page-break-after: always;&quot;&gt;&lt;/div&gt;</code></p>
+</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SG15赝势]]></title>
         <id>https://bliseu.github.io/post/sg15-yan-shi/</id>
