@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-07-09T19:49:10.041Z</updated>
+    <updated>2020-07-10T16:29:35.148Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,15 +10,6 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
-    <entry>
-        <title type="html"><![CDATA[與蔡書]]></title>
-        <id>https://bliseu.github.io/post/yu-cai-shu/</id>
-        <link href="https://bliseu.github.io/post/yu-cai-shu/">
-        </link>
-        <updated>2020-07-09T04:43:56.000Z</updated>
-        <content type="html"><![CDATA[<p>當今之勢，兩強相搏，台置其中，如覆巢之卵，朝不保夕。有言曰：吾周旋往復，可全也。此言謬矣！朝秦暮楚而全者，今古未見也。某觀今日之事，台之於美，雞肋爾，台之於中，珍寶也，奈何親美而拒中焉？普天之下，以中國資台經年而累有怨矣。庚子年起，天下驟變，美之疫一時難解也，假以數月，美必獻台以媚中也。君不見美機穿台近粵如入無人境，何也？欲挑中入台也。若啟戰端，台之人物，化為齏粉，身死地滅，豈不痛哉？偶有逃生者，仕途盡毀，不免寄人籬下，仰人鼻息。以某之見，不若效篤姬開城，隆裕頒詔。易幟，散兵，撤館，入京，三月而天下定，豈不美哉？兩岸從此無刀兵之禍，美亦無可奈何，豈不快哉？人之在世，所謂何者？身後名爾。今擁抱華夏，振臂一呼，台海震動，風隨影從，千古之功，不過如此！願從某言，天下幸甚！</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[一场下了两百万年的雨]]></title>
         <id>https://bliseu.github.io/post/yi-chang-xia-liao-liang-bai-wan-nian-de-yu/</id>
