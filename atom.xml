@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-09-01T11:14:43.684Z</updated>
+    <updated>2020-09-06T19:16:29.943Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
+    <entry>
+        <title type="html"><![CDATA[Ascetic life]]></title>
+        <id>https://bliseu.github.io/post/ascetic-life/</id>
+        <link href="https://bliseu.github.io/post/ascetic-life/">
+        </link>
+        <updated>2020-09-06T12:14:46.000Z</updated>
+        <content type="html"><![CDATA[<p>Ascetic monks have tough wills.</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[一心]]></title>
         <id>https://bliseu.github.io/post/yi-xin/</id>
@@ -109,15 +118,6 @@ https://www.latexlive.com/</p>
 <code>&lt;div style=&quot;page-break-after: always;&quot;&gt;&lt;/div&gt;</code></p>
 </li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SG15赝势]]></title>
-        <id>https://bliseu.github.io/post/sg15-yan-shi/</id>
-        <link href="https://bliseu.github.io/post/sg15-yan-shi/">
-        </link>
-        <updated>2020-06-22T04:35:01.000Z</updated>
-        <content type="html"><![CDATA[<p>👓发现模守恒SG15赝势的收敛特性要比SSSP推荐的超软赝势要好。</p>
 ]]></content>
     </entry>
 </feed>
