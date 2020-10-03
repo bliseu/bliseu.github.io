@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-09-06T19:20:42.536Z</updated>
+    <updated>2020-10-03T10:31:11.933Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
+    <entry>
+        <title type="html"><![CDATA[下雨]]></title>
+        <id>https://bliseu.github.io/post/xia-yu/</id>
+        <link href="https://bliseu.github.io/post/xia-yu/">
+        </link>
+        <updated>2020-10-03T03:26:47.000Z</updated>
+        <content type="html"><![CDATA[<p>爱堡又下雨了，喜欢外面车轮与积水亲密接触的声音。下雨天欲望总是很强，昨天买了玩具，希望她帮我度过这枯燥恐慌的岁月。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Ascetic life]]></title>
         <id>https://bliseu.github.io/post/ascetic-life/</id>
@@ -96,28 +105,6 @@
         <updated>2020-06-27T06:19:12.000Z</updated>
         <content type="html"><![CDATA[<p>使用ISMEAR=0来优化结构，可能可以避免少数结构的能量过于不合理。目前，多原子体系仍存在mlpp之后的多原子体系空间群变为1，这个问题calypso似乎解决了，USPEX也存在这个问题。<br>
 对于多原子体系，似乎应减少mlpp的概率（减为0.3？），让随机的结构再多一点，而mlpp容易得到一批结果差不多的结构，影响整体效率。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Typora]]></title>
-        <id>https://bliseu.github.io/post/typora/</id>
-        <link href="https://bliseu.github.io/post/typora/">
-        </link>
-        <updated>2020-06-22T19:45:39.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li>
-<p>使用typora，可以快速写文档，公式输入参考：<br>
-https://www.latexlive.com/</p>
-</li>
-<li>
-<p>导出tex文件，导出tex后生成的pdf很好，有页码，还会自动给图加标题，可以考虑今后用这个写文档。</p>
-</li>
-<li>
-<p>强制分页符：<br>
-要在文档上插入分页符，可以在书写时尝试输入HTML 。<br>
-<code>&lt;div style=&quot;page-break-after: always;&quot;&gt;&lt;/div&gt;</code></p>
-</li>
-</ol>
 ]]></content>
     </entry>
 </feed>
