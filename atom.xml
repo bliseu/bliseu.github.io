@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-11-05T19:14:48.075Z</updated>
+    <updated>2020-11-14T21:43:47.578Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,6 +10,16 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
+    <entry>
+        <title type="html"><![CDATA[JIN-仁]]></title>
+        <id>https://bliseu.github.io/post/jin-ren/</id>
+        <link href="https://bliseu.github.io/post/jin-ren/">
+        </link>
+        <updated>2020-11-14T13:42:30.000Z</updated>
+        <content type="html"><![CDATA[<p>「上帝不會給予跨越不了的考驗」<br>
+「神様は乗りこられる試練しか与えない」</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Bonfire Night]]></title>
         <id>https://bliseu.github.io/post/bonfire-night/</id>
@@ -95,15 +105,6 @@
         <updated>2020-06-29T22:34:06.000Z</updated>
         <content type="html"><![CDATA[<p>很好看。<br>
 很想念中学时的夏天，平房顶上泼水乘凉的夜晚。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[郑伯克段]]></title>
-        <id>https://bliseu.github.io/post/zheng-bo-ke-duan/</id>
-        <link href="https://bliseu.github.io/post/zheng-bo-ke-duan/">
-        </link>
-        <updated>2020-06-29T18:33:18.000Z</updated>
-        <content type="html"><![CDATA[<p>以大击小，以强克弱，屡试不爽之妙法也！阳谋之利可见一斑也！</p>
 ]]></content>
     </entry>
 </feed>
