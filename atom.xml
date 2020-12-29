@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-12-01T22:18:23.634Z</updated>
+    <updated>2020-12-29T18:27:41.952Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -11,13 +11,12 @@
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
     <entry>
-        <title type="html"><![CDATA[倒计时]]></title>
-        <id>https://bliseu.github.io/post/dao-ji-shi/</id>
-        <link href="https://bliseu.github.io/post/dao-ji-shi/">
+        <title type="html"><![CDATA[下雪了]]></title>
+        <id>https://bliseu.github.io/post/xia-xue-liao/</id>
+        <link href="https://bliseu.github.io/post/xia-xue-liao/">
         </link>
-        <updated>2020-12-01T13:59:52.000Z</updated>
-        <content type="html"><![CDATA[<p>还有俩月归国。<br>
-隔壁小孩和非男友的男生（备胎？）出去了，年轻时多样的选择是没错的，无须评判。这就是世界运行的样子，这样的故事还有千千万。这让我想起我青涩愤怒的研究生时光，这个世界果然是脚本有限的🤣。</p>
+        <updated>2020-12-29T02:24:26.000Z</updated>
+        <content type="html"><![CDATA[<p>南京下雪了，爱丁堡也下雪了，好安静。</p>
 ]]></content>
     </entry>
     <entry>
@@ -37,15 +36,6 @@
         </link>
         <updated>2020-11-05T11:02:21.000Z</updated>
         <content type="html"><![CDATA[<p>窗外响起烟火的响声，原来是盖伊·福克斯之夜。今天去了趟Blackford Hill and Pond，爱丁堡的秋色真是美好，就是山顶的风太大了。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[下雨]]></title>
-        <id>https://bliseu.github.io/post/xia-yu/</id>
-        <link href="https://bliseu.github.io/post/xia-yu/">
-        </link>
-        <updated>2020-10-03T03:26:47.000Z</updated>
-        <content type="html"><![CDATA[<p>爱堡又下雨了，喜欢外面车轮与积水亲密接触的声音。下雨天欲望总是很强，昨天买了玩具，希望她帮我度过这枯燥恐慌的岁月。</p>
 ]]></content>
     </entry>
     <entry>
@@ -105,6 +95,16 @@
         </link>
         <updated>2020-07-06T12:59:31.000Z</updated>
         <content type="html"><![CDATA[<p>十七年前，炙热的阳光，潮湿的空气，一战定乾坤。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[隐秘的角落]]></title>
+        <id>https://bliseu.github.io/post/yin-mi-de-jiao-luo/</id>
+        <link href="https://bliseu.github.io/post/yin-mi-de-jiao-luo/">
+        </link>
+        <updated>2020-06-29T22:34:06.000Z</updated>
+        <content type="html"><![CDATA[<p>很好看。<br>
+很想念中学时的夏天，平房顶上泼水乘凉的夜晚。</p>
 ]]></content>
     </entry>
 </feed>
