@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://bliseu.github.io</id>
     <title>BLI @ EDINBURGH</title>
-    <updated>2020-12-29T18:27:41.952Z</updated>
+    <updated>2020-12-31T18:46:14.455Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://bliseu.github.io"/>
     <link rel="self" href="https://bliseu.github.io/atom.xml"/>
@@ -10,6 +10,15 @@
     <logo>https://bliseu.github.io/images/avatar.png</logo>
     <icon>https://bliseu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, BLI @ EDINBURGH</rights>
+    <entry>
+        <title type="html"><![CDATA[挥手2020]]></title>
+        <id>https://bliseu.github.io/post/hui-shou-2020/</id>
+        <link href="https://bliseu.github.io/post/hui-shou-2020/">
+        </link>
+        <updated>2020-12-30T02:29:11.000Z</updated>
+        <content type="html"><![CDATA[<p>还有几个小时，2020就将过去。这一年，我百分之九十的时间都是在爱丁堡的这个房子里度过的（CRAIGMILLAR PARK），这个经历恐怕以后不会有了，真是令人难忘的一年。这一年的上半年，我还是能量满满的，和Miriam一起写了一篇JPCL，还辅助性的做了几篇PRB，最大的成果是写出了一个能用的结构搜索程序CRYS（本来叫CRYSTREE），CRYS感觉也契合了今年的诡异气氛，危机CRYSIS，哭喊CRY和它多么相似。下半年的我勉勉强强，也习惯了室内的生活，学会了自己理发，平时除了工作，就是看剧，听歌，等待回国。虽然在可见的未来，英国的疫情会很快过去，但当下疫情汹汹，我想起我的出行计划，还是战战兢兢。但回过头来想想，这就是上天对我的考验吧，仁医里面说，上帝不会降下不能战胜的考验。不言战胜，人类至少必然会找到和这个病毒的相处之道，人类世界在不经意间也走到了一个新的纪元，之后的人类世界会走得很远，走的很久。2021，对我们都好一点，拜托🤘。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[下雪了]]></title>
         <id>https://bliseu.github.io/post/xia-xue-liao/</id>
@@ -95,16 +104,6 @@
         </link>
         <updated>2020-07-06T12:59:31.000Z</updated>
         <content type="html"><![CDATA[<p>十七年前，炙热的阳光，潮湿的空气，一战定乾坤。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[隐秘的角落]]></title>
-        <id>https://bliseu.github.io/post/yin-mi-de-jiao-luo/</id>
-        <link href="https://bliseu.github.io/post/yin-mi-de-jiao-luo/">
-        </link>
-        <updated>2020-06-29T22:34:06.000Z</updated>
-        <content type="html"><![CDATA[<p>很好看。<br>
-很想念中学时的夏天，平房顶上泼水乘凉的夜晚。</p>
 ]]></content>
     </entry>
 </feed>
