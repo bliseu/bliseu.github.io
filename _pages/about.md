@@ -31,7 +31,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 1. Bin Li, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu, and Zhixiang Shi, Theoretical Predictions on Superconducting Phase above Room Temperature in Lutetium-Beryllium Hydrides at High Pressures, Chin. Phys. Lett. 40 097402 (2023).
 2. Bin Li*, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu and Zhixiang Shi, Superconductivity and phase transitions in Kagome compound Pd3P2S8 from first-principles calculation, J. Phys.: Condens. Matter 35 495401 (2023)
 3. Bin Li, Zilong Miao, Lei Ti, Shengli Liu, Jie Chen, Zhixiang Shi, and Eugene Gregoryanz, Predicted high-temperature superconductivity in cerium hydrides at high pressures, Journal of Applied Physics 126, 235901 (2019).
-4. B. Li, Z. W. Xing, G. Q. Huang, Phonon spectra and superconductivity of the BiS2-based compounds LaO1-xFxBiS2. EPL, 101: 47002  (2013). (https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=eWCLGwUAAAAJ&citation_for_view=eWCLGwUAAAAJ:f2IySw72cVMC) <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:f2IySw72cVMC'></span></strong>
+4. B. Li, Z. W. Xing, G. Q. Huang, Phonon spectra and superconductivity of the BiS2-based compounds LaO1-xFxBiS2. EPL, 101: 47002  (2013). [URL](https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=eWCLGwUAAAAJ&citation_for_view=eWCLGwUAAAAJ:f2IySw72cVMC) <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:f2IySw72cVMC'></span></strong>
 5. B. Li, Z. W. Xing*, M. Liu, Phonon softening induced by striped antiferromagnetic order in LiFeAs. Appl. Phys. Lett., 98: 072506 (2011).
 
 ### Full Publications:
