@@ -27,17 +27,10 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 # 📝 Publications 
 
+[**GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
 
-[Predicted high-temperature superconductivity in cerium hydrides at high pressures](http://sscms.hpstar.ac.cn/hpstar/upload/files/2020/1/2742783d1f8acb7e.pdf)
-
-**Bin Li**, Zilong Miao, Lei Ti, Shengli Liu, Jie Chen, Zhixiang Shi, Eugene Gregoryanz
-
-[**URL**](https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=eWCLGwUAAAAJ&citation_for_view=eWCLGwUAAAAJ:mB3voiENLucC) <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:mB3voiENLucC'></span></strong>
-
-- 
 
 # 🎖 Honors and Awards
--  . 
 
 
 # 📖 Educations
