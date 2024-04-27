@@ -31,7 +31,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 1. Bin Li, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu, and Zhixiang Shi, Theoretical Predictions on Superconducting Phase above Room Temperature in Lutetium-Beryllium Hydrides at High Pressures, Chin. Phys. Lett. 40 097402 (2023).
 2. Bin Li*, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu and Zhixiang Shi, Superconductivity and phase transitions in Kagome compound Pd3P2S8 from first-principles calculation, J. Phys.: Condens. Matter 35 495401 (2023)
 3. Bin Li, Zilong Miao, Lei Ti, Shengli Liu, Jie Chen, Zhixiang Shi, and Eugene Gregoryanz, Predicted high-temperature superconductivity in cerium hydrides at high pressures, Journal of Applied Physics 126, 235901 (2019).
-4. B. Li, Z. W. Xing, G. Q. Huang, Phonon spectra and superconductivity of the BiS2-based compounds LaO1-xFxBiS2. EPL, 101: 47002  (2013). [URL](https://scholar.google.com/citations?view_op=view_citation&hl=zh-CN&user=eWCLGwUAAAAJ&citation_for_view=eWCLGwUAAAAJ:f2IySw72cVMC) <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:f2IySw72cVMC'></span></strong>
+4. B. Li, Z. W. Xing, G. Q. Huang, Phonon spectra and superconductivity of the BiS2-based compounds LaO1-xFxBiS2. EPL, 101: 47002  (2013). <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:f2IySw72cVMC'></span></strong>
 5. B. Li, Z. W. Xing*, M. Liu, Phonon softening induced by striped antiferromagnetic order in LiFeAs. Appl. Phys. Lett., 98: 072506 (2011).
 
 ### Full Publications:
@@ -52,6 +52,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 14. Sixuan Wu, Bin Li*, Zhi Chen, Yu Hou, Yan Bai, Xiaofeng Hao, Yeqian Yang, Shengli Liu, Jie Cheng, and Zhixiang Shi, "Phase transitions and superconductivity in ternary hydride Li2SiH6 at high pressures", Journal of Applied Physics 131, 065901 (2022).
 15. Rende Miao, Xiaofeng Hao, Sixuan Wu, Bin Li* & Jun Yang. First-Principles Prediction of Superconductivity in Hole Doping of MgCN2. J Supercond Nov Magn 35, 339–343 (2022).
 16. C. Q. Xu†, B. Li†, L. Zhang, J. Pollanen, X. L. Yi, X. Z. Xing, Y. Liu, J. H. Wang, Zengwei Zhu, Z. X. Shi, Xiaofeng Xu, and X. Ke, Superconductivity in PtPb4 with possible nontrivial band topology, Phys. Rev. B 104, 125127 (2021).
+
 [**More in GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
 
 
