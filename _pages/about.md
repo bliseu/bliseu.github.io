@@ -68,4 +68,9 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 # 💻 Internships
 - *2014.04 - Now*, Nanjing Unviversity of Posts and Telecommunications, Nanjing.
-- *2012-04-2014.04*, Nanjing Unviversity, Nanjing. 
+- *2012.04-2014.04*, Nanjing Unviversity, Nanjing.
+
+# 👨‍🏫 Teaching
+- Group Theory and its Applications in Physics
+- Experimental Physics
+- Brief College Physics
