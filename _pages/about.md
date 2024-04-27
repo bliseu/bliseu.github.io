@@ -19,15 +19,35 @@ redirect_from:
 
 My research focuses on superconductivity, topological materials and high-pressure crystal structure prediction.
 
- I have published more than 60 papers at the SCIE journals with total google scholar citations <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><strong><span id='total_cit'>1000+</span></strong></a> <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>.
+ I have published more than 60 papers at the SCIE journals with total google scholar citations <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><strong><span id='total_cit'></span></strong></a> <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>.
 
 
 # 🔥 News
 - *2024.04*: &nbsp;🎉🎉 Li Bin start this homepage. 
 
 # 📝 Publications 
+### 5 Selected Publications (2011-today):
 
-[**GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
+1. Bin Li, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu, and Zhixiang Shi, Theoretical Predictions on Superconducting Phase above Room Temperature in Lutetium-Beryllium Hydrides at High Pressures, Chin. Phys. Lett. 40 097402 (2023).
+2. Bin Li*, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu and Zhixiang Shi, Superconductivity and phase transitions in Kagome compound Pd3P2S8 from first-principles calculation, J. Phys.: Condens. Matter 35 495401 (2023)
+3. Bin Li, Zilong Miao, Lei Ti, Shengli Liu, Jie Chen, Zhixiang Shi, and Eugene Gregoryanz, Predicted high-temperature superconductivity in cerium hydrides at high pressures, Journal of Applied Physics 126, 235901 (2019).
+4. B. Li, Z. W. Xing, G. Q. Huang, Phonon spectra and superconductivity of the BiS2-based compounds LaO1-xFxBiS2. EPL, 101: 47002  (2013).
+5. B. Li, Z. W. Xing*, M. Liu, Phonon softening induced by striped antiferromagnetic order in LiFeAs. Appl. Phys. Lett., 98: 072506 (2011).
+
+### Full Publications:
+
+1. C. Q. Xu, C. C. Zhao, Y. Shen, D. Ratkovski, X. Ma, W. Zhou, Xunqing Yin, B. Li, A. F. Bangura, Chao Cao, Baomin Wang, Ziming Zhu, X. Ke, Dong Qian, Shiyan Li, and Xiaofeng Xu, Multigap nodeless superconductivity in the Dirac intermetallic alloy V2Ga5 with one-dimensional vanadium chains, Phys. Rev. B 109, L100506 (2024)
+2. W. Zhou, B. Li, Y. Shen, J. J. Feng, C. Q. Xu, H. T. Guo, Z. He, B. Qian, Ziming Zhu, and Xiaofeng Xu, Multiple superconducting phases driven by pressure in the topological insulator GeSb4Te7, Phys. Rev. B 108, 184504 (2023)
+3. Sudeep Kumar Ghosh, Bin Li, Chunqiang Xu, Adrian D Hillier, Pabitra K Biswas, Xiaofeng Xu,Toni Shiroka, ZrOsSi: A Z2 topological metal with a superconducting ground state, Frontiers in Physics., 11, 1256166 (2023)
+4. Bin Li*, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu and Zhixiang Shi, Superconductivity and phase transitions in Kagome compound Pd3P2S8 from first-principles calculation, J. Phys.: Condens. Matter 35 495401 (2023)
+5. Bin Li*, Yeqian Yang, Yuxiang Fan, Cong Zhu, Shengli Liu, and Zhixiang Shi,  Theoretical Predictions on Superconducting Phase above Room Temperature in Lutetium-Beryllium Hydrides at High Pressures, Chin. Phys. Lett. 40 097402 (2023)
+6. Xiaofeng Hao, Yan Bai, Bin Li*, Zhixiang Shi, First-principles investigation on the high-pressure phase transitions and elastic constants of chromium nitrides. AIP Advances, 13 (6), 065219 (2023). 
+7. Wen Huang, Pengjie Hang, Xuwen Xia, Bin Li, Biao Li, Chenxia Kan, Huixing Zhang, Chen Zhu, Chenhao Wang, Xiaodong Zhu, Deren Yang, Xiaodong Pi, Xuegong Yu, Xing'ao Li, Two-terminal self-rectifying optoelectronic synaptic devices with largest-dynamic-range updates, Applied Materials Today, 30, 101728, (2023).
+8. Bin Li*, Yan Bai, Yu Hou, Xiaofeng Hao, Yeqian Yang, Shengli Liu, Jie Cheng, Zhixiang Shi, Novel high-pressure phases with superconductivity and superhardness in cerium nitrides predicted from first-principles calculations, Materials Today Communications, 34, 105168, (2023).
+9. Yu Hou, Bin Li*, Yan Bai, Xiaofeng Hao, Yeqian Yang, Fengfeng Chi, Shengli Liu, Jie Cheng and Zhixiang Shi, Superconductivity in CeBeH8 and CeBH8 at moderate pressures, J. Phys.: Condens. Matter 34 505403 (2022).
+10. Chengxu Liu, Bin Li, Yongheng Ge, Chuanying Xi, Yi Liu, Chunqiang Xu, Qi Lu, Yunlong Li, Hang-Qiang Qiu, Qin-Qing Zhu, Yu-Ke Li, Zhi Ren, Ziming Zhu, Dong Qian, Xianglin Ke, Xiaofeng Xu, Wen-He Jiao, de Haas-van Alphen effect and the first-principles study of the possible topological stannide Cu3Sn, Journal of Alloys and Compounds, 928, 167017, (2022).
+
+[**more in GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
 
 
 # 🎖 Honors and Awards
