@@ -66,7 +66,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 # 💬 Invited Talks
 - *2018.07.27*, Superconductivity in Titanium Hydrides at High Pressures, HPSP-18 & WHS2, Barcelona, Spain. 
 
-# 💻 Internships
+# 💻 Employment
 - *2014.04 - Now*, Nanjing Unviversity of Posts and Telecommunications, Nanjing.
 - *2012.04-2014.04*, Nanjing Unviversity, Nanjing.
 
