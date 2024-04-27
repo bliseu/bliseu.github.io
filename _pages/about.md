@@ -27,7 +27,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 # 📝 Publications 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2016</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">2019</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Predicted high-temperature superconductivity in cerium hydrides at high pressures](http://sscms.hpstar.ac.cn/hpstar/upload/files/2020/1/2742783d1f8acb7e.pdf)
@@ -38,7 +38,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 </div>
 </div>
 
-- [Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet](https://github.com), A, B, C, **CVPR 2020**
+- 
 
 # 🎖 Honors and Awards
 -  . 
