@@ -23,7 +23,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 
 # 🔥 News
-- *2024.04*: &nbsp;🎉🎉 Li Bin start this homepage. 
+- *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
 
 # 📝 Publications 
 ### 5 Selected Publications (2011-today):
