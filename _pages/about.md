@@ -23,7 +23,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 
 # 🔥 News
-- *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V_{1−δ}Sb_{2} single crystals" published on APL.
+- *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published on APL.
 - *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
 
 
