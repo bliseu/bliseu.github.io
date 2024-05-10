@@ -38,7 +38,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 ### Full Publications:
 [**GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
-1. F. Tang, B.-C. Qu, Y. Chen, L.-R. Wang, X.-Q. Yin, Z.-D. Han, Y. Liu, X.-M. Zhang*, B. Li*, Y. Fang*, Quantum oscillations and electronic features in V1−δSb2 single crystals. Appl. Phys. Lett. 124 (19): 193102 (2024).
+1. F. Tang, B.-C. Qu, Y. Chen, L.-R. Wang, X.-Q. Yin, Z.-D. Han, Y. Liu, X.-M. Zhang\*, B. Li\*, Y. Fang\*, Quantum oscillations and electronic features in V1−δSb2 single crystals. Appl. Phys. Lett. 124 (19): 193102 (2024).
 2. Wen Huang, Xuwen Xia, Huixing Zhang, Tenglong Guo, Pengjie Hang, Bin Li, Jiawei Tang, Biao Li, Chen Zhu, Lei Wang, Deren Yang, Xuegong Yu & Xing’ao Li, High-performance carbon-electrode-based self-powered optoelectronic synaptic devices. Sci. China Inf. Sci. 67, 159403 (2024).
 3. C. Q. Xu, C. C. Zhao, Y. Shen, D. Ratkovski, X. Ma, W. Zhou, Xunqing Yin, B. Li, A. F. Bangura, Chao Cao, Baomin Wang, Ziming Zhu, X. Ke, Dong Qian, Shiyan Li, and Xiaofeng Xu, Multigap nodeless superconductivity in the Dirac intermetallic alloy V2Ga5 with one-dimensional vanadium chains, Phys. Rev. B 109, L100506 (2024)
 4. W. Zhou, B. Li, Y. Shen, J. J. Feng, C. Q. Xu, H. T. Guo, Z. He, B. Qian, Ziming Zhu, and Xiaofeng Xu, Multiple superconducting phases driven by pressure in the topological insulator GeSb4Te7, Phys. Rev. B 108, 184504 (2023)
@@ -91,7 +91,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 51. C. Q. Xu, X. Z. Xing, Xiaofeng Xu*, Bin Li*, B. Chen, L. Q. Che, Xin Lu, Jianhui Dai, Z. X. Shi, Synthesis, physical properties, and band structure of the layered bismuthide PtBi2, Phys. Rev B, 2016, 94: 165119.
 52. Xuanyong Sun, Shengli Liu*, Haiyun Wang, Bin Li, Jie Cheng, Zhihe Wang*, Insulator-metal transition in deep Sr-vacant spin-orbit Mott insulator Sr2IrO4, Journal of Alloys and Compounds, 2016, 687: 712~719.
 53. Pengchao Lu, Joon-Seok Kim, Jing Yang, Hao Gao, Juefei Wu, Dexi Shao, Bin Li, Dawei Zhou, Jian Sun*, Deji Akinwande, Dingyu Xing, Jung-Fu Lin*, Origin of superconductivity in the Weyl semimetal WTe2 under pressure, Phys. Rev B, 2016, 94: 224512.
-54. X. Z. Xing, C. Q. Xu, N. Zhou, B. Li, Jinglei Zhang, Z. X. Shi*, Xiaofeng Xu*, Large linear magnetoresistance in a transition-metal stannide -RhSn4, Appl. Phys. Lett. 2016, 109: 122403.
+54. X. Z. Xing, C. Q. Xu, N. Zhou, B. Li, Jinglei Zhang, Z. X. Shi*, Xiaofeng Xu*, Large linear magnetoresistance in a transition-metal stannide β-RhSn4, Appl. Phys. Lett. 2016, 109: 122403.
 55. Li, B., Huang, G., Sun, J. *, Xing, Z. *, Novel structural phases and superconductivity of iridium telluride under high pressures (vol 4, 6433, 2015). Sci. Rep. 2015, 5: 11173.
 56. Li. B., Huang, G., Sun, J. *, Xing, Z. *, Novel structural phases and superconductivity of iridium telluride under high pressures. Sci. Rep. 2014, 4: 6433.
 57. B. Li, Z. W. Xing*, G. Q. Huang, D. Y. Xing*, Electron-phonon coupling enhanced by the FeSe/SrTiO3 interface. J. Appl. Phys. 2014, 115: 193907.
@@ -103,8 +103,8 @@ My research focuses on superconductivity, topological materials and high-pressur
 63. B. Li, Z. W. Xing, M. Liu*, Peak effect and dynamic melting transitions of driven vortex system in weakly disordered Josephson junction arrays. J. of Appl. Phys. 2010, 108: 103911.
 64. W. Wang, B. Li, S. Liu, J. Wang, M. Liu*. First-Principles Calculations on β-Pyrochlore Superconductors AOs2O6 (A=K, Rb, Cs). J. Super. and Novel Magn. 2010, 23: 1063–1066.
 65. W. Wang, B. Li, S. Liu, M. Liu*, and Z. W. Xing. Magnetic fluctuation and frustration in new iron-based layered SrFe1-xCoxAsF Superconductors. J. of Appl. Phys. 2010, 107: 123906.
-66. Liu Su*, Li Bin, Wang Wei et al. Electronic structure and magnetism of SrFeAsF and Co-doped superconductor SrFe0.875Co0.125AsF. Acta Phys. Sin., 2010, 59(6): 4245-4252.W. Wang, B. Li, J. Wang,
-67. Magnetic and electronic structure in new iron-based layered SrFe1−xCoxAsF systems, Physics Letters A, 2010, 374(7), 984-988.
+66. Liu Su*, Li Bin, Wang Wei et al. Electronic structure and magnetism of SrFeAsF and Co-doped superconductor SrFe0.875Co0.125AsF. Acta Phys. Sin., 2010, 59(6): 4245-4252.
+67. W. Wang, B. Li, J. Wang, Magnetic and electronic structure in new iron-based layered SrFe1−xCoxAsF systems, Physics Letters A, 2010, 374(7), 984-988.
 68. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin., 2009, 58(8): 5750-5756.
 
 
