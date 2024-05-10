@@ -37,7 +37,6 @@ My research focuses on superconductivity, topological materials and high-pressur
 5. B. Li, Z. W. Xing*, M. Liu, Phonon softening induced by striped antiferromagnetic order in LiFeAs. Appl. Phys. Lett., 98: 072506 (2011). <strong><span class='show_paper_citations' data='eWCLGwUAAAAJ:isC4tDSrTZIC'></span></strong>
 
 ### Full Publications:
-<details>
 1. F. Tang, B.-C. Qu, Y. Chen, L.-R. Wang, X.-Q. Yin, Z.-D. Han, Y. Liu, X.-M. Zhang*, B. Li*, Y. Fang*, Quantum oscillations and electronic features in V1−δSb2 single crystals. Appl. Phys. Lett. 124 (19): 193102 (2024).
 2. Wen Huang, Xuwen Xia, Huixing Zhang, Tenglong Guo, Pengjie Hang, Bin Li, Jiawei Tang, Biao Li, Chen Zhu, Lei Wang, Deren Yang, Xuegong Yu & Xing’ao Li, High-performance carbon-electrode-based self-powered optoelectronic synaptic devices. Sci. China Inf. Sci. 67, 159403 (2024).
 3. C. Q. Xu, C. C. Zhao, Y. Shen, D. Ratkovski, X. Ma, W. Zhou, Xunqing Yin, B. Li, A. F. Bangura, Chao Cao, Baomin Wang, Ziming Zhu, X. Ke, Dong Qian, Shiyan Li, and Xiaofeng Xu, Multigap nodeless superconductivity in the Dirac intermetallic alloy V2Ga5 with one-dimensional vanadium chains, Phys. Rev. B 109, L100506 (2024)
@@ -106,7 +105,6 @@ My research focuses on superconductivity, topological materials and high-pressur
 66. Liu Su*, Li Bin, Wang Wei et al. Electronic structure and magnetism of SrFeAsF and Co-doped superconductor SrFe0.875Co0.125AsF. Acta Phys. Sin., 2010, 59(6): 4245-4252.W. Wang, B. Li, J. Wang,
 67. Magnetic and electronic structure in new iron-based layered SrFe1−xCoxAsF systems, Physics Letters A, 2010, 374(7), 984-988.
 68. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin., 2009, 58(8): 5750-5756.
-</details>
 [**GOOGLE SCHOLAR**](https://scholar.google.com/citations?user=eWCLGwUAAAAJ) 
 
 
