@@ -19,11 +19,11 @@ redirect_from:
 
 My research focuses on superconductivity, topological materials and high-pressure crystal structure prediction.
 
- I have published more than 60 papers at the SCIE journals with total google scholar citations <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><strong><span id='total_cit'></span></strong></a> <a href='https://scholar.google.com/citations?user=eWCLGwUAAAAJ'><img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>.
+ I have published 60+ papers at the SCI journals with total google scholar citations: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations"></a>.
 
 
 # 🔥 News
-- *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published on APL.
+- *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published as cover article on APL.
 - *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
 
 
