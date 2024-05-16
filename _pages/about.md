@@ -23,6 +23,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 
 # 🔥 News
+- *2024.05.16*: &nbsp;🎉🎉 Our work titled "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure" has been accepted by PRB.
 - *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published as cover article on APL.
 - *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
 
