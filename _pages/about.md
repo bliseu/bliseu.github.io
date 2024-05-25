@@ -19,7 +19,7 @@ redirect_from:
 
 My research focuses on superconductivity, topological materials and high-pressure crystal structure prediction.
 
- I have published 60+ papers at the SCI journals with total google scholar citations: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations">.
+ I have published 70+ papers at the SCI journals with total google scholar citations: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations">.
 
 
 # 🔥 News
