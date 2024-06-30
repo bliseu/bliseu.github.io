@@ -116,7 +116,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 - *2022*, Outstanding Master's Supervisor of NJUPT
 
 # 📖 Educations
-- *2007.09 - 2012.04*, PhD in Condensed Matter physics, Southeast University. 
+- *2007.09 - 2012.04*, PhD in Condensed Matter Physics, Southeast University. 
 - *2003.09 - 2017.06*, Bachelor in Applied Physics, Southeast Univeristy. 
 
 # 💬 Invited Talks
