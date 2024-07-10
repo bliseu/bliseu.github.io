@@ -5,10 +5,10 @@ AcadHomepage
 
 <div align="center">
 
-[![](https://img.shields.io/github/stars/RayeRen/acad-homepage.github.io)](https://github.com/RayeRen/acad-homepage.github.io)
-[![](https://img.shields.io/github/forks/RayeRen/acad-homepage.github.io)](https://github.com/RayeRen/acad-homepage.github.io)
-[![](https://img.shields.io/github/issues/RayeRen/acad-homepage.github.io)](https://github.com/RayeRen/acad-homepage.github.io)
-[![](https://img.shields.io/github/license/RayeRen/acad-homepage.github.io)](https://github.com/RayeRen/acad-homepage.github.io/blob/main/LICENSE)  | [English README](../README.md) 
+[![](https://img.shields.io/github/stars/bliseu/acad-homepage.github.io)](https://github.com/bliseu/acad-homepage.github.io)
+[![](https://img.shields.io/github/forks/bliseu/acad-homepage.github.io)](https://github.com/bliseu/acad-homepage.github.io)
+[![](https://img.shields.io/github/issues/bliseu/acad-homepage.github.io)](https://github.com/bliseu/acad-homepage.github.io)
+[![](https://img.shields.io/github/license/bliseu/acad-homepage.github.io)](https://github.com/bliseu/acad-homepage.github.io/blob/main/LICENSE)  | [English README](../README.md) 
 
 </div>
 
@@ -21,9 +21,6 @@ AcadHomepage
     <br>
 </p>
 
-一些例子：
-- [样例页面](https://rayeren.github.io/acad-homepage.github.io/)
-- [作者的个人主页](https://rayeren.github.io/)
 
 ## 主要特点
 - **自动更新谷歌学术引用**: 借助谷歌学术爬虫和github action功能，本仓库可以自动更新作者的引用数和论文引用数。
