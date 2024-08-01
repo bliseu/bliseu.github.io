@@ -24,7 +24,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 # 🔥 News
 - *2024.08.01*: &nbsp;🎉🎉 "Superconductive Sodalite‐Like Clathrate Hydrides  with Critical Temperatures of near 300 K under Pressures" has been published in physica status solidi (b) basic solid state physics. (Phys. Status Solidi B 2400240 (2024). http://doi.org/10.1002/pssb.202400240).
-- *2024.05.22*: &nbsp;🎉🎉 "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure"  has been published online today, 22 May 2024, in the 1 May 2024 issue of Physical Review B (Vol. 109, No. 18): URL: https://link.aps.org/doi/10.1103/PhysRevB.109.184517 DOI: 10.1103/PhysRevB.109.184517
+- *2024.05.22*: &nbsp;🎉🎉 "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure"  has been published online today, 22 May 2024, in the 1 May 2024 issue of Physical Review B (Vol. 109, No. 18). (https://link.aps.org/doi/10.1103/PhysRevB.109.184517 DOI: 10.1103/PhysRevB.109.184517).
 - *2024.05.16*: &nbsp;🎉🎉 Our work titled "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure" has been accepted by PRB. [**Link**](https://journals.aps.org/prb/accepted/1407dObaD0614b4166df89f8fe9070b09bbdc97d1)
 - *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published as cover article on APL. [**Link**](https://doi.org/10.1063/5.0205296)
 - *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
