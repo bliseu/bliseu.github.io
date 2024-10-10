@@ -23,6 +23,7 @@ My research focuses on superconductivity, topological materials and high-pressur
 
 
 # 🔥 News
+- *2024.10.10*: &nbsp;🎉🎉 "Iron doping effect on superconducting properties of FexSe0.4Te0.6 thin films" has been published in Applied Surface Science.  [**Applied Surface Science, 2024, 161481**](https://doi.org/10.1016/j.apsusc.2024.161481). 
 - *2024.08.01*: &nbsp;🎉🎉 "Superconductive Sodalite‐Like Clathrate Hydrides  with Critical Temperatures of near 300 K under Pressures" has been published in physica status solidi (b) basic solid state physics.  [**Phys. Status Solidi B 2400240 (2024)**](http://doi.org/10.1002/pssb.202400240). [**arXiv**](https://arxiv.org/abs/2408.00234).
 - *2024.05.22*: &nbsp;🎉🎉 "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure"  has been published online today, 22 May 2024, in the 1 May 2024 issue of Physical Review B (Vol. 109, No. 18). [**PhysRevB.109.184517**](https://link.aps.org/doi/10.1103/PhysRevB.109.184517). [**arXiv**](https://arxiv.org/abs/2405.13752).
 - *2024.05.16*: &nbsp;🎉🎉 Our work titled "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure" has been accepted by PRB. [**Link**](https://journals.aps.org/prb/accepted/1407dObaD0614b4166df89f8fe9070b09bbdc97d1).
