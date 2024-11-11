@@ -26,8 +26,11 @@ Topological materials are a fascinating field. These materials possess unique pr
 High-pressure crystal structure prediction is a cutting-edge field that focuses on determining the arrangement of atoms within a material under extreme pressures. This is crucial for understanding the behavior of materials found deep within the Earth and could lead to the discovery of new materials with unique properties that form only under such conditions. These predictions are invaluable for advancements in various technologies, including superconductors and new energy sources.
 
 Web of Science ResearcherID: E-4702-2016
+
 ORCID: 0000-0002-6392-4185 
+
 Researchgate: Bin-Li-35
+
 Google Scholar citations: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations">.
 
 
