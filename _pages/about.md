@@ -17,13 +17,11 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-My research focuses on superconductivity, topological materials and high-pressure crystal structure prediction.
+My research is centered on the exploration of superconductivity, the intriguing realm of topological materials, and the prediction of high-pressure crystal structures.
 
-Superconductivity is a fascinating quantum mechanical phenomenon where materials conduct electricity without resistance when cooled below a specific critical temperature. This property has diverse practical applications, including highly efficient power cables, magnetic resonance imaging (MRI) machines, and the potential for levitating trains. The latter is possible due to the Meissner effect—a unique property where superconductors expel magnetic fields.
+Over the recent years, my work has been deeply rooted in first-principles computational research within the domain of condensed matter physics. I have dedicated my efforts to understanding hydrogen-based superconductors, non-centrosymmetric superconductors, rare earth metal compounds, and the fascinating world of topological insulators and semimetals. By meticulously calculating key properties including electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I delve into the underlying mechanisms of superconductivity and the unique characteristics of topological materials. My contributions have been recognized through a series of publications in prestigious SCI journals, establishing a robust foundation in the aforementioned areas. My team and I have made significant strides in structural searches, understanding high-pressure phase transitions, and advancing the frontiers of superconductivity and topological property research.
 
-Topological materials exhibit unique properties that remain stable against disturbances, making them remarkably reliable for various applications. The research into topological materials connects fundamental physics with practical technology, providing insights into novel quantum states of matter. This field also holds promise for significant advancements in electronics, quantum computing, and materials science.
 
-High-pressure crystal structure prediction is a cutting-edge field that focuses on determining the arrangement of atoms within a material under extreme pressures. This is crucial for understanding the behavior of materials found deep within the Earth and could lead to the discovery of new materials with unique properties that form only under such conditions. These predictions are invaluable for advancements in various technologies, including superconductors and new energy sources.
 
 Web of Science ResearcherID: E-4702-2016
 
@@ -35,7 +33,6 @@ Citations: 4836
 
 H-index: 34
 
-Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=citations">
 
 
 # 🔥 News
@@ -134,6 +131,8 @@ Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encod
 73. Liu Su*, Li Bin, Wang Wei et al. Electronic structure and magnetism of SrFeAsF and Co-doped superconductor SrFe0.875Co0.125AsF. Acta Phys. Sin. 59(6), 4245-4252 (2010).
 74. W. Wang, B. Li, J. Wang, Magnetic and electronic structure in new iron-based layered SrFe1-xCoxAsF systems, Physics Letters A 374(7), 984-988 (2010).
 75. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
+
+<!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label= "> -->
 
 
 # 🎖 Honors and Awards
