@@ -21,8 +21,6 @@ My research is centered on the exploration of superconductivity, the intriguing 
 
 Over the recent years, my work has been deeply rooted in first-principles computational research within the domain of condensed matter physics. I have dedicated my efforts to understanding hydrogen-based superconductors, non-centrosymmetric superconductors, rare earth metal compounds, and the fascinating world of topological insulators and semimetals. By meticulously calculating key properties including electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I delve into the underlying mechanisms of superconductivity and the unique characteristics of topological materials. My contributions have been recognized through a series of publications in prestigious SCI journals, establishing a robust foundation in the aforementioned areas. My team and I have made significant strides in structural searches, understanding high-pressure phase transitions, and advancing the frontiers of superconductivity and topological property research.
 
-
-
 Web of Science ResearcherID: E-4702-2016
 
 ORCID: 0000-0002-6392-4185 
