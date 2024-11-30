@@ -27,9 +27,9 @@ ORCID: 0000-0002-6392-4185
 
 Researchgate: Bin-Li-35
 
-Citations: 4836
+<!--Citations: 4836 
 
-H-index: 34
+H-index: 34 -->
 
 
 
@@ -130,7 +130,7 @@ H-index: 34
 74. W. Wang, B. Li, J. Wang, Magnetic and electronic structure in new iron-based layered SrFe1-xCoxAsF systems, Physics Letters A 374(7), 984-988 (2010).
 75. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
 
-<!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label= "> -->
+Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations "> 
 
 
 # 🎖 Honors and Awards
