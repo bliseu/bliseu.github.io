@@ -35,7 +35,7 @@ H-index: 34 -->
 
 # 🔥 News
 - *2024.12.19*: &nbsp;🎉🎉 "Thickness effect on the evolution of superconducting properties in FeSe0.4Te0.6 thin films" has been accepted by Superconductor Science and Technology.
-- *2024.12.04*: &nbsp;🎉🎉 "Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure" has been published at PRB.  [**Phys. Rev. B 110, 214504 (2024)**](https://doi.org/10.1103/PhysRevB.110.214504).
+- *2024.12.04*: &nbsp;🎉🎉 "Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure" has been published at PRB.  [**Phys. Rev. B 110, 214504 (2024)**](https://doi.org/10.1103/PhysRevB.110.214504).  [**arXiv**](https://arxiv.org/abs/2412.15488).
 - *2024.11.26*: &nbsp;🎉🎉 "Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure" has been accepted by PRB.  [**Link**](https://journals.aps.org/prb/accepted/58070Of2H5a15253429733f745c2c0f2b2403f3b9).
 - *2024.10.10*: &nbsp;🎉🎉 "Iron doping effect on superconducting properties of FexSe0.4Te0.6 thin films" has been published in Applied Surface Science.  [**Applied Surface Science, 2024, 161481**](https://doi.org/10.1016/j.apsusc.2024.161481). 
 - *2024.08.01*: &nbsp;🎉🎉 "Superconductive Sodalite‐Like Clathrate Hydrides  with Critical Temperatures of near 300 K under Pressures" has been published in physica status solidi (b) basic solid state physics.  [**Phys. Status Solidi B 2400240 (2024)**](http://doi.org/10.1002/pssb.202400240). [**arXiv**](https://arxiv.org/abs/2408.00234).
