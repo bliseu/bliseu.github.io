@@ -34,7 +34,8 @@ H-index: 34 -->
 
 
 # 🔥 News
-- *2025.02.04*: &nbsp;🎉🎉 "Prediction of high-temperature ambient-pressure superconductivity in hexagonal boron-rich clathrates" has been accepted by PRB.
+- *2025.01.04*: &nbsp;🎉🎉 "Prediction of high-temperature ambient-pressure superconductivity in hexagonal boron-rich clathrates" has been accepted by PRB.[**Link**](https://journals.aps.org/prb/accepted/67077O18K2a12347e43a96c9e1a1d6281e0a1c449)
+- *2024.12.27*: &nbsp;🎉🎉 "Thickness effect on the evolution of superconducting properties in FeSe0.4Te0.6 thin films" has been published at Superconductor Science and Technology. [**2025 Supercond. Sci. Technol. 38 015026**](https://iopscience.iop.org/article/10.1088/1361-6668/ada115)
 - *2024.12.19*: &nbsp;🎉🎉 "Thickness effect on the evolution of superconducting properties in FeSe0.4Te0.6 thin films" has been accepted by Superconductor Science and Technology.
 - *2024.12.04*: &nbsp;🎉🎉 "Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure" has been published at PRB.  [**Phys. Rev. B 110, 214504 (2024)**](https://doi.org/10.1103/PhysRevB.110.214504).  [**arXiv**](https://arxiv.org/abs/2412.15488).
 - *2024.11.26*: &nbsp;🎉🎉 "Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure" has been accepted by PRB.  [**Link**](https://journals.aps.org/prb/accepted/58070Of2H5a15253429733f745c2c0f2b2403f3b9).
