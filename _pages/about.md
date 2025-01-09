@@ -34,6 +34,7 @@ H-index: 34 -->
 
 
 # 🔥 News
+- *2025.01.09*: &nbsp;🎉🎉 "Magnetic phases and electron-phonon coupling in La3Ni2O7 under pressure" has been accepted for publication in Computational Materials Science.
 - *2025.01.07*: &nbsp;🎉🎉 "Transport and quantum oscillations in the quasi-one-dimensional superconductor V2Ga5" has been published at PRB.  [**Phys. Rev. B 111.024503 (2025)**](https://doi.org/10.1103/PhysRevB.111.024503).
 - *2025.01.04*: &nbsp;🎉🎉 "Prediction of high-temperature ambient-pressure superconductivity in hexagonal boron-rich clathrates" has been accepted by PRB.[**Link**](https://journals.aps.org/prb/accepted/67077O18K2a12347e43a96c9e1a1d6281e0a1c449)
 - *2024.12.27*: &nbsp;🎉🎉 "Thickness effect on the evolution of superconducting properties in FeSe0.4Te0.6 thin films" has been published at Superconductor Science and Technology. [**2025 Supercond. Sci. Technol. 38 015026**](https://iopscience.iop.org/article/10.1088/1361-6668/ada115)
