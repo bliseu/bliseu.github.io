@@ -21,11 +21,11 @@ My research is centered on the exploration of superconductivity, the intriguing 
 
 Over the recent years, I have been fortunate to engage in first-principles computational research of condensed matter physics. My focus has been on exploring hydrogen-based superconductors, non-centrosymmetric superconductors, rare earth metal compounds, and the intriguing field of topological insulators and semimetals. Through careful calculations of key properties such as electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I have sought to understand the fundamental mechanisms of superconductivity and the distinctive features of topological materials. Together with my team, we have made modest progress in structural searches, high-pressure phase transitions, and the advancement of research in superconductivity and topological properties.
 
-Web of Science ResearcherID: E-4702-2016
+Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
 
-ORCID: 0000-0002-6392-4185 
+ORCID: [**0000-0002-6392-4185**](https://orcid.org/0000-0002-6392-4185) 
 
-Researchgate: Bin-Li-35
+Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 <!--Citations: 4836 
 
