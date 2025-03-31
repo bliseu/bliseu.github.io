@@ -171,4 +171,17 @@ Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encod
 - Experiments of Physics
 - Brief College Physics
 
+# 🧩 Codes
+- [**CRYSTREE**](https://github.com/bliseu/CRYSTREE) CRYSTREE is an out-of-the-box crystal structure prediction tool based on the random forest method. It is compatible with most Unix-like systems and the Windows Subsystem for Linux (WSL). 
+- [**MAGUS**](https://gitlab.com/bigd4/magus) MAGUS (Machine Learning and Graph Theory-Assisted Universal Structure Searcher) is a computational tool designed for advanced structure exploration. I contributed to its development and implementation.
+
+
+# 🔗 Links
+- [**Quantum Espresso**](https://www.quantum-espresso.org/)
+- [**WIEN2K**](https://www.wien2k.at/)
+- [**OQMD**](https://oqmd.org/)
+- [**CRYST**](https://www.cryst.ehu.es/)
+- [**ARXIV**](https://arxiv.org/list/cond-mat.supr-con/recent)
+- [**APS**](https://journals.aps.org/prb/recent)
+  
 <a href="https://info.flagcounter.com/6xs4"><img src="https://s01.flagcounter.com/map/6xs4/size_s/txt_000000/border_CCCCCC/pageviews_1/viewers_0/flags_0/" alt="Flag Counter" border="0"></a>
