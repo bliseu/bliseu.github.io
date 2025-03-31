@@ -162,11 +162,11 @@ Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encod
 # 💬 Invited Talks
 - *2018.07.27*, Superconductivity in Titanium Hydrides at High Pressures, HPSP-18 & WHS2, Barcelona, Spain. 
 
-# 💻 Employment
+# 💻 Employments
 - *2014.04 - Now*, Nanjing Unviversity of Posts and Telecommunications, Nanjing.
 - *2012.04-2014.04*, Nanjing Unviversity, Nanjing.
 
-# 👨‍🏫 Teaching
+# 👨‍🏫 Courses
 - Group Theory and its Applications in Physics
 - Experiments of Physics
 - Brief College Physics
