@@ -149,7 +149,7 @@ H-index: 34 -->
 82. W. Wang, B. Li, J. Wang, Magnetic and electronic structure in new iron-based layered SrFe1-xCoxAsF systems, Physics Letters A 374(7), 984-988 (2010).
 83. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
 
-<!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations "> -->
+Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations "> 
 
 
 # 🎖 Honors and Awards
