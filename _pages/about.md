@@ -178,7 +178,7 @@ H-index: 34 -->
 
 # 🔗 Links
 - [**Quantum Espresso**](https://www.quantum-espresso.org/)
-- [**WIEN2K**](https://www.wien2k.at/)
+- [**WIEN2K**](http://susi.theochem.tuwien.ac.at/)
 - [**OQMD**](https://oqmd.org/)
 - [**CRYST**](https://www.cryst.ehu.es/)
 - [**ARXIV**](https://arxiv.org/list/cond-mat.supr-con/recent)
