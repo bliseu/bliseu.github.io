@@ -34,7 +34,7 @@ H-index: 34 -->
 
 
 # 🔥 News
-- *2025.04.03*: &nbsp;🎉🎉 "Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4" has been published at PRB. [**Phys. Rev. B 111, L140502**](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.L140502)
+- *2025.04.03*: &nbsp;🎉🎉 "Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4" has been published at PRB. [**Phys. Rev. B 111, L140502 (2025)**](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.L140502).
 - *2025.03.28*: &nbsp;🎉🎉 "Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure" has been published at JPCC. [**acs.jpcc.5c00513**](https://pubs.acs.org/doi/full/10.1021/acs.jpcc.5c00513).
 - *2025.03.13*: &nbsp;🎉🎉 “Pressure-induced superconductivity, amorphization,and topological phase transitions in the topologica semimetal MoP4” has been accepted by PRB.
 - *2025.02.27*: &nbsp;🎉🎉 Our team has been awarded as "Wiley China Excellent Author Program" for the paper "Superconductive Sodalite‐Like Clathrate Hydrides MXH12 with Critical Temperatures of near 300 K under Pressures".
