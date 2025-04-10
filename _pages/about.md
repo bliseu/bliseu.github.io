@@ -67,7 +67,7 @@ H-index: 34 -->
 ### Full Publications:
 
 1. Chutong Zhang, Xiangzhuo Xing*, Song Huang, Xiao Tang, Linchao Yu, Na Zuo, Bin Li*, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Xin Chen, Xiaofeng Xu*, and Xiaobing Liu*, Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4, Phys. Rev. B 111, L140502 (2025).
-2. Bin Li*, Yuxiang Fan, Junjie Zhai, Zhisi Cao, Cong Zhu, Jie Cheng, Shengli Liu and Zhixiang Shi, Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure, The Journal of Physical Chemistry C Article ASAP (2025).
+2. Bin Li*, Yuxiang Fan, Junjie Zhai, Zhisi Cao, Cong Zhu, Jie Cheng, Shengli Liu and Zhixiang Shi, Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure, The Journal of Physical Chemistry C 129 (14), 7098-7106 (2025).
 3. Cong Zhu, Bin Li*, Yuxiang Fan, Chuanhui Yin, Junjie Zhai, Jie Cheng, Shengli Liu, Zhixiang Shi, Magnetic phases and electron-phonon coupling in La3Ni2O7 under pressure, Computational Materials Science 250, 113676 (2025).
 4. Bin Li*, Yuxiang Fan, Chuanhui Yin, Junjie Zhai, Cong Zhu, Zhisi Cao, Jie Cheng, and Shengli Liu, Prediction of high-temperature ambient-pressure superconductivity in hexagonal boron-rich clathrates, Phys. Rev. B 111, 014510 (2025).
 5. Y. L. Huang, Z. Y. Zhang, Z. Y. Liu, P. T. Yang, B. Li, C. Q. Xu, B. S. Wang, W. Zhou, Wen-He Jiao, S. Xu, Ziming Zhu, T. Shiroka, Xiangzhuo Xing, Zhu’an Xu, Dong Qian, Shiyan Li, Xianglin Ke, J.-G. Cheng, and Xiaofeng Xu, Transport and quantum oscillations in the quasi-one-dimensional superconductor V2Ga5, Phys. Rev. B 111, 024503 (2025).
