@@ -71,13 +71,13 @@ H-index: 34 -->
 
 **2024**
 
-1. Bin Li, Cong Zhu, Junjie Zhai, Chuanhui Yin, Yuxiang Fan, Jie Cheng, Shengli Liu, and Zhixiang Shi, Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure, Phys. Rev. B 110, 214504 (2024).
-1. Fan, Y., Li, B.*, Zhu, C., Cheng, J., Liu, S.*, and Shi, Z. Superconductive Sodalite-Like Clathrate Hydrides MXH12 with Critical Temperatures of near 300 K under Pressures. Phys. Status Solidi B 2400240 (2024).
-1. Wenhui Liu, Jiajia Feng, Qiang Hou, Bin Li, Ke Wang, Bin Chen, Sheng Li, and Zhixiang Shi, Pressure-induced superconductivity and isosymmetric structural transition in quasi-one-dimensional Ta2PdS6, Phys. Rev. B 109, 054513 (2024).
-1. Bin Li*, Yulan Cheng, Cong Zhu, Jie Cheng*, and Shengli Liu, Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure, Phys. Rev. B 109, 184517 (2024).
-1. F. Tang, B.-C. Qu, Y. Chen, L.-R. Wang, X.-Q. Yin, Z.-D. Han, Y. Liu, X.-M. Zhang*, B. Li*, Y. Fang*, Quantum oscillations and electronic features in V1-δSb2 single crystals. Appl. Phys. Lett. 124(19), 193102 (2024).
-1. Wen Huang, Xuwen Xia, Huixing Zhang, Tenglong Guo, Pengjie Hang, Bin Li, Jiawei Tang, Biao Li, Chen Zhu, Lei Wang, Deren Yang, Xuegong Yu & Xing'ao Li, High-performance carbon-electrode-based self-powered optoelectronic synaptic devices. Sci. China Inf. Sci. 67, 159403 (2024).
-1. C. Q. Xu, C. C. Zhao, Y. Shen, D. Ratkovski, X. Ma, W. Zhou, Xunqing Yin, B. Li, A. F. Bangura, Chao Cao, Baomin Wang, Ziming Zhu, X. Ke, Dong Qian, Shiyan Li, and Xiaofeng Xu, Multigap nodeless superconductivity in the Dirac intermetallic alloy V2Ga5 with one-dimensional vanadium chains, Phys. Rev. B 109, L100506 (2024).
+1. Bin Li, Cong Zhu, Junjie Zhai, Chuanhui Yin, Yuxiang Fan, Jie Cheng, Shengli Liu, and Zhixiang Shi, Theoretical prediction of high-temperature superconductivity in SrAuH3 at ambient pressure, [Phys. Rev. B 110, 214504 (2024)](https://doi.org/10.1103/PhysRevB.110.214504).
+1. Fan, Y., Li, B.*, Zhu, C., Cheng, J., Liu, S.*, and Shi, Z. Superconductive Sodalite-Like Clathrate Hydrides MXH12 with Critical Temperatures of near 300 K under Pressures. [Phys. Status Solidi B 2400240 (2024)](https://doi.org/10.1002/pssb.202400240).
+1. Wenhui Liu, Jiajia Feng, Qiang Hou, Bin Li, Ke Wang, Bin Chen, Sheng Li, and Zhixiang Shi, Pressure-induced superconductivity and isosymmetric structural transition in quasi-one-dimensional Ta2PdS6, [Phys. Rev. B 109, 054513 (2024)](https://doi.org/10.1103/PhysRevB.109.054513).
+1. Bin Li*, Yulan Cheng, Cong Zhu, Jie Cheng*, and Shengli Liu, Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure, [Phys. Rev. B 109, 184517 (2024)](https://doi.org/10.1103/PhysRevB.109.184517).
+1. F. Tang, B.-C. Qu, Y. Chen, L.-R. Wang, X.-Q. Yin, Z.-D. Han, Y. Liu, X.-M. Zhang*, B. Li*, Y. Fang*, Quantum oscillations and electronic features in V1-δSb2 single crystals. [Appl. Phys. Lett. 124(19), 193102 (2024)](https://doi.org/10.1063/5.0205296).
+1. Wen Huang, Xuwen Xia, Huixing Zhang, Tenglong Guo, Pengjie Hang, Bin Li, Jiawei Tang, Biao Li, Chen Zhu, Lei Wang, Deren Yang, Xuegong Yu & Xing'ao Li, High-performance carbon-electrode-based self-powered optoelectronic synaptic devices. [Sci. China Inf. Sci. 67, 159403 (2024)](https://doi.org/10.1007/s11432-023-3991-9).
+1. C. Q. Xu, C. C. Zhao, Y. Shen, D. Ratkovski, X. Ma, W. Zhou, Xunqing Yin, B. Li, A. F. Bangura, Chao Cao, Baomin Wang, Ziming Zhu, X. Ke, Dong Qian, Shiyan Li, and Xiaofeng Xu, Multigap nodeless superconductivity in the Dirac intermetallic alloy V2Ga5 with one-dimensional vanadium chains, [Phys. Rev. B 109, L100506 (2024)](https://doi.org/10.1103/PhysRevB.109.L100506).
 
 **2023**
 
