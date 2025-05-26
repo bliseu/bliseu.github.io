@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Over the recent years, I have been fortunate to engage in first-principles computational research of condensed matter physics. My focus has been on exploring hydrogen-based superconductors, non-centrosymmetric superconductors, and the topological insulators and semimetals. Through careful calculations of key properties such as electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I have sought to understand the fundamental mechanisms of superconductivity and the distinctive features of topological materials. Together with my team, we have made modest progress in the crystal structure predictions (CSP) and the advancement of research in superconductivity and topological properties.
+My research centers on first-principles computational investigations of exotic quantum materials, where I explore the frontiers of hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. By calculating electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I uncover the fundamental mechanisms driving superconductivity and the unique properties that emerge in topological materials. Working collaboratively with my research team, we have advanced crystal structure prediction methods and contributed new insights into the relationship between atomic arrangement and quantum phenomena in these materials.
 
 Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
 
