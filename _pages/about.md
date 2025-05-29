@@ -58,6 +58,8 @@ H-index: 34 -->
 # 📝 Publications 
 
 
+Total: 86
+
 **2025**
 
 1. J. Y. Nie, C. C. Zhao, C. Q. Xu, Yalei Huang, B. Li, C. P. Tu, X. Zhang, D. Z. Dai, H. R. Wang, S. Xu, Wenhe Jiao, B. M. Wang, Zhu'an Xu, Xiaofeng Xu*, and S. Y. Li*, Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless, [Phys. Rev. B 111, 174505 (2025)](https://doi.org/10.1103/PhysRevB.111.174505).
@@ -193,8 +195,6 @@ H-index: 34 -->
 1. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
 
 Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations "> 
-
-Total: 86
 
 
 # 🎖 Honors and Awards
