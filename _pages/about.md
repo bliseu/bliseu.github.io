@@ -58,7 +58,6 @@ H-index: 34 -->
 # 📝 Publications 
 
 
-Total: 86
 
 **2025**
 
