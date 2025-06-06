@@ -203,7 +203,7 @@ Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encod
 - *2007.09 - 2012.04*, PhD in Condensed Matter Physics, Southeast University. 
 - *2003.09 - 2017.06*, Bachelor in Applied Physics, Southeast Univeristy. 
 
-# 💬 Invited Talks
+# 💬 Talks
 - *2018.07.27*, Superconductivity in Titanium Hydrides at High Pressures, HPSP-18 & WHS2, Barcelona, Spain. 
 
 # 💻 Employments
