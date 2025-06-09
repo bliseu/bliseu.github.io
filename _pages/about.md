@@ -203,9 +203,9 @@ Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encod
 - *2018.07.27*, Superconductivity in Titanium Hydrides at High Pressures, HPSP-18 & WHS2, Barcelona, Spain. 
 
 # 💻 Employments
-- *2014.04 - Now*, Nanjing Unviversity of Posts and Telecommunications, Nanjing, Jiangsu, PRC.
+- *2014.04 - Now*, Nanjing Unviversity of Posts and Telecommunications, Nanjing, Jiangsu, China.
 - *2020.02 - 2021.03*, The University of Edinburgh, Visiting researcher (School of Physics and Astronomy), Edinburgh, GB.
-- *2012.04 - 2014.04*, Nanjing Unviversity, Postdoc (School of Physics), Nanjing, Jiangsu, PRC.
+- *2012.04 - 2014.04*, Nanjing Unviversity, Postdoc (School of Physics), Nanjing, Jiangsu, China.
 
 # 👨‍🏫 Courses
 - Group Theory and its Applications in Physics
