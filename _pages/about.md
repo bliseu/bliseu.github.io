@@ -190,9 +190,9 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 1. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
 
 <!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations ">  -->
-![Google Scholar Citations](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j0k3r/scholar-badge/main/generate?user=eWCLGwUAAAAJ)
+![Google Scholar](https://img.shields.io/badge/GoogleScholar-2004-green)
 
-Google Scholar: 2004
+<!--Google Scholar: 2004 -->
 
 # 🎖 Honors and Awards
 - *2022*, Outstanding Master's Supervisor of NJUPT
