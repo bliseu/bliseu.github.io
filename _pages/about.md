@@ -191,7 +191,7 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 <!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations ">  -->
 
-Google Scholar: 2002
+Google Scholar: 2004
 
 # 🎖 Honors and Awards
 - *2022*, Outstanding Master's Supervisor of NJUPT
