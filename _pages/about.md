@@ -212,7 +212,7 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 # 👨‍🏫 Courses
 - Group Theory and its Applications in Physics
-- Experiments of Physics
+- Physical Experiments
 - Brief College Physics
 
 # 🧩 Codes
