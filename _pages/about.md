@@ -56,7 +56,7 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 <!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
 
-![H-index](https://img.shields.io/badge/H-index-22-red)
+![H-index](https://img.shields.io/badge/H--index-22-blue?logo=academia&style=for-the-badge)
 
 
 **2025**
