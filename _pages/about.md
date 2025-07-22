@@ -54,8 +54,9 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 # 📝 Publications 
 
-![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green)
+<!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
 
+![H-index](https://img.shields.io/badge/H-index-22-red)
 
 
 **2025**
