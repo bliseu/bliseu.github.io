@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-My research centers on first-principles computational investigations of exotic quantum materials, where I explore the frontiers of hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. By calculating electronic band structures, Fermi surfaces, phonon spectra, and electron-phonon coupling constants, I uncover the fundamental mechanisms driving superconductivity and the unique properties that emerge in topological materials. Working collaboratively with my research team, we have advanced crystal structure prediction methods and contributed new insights into the relationship between atomic arrangement and quantum phenomena in these materials.
+My research centers on first-principles computational investigations of exotic quantum materials, where I explore the frontiers of hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can download CRYSTREE after registration from this link: https://bliseu.github.io/download/ 
 
 Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
 
