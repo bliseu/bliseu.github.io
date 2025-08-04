@@ -28,7 +28,7 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 <!--<script src="//taplink.cc/id:13359423/widget/" async></script> -->
 
 
-<script async src="https://tally.so/widgets/embed.js"></script>
+<!--<script async src="https://tally.so/widgets/embed.js"></script>
 
 <script>
 window.TallyConfig = {
@@ -45,7 +45,7 @@ window.TallyConfig = {
   }
 };
 </script>
-
+-->
 
 # 🔥 News
 - *2025.07.22*: &nbsp;🎉🎉 "Pressure-driven superconductivity in the topological insulator GeBi4Te7" has been published at PRB.  [**Phys. Rev. B 112, 014515 (2025)**]( https://doi.org/10.1103/6gs6-p872).
@@ -237,9 +237,10 @@ window.TallyConfig = {
 - Physical Experiments
 - Brief College Physics
 
-# 🧩 Codes
+# 🧩 Download
 - [**CRYSTREE**](https://github.com/bliseu/CRYSTREE) CRYSTREE is an out-of-the-box crystal structure prediction tool based on the random forest method. It is compatible with most Unix-like systems and the Windows Subsystem for Linux (WSL). 
-- [**MAGUS**](https://gitlab.com/bigd4/magus) MAGUS (Machine Learning and Graph Theory-Assisted Universal Structure Searcher) is a computational tool designed for advanced structure exploration. I contributed to its development and implementation.
+<iframe data-tally-src="https://tally.so/embed/w4bJ6A?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="884" frameborder="0" marginheight="0" marginwidth="0" title="CRYSTREE Registration Form 注册表格"></iframe>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
 
 
 # 🔗 Links
