@@ -71,11 +71,7 @@ window.TallyConfig = {
 - *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
 
 
-# 📝 Publications 
 
-<!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
-
-![H-index](https://img.shields.io/badge/H--index-22-blue?logo=academia&style=for-the-badge)
 
 
 
