@@ -4,6 +4,12 @@ title: "Paperlist"
 modified: 2025-08-04
 ---
 
+# 📝 Publications 
+
+<!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
+
+![H-index](https://img.shields.io/badge/H--index-22-blue?logo=academia&style=for-the-badge)
+
 **2025**
 
 1. Yalei Huang, Na Zuo, Zheyi Zhang, Chunqiang Xu, Xiangzhuo Xing*, Wen-He Jiao, Bin Li*, Wei Zhou*, Xiaobing Liu, Dong Qian, Xiaofeng Xu*, Pressure-driven superconductivity in the topological insulator GeBi4Te7, [Phys. Rev. B 112, 014515 (2025)](https://doi.org/10.1103/6gs6-p872). 
@@ -138,3 +144,4 @@ modified: 2025-08-04
 **2009**
 
 1. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
+
