@@ -28,7 +28,23 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 <!--<script src="//taplink.cc/id:13359423/widget/" async></script> -->
 
 
-<script src="https://tally.so/widgets/embed.js" async></script>
+<script async src="https://tally.so/widgets/embed.js"></script>
+
+<script>
+window.TallyConfig = {
+  "formId": "w4bJ6A",
+  "popup": {
+    "emoji": {
+      "text": "👋",
+      "animation": "wave"
+    },
+    "open": {
+      "trigger": "scroll",
+      "scrollPercent": 50
+    }
+  }
+};
+</script>
 
 
 # 🔥 News
