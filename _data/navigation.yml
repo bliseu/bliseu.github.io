@@ -25,7 +25,7 @@ main:
     url: "/#-courses"
 
   - title: "Download"
-    url: /downlad/
+    url: /download/
     
   - title: "Links"
     url: "/#-links"
