@@ -1,6 +1,10 @@
 ---
 permalink: /homepage/
 title: "homepage"
+author_profile: true
+redirect_from: 
+  - /homepage/
+  - /homepage.html
 ---
 # 📎 Homepages
 - Personal Page: https://bliseu.github.io (updated recently🔥)
