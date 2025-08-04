@@ -5,10 +5,10 @@ main:
 
   - title: "News"
     url: "/#-news"
-
-  - title: "Publications"
-    url: "/#-publications"
-
+   
+  - title: "Paperlist"
+    url: /paperlist/
+    
   - title: "Honors and Awards"
     url: "/#-honors-and-awards"
 
