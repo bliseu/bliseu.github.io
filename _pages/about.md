@@ -2,7 +2,7 @@
 permalink: /
 title: ""
 excerpt: ""
-author_profile: true
+author_profile: false
 redirect_from: 
   - /about/
   - /about.html
@@ -27,7 +27,7 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 <!--<script src="//taplink.cc/id:13359423/widget/" async></script> -->
 
-
+<!--
 <script async src="https://tally.so/widgets/embed.js"></script>
 
 <script>
@@ -45,11 +45,9 @@ window.TallyConfig = {
   }
 };
 </script>
-
+-->
 
 {% include_relative news.md %}
-
-<!--{% include_relative paperlist.md %}-->
 
 {% include_relative miscs.md %}
 
