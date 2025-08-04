@@ -24,8 +24,8 @@ main:
   - title: "Courses"
     url: "/#-courses"
 
-  - title: "Codes"
-    url: "/#-codes"
+  - title: "Download"
+    url: "/#-download"
 
   - title: "Links"
     url: "/#-links"
