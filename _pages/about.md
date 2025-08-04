@@ -49,6 +49,8 @@ window.TallyConfig = {
 
 {% include_relative news.md %}
 
+{% include_relative paperlist.md %}
+
 {% include_relative miscs.md %}
 
 
