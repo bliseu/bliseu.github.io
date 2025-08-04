@@ -27,6 +27,8 @@ Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
 <script src="//taplink.cc/id:13359423/widget/" async></script>
 
+<script async src="https://tally.so/widgets/embed.js"></script>
+
 
 # 🔥 News
 - *2025.07.22*: &nbsp;🎉🎉 "Pressure-driven superconductivity in the topological insulator GeBi4Te7" has been published at PRB.  [**Phys. Rev. B 112, 014515 (2025)**]( https://doi.org/10.1103/6gs6-p872).
