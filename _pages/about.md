@@ -25,7 +25,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-My research centers on first-principles computational investigations of exotic quantum materials, where I explore the frontiers of hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can download CRYSTREE after registration from this link: [**Download**](https://bliseu.github.io/#-download).
+My research centers on first-principles computational investigations of exotic quantum materials, where I explore the frontiers of hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can download CRYSTREE after registration from this link: [**Download CRYSTREE**](https://bliseu.github.io/#-crystree).
 
 Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
 
