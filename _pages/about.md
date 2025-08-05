@@ -7,6 +7,11 @@ redirect_from:
   - /about/
   - /about.html
 ---
+<!-- Notion-style Banner Start -->
+<div style="width:100%;height:180px;overflow:hidden;display:flex;justify-content:center;align-items:center;margin-bottom:24px;">
+  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+</div>
+<!-- Notion-style Banner End -->
 
 {% if site.google_scholar_stats_use_cdn %}
 {% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
