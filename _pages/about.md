@@ -9,20 +9,10 @@ redirect_from:
 ---
 <!-- Notion-style Banner Start -->
 <div style="width:100%;height:180px;overflow:hidden;display:flex;justify-content:center;align-items:center;margin-bottom:24px;">
-  <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+  <img src="https://images.unsplash.com/photo-1749627995669-4d4dda3a9c1d" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
 </div>
 <!-- Notion-style Banner End -->
-
-<div id="bing-banner" style="height:300px;"></div>
-<script>
-fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1')
-  .then(res => res.json())
-  .then(data => {
-    const imgUrl = "https://www.bing.com" + data.images[0].url;
-    document.getElementById('bing-banner').style.backgroundImage = `url(${imgUrl})`;
-    document.getElementById('bing-banner').style.backgroundSize = 'cover';
-  });
-</script>
+<!--https://images.unsplash.com/photo-1506744038136-46273834b3fb-->
 
 {% if site.google_scholar_stats_use_cdn %}
 {% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
