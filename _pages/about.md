@@ -33,6 +33,8 @@ ORCID: [**0000-0002-6392-4185**](https://orcid.org/0000-0002-6392-4185)
 
 Researchgate: [**Bin-Li-35**](https://www.researchgate.net/profile/Bin-Li-35)
 
+![H-index](https://img.shields.io/badge/H--index-22-blue?logo=academia&style=for-the-badge)
+
 <!--<script src="//taplink.cc/id:13359423/widget/" async></script> -->
 
 <!--
