@@ -51,9 +51,11 @@ window.TallyConfig = {
 
 {% include_relative miscs.md %}
 
+{% include_relative download.md %}
+
 {% include_relative publications.md %}
 
-{% include_relative download.md %}
+
 <!--Google Scholar: <img src="https://img.shields.io/endpoint?url={{ url | url_encode }}&logo=Google%20Scholar&labelColor=f6f6f6&color=9cf&style=flat&label=Citations ">  -->
 
 <!--Google Scholar: 2004 -->
