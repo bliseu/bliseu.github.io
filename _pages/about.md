@@ -13,6 +13,17 @@ redirect_from:
 </div>
 <!-- Notion-style Banner End -->
 
+<div id="bing-banner" style="height:300px;"></div>
+<script>
+fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1')
+  .then(res => res.json())
+  .then(data => {
+    const imgUrl = "https://www.bing.com" + data.images[0].url;
+    document.getElementById('bing-banner').style.backgroundImage = `url(${imgUrl})`;
+    document.getElementById('bing-banner').style.backgroundSize = 'cover';
+  });
+</script>
+
 {% if site.google_scholar_stats_use_cdn %}
 {% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
 {% else %}
