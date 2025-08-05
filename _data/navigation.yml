@@ -6,18 +6,12 @@ main:
 
   - title: "News"
     url: "/#-news"
-   
-  - title: "Paperlist"
-    url: /paperlist/
-    
+      
   - title: "Honors and Awards"
     url: "/#-honors-and-awards"
 
   - title: "Educations"
     url: "/#-educations"
-
-  - title: "Talks"
-    url: "/#-talks"
 
   - title: "Employments"
     url: "/#-employments"
@@ -25,8 +19,14 @@ main:
   - title: "Courses"
     url: "/#-courses"
 
-  - title: "Download"
-    url: /download/
+  - title: "Talks"
+    url: "/#-talks"
     
   - title: "Links"
     url: "/#-links"
+
+ - title: "Download"
+    url: "/#-download"
+    
+  - title: "Paperlist"
+    url: "/#-paperlist"
