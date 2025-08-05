@@ -1,4 +1,4 @@
-# 🔥 News
+# 🆕 News
 - *2025.07.22*: &nbsp;🎉🎉 "Pressure-driven superconductivity in the topological insulator GeBi4Te7" has been published at PRB.  [**Phys. Rev. B 112, 014515 (2025)**]( https://doi.org/10.1103/6gs6-p872).
 - *2025.05.03*: &nbsp;🎉🎉 "Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless" has been published at PRB. [**Phys. Rev. B 111, 174505 (2025)**](https://doi.org/10.1103/PhysRevB.111.174505).
 - *2025.04.03*: &nbsp;🎉🎉 "Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4" has been published at PRB. [**Phys. Rev. B 111, L140502 (2025)**](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.L140502).
