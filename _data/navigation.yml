@@ -25,8 +25,9 @@ main:
   - title: "Links"
     url: "/#-links"
 
+  - title: "Publications"
+    url: "/#-publications"
+
   - title: "Download"
     url: "/#-download"
     
-  - title: "Publications"
-    url: "/#-publications"
