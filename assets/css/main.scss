@@ -9,6 +9,9 @@
  *  - https://twitter.com/mmistakes
  *
 */
+body {
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
 
 @import "vendor/breakpoint/breakpoint"; // media query mixins
 @import "variables";
