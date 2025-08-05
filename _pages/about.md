@@ -9,11 +9,12 @@ redirect_from:
 ---
 <!-- Notion-style Banner Start -->
 <div style="width:100%;height:180px;overflow:hidden;display:flex;justify-content:center;align-items:center;margin-bottom:24px;">
-  <img src="https://images.unsplash.com/photo-1533371452382-d45a9da51ad9" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+  <img src="https://images.unsplash.com/photo-1746950862748-df7d2c5af81d" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
 </div>
 <!-- Notion-style Banner End -->
 <!--https://images.unsplash.com/photo-1506744038136-46273834b3fb-->
 <!--https://images.unsplash.com/photo-1749627995669-4d4dda3a9c1d-->
+<!--https://images.unsplash.com/photo-1533371452382-d45a9da51ad9-->
 
 {% if site.google_scholar_stats_use_cdn %}
 {% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
