@@ -12,8 +12,9 @@ author_profile: false
 
 **2025**
 
-1. Yalei Huang, Na Zuo, Zheyi Zhang, Chunqiang Xu, Xiangzhuo Xing*, Wen-He Jiao, Bin Li*, Wei Zhou*, Xiaobing Liu, Dong Qian, Xiaofeng Xu*, Pressure-driven superconductivity in the topological insulator GeBi4Te7, [Phys. Rev. B 112, 014515 (2025)](https://doi.org/10.1103/6gs6-p872). 
-2. J. Y. Nie, C. C. Zhao, C. Q. Xu, Yalei Huang, B. Li, C. P. Tu, X. Zhang, D. Z. Dai, H. R. Wang, S. Xu, Wenhe Jiao, B. M. Wang, Zhu'an Xu, Xiaofeng Xu*, and S. Y. Li*, Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless, [Phys. Rev. B 111, 174505 (2025)](https://doi.org/10.1103/PhysRevB.111.174505).
+1. Na Zuo, Bowen Zheng, Chutong Zhang, Xiangzhuo Xing*, Yalei Huang, Haoran Yu, Bin Li*, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Xin Chen, Xiaofeng Xu, and Xiaobing Liu*, Pressure-driven amorphous superconductivity in the topological semimetal VP4, [Phys. Rev. B 112, 184508 (2025)](https://doi.org/10.1103/rc5t-65bw).
+2. Yalei Huang, Na Zuo, Zheyi Zhang, Chunqiang Xu, Xiangzhuo Xing*, Wen-He Jiao, Bin Li*, Wei Zhou*, Xiaobing Liu, Dong Qian, Xiaofeng Xu*, Pressure-driven superconductivity in the topological insulator GeBi4Te7, [Phys. Rev. B 112, 014515 (2025)](https://doi.org/10.1103/6gs6-p872). 
+3. J. Y. Nie, C. C. Zhao, C. Q. Xu, Yalei Huang, B. Li, C. P. Tu, X. Zhang, D. Z. Dai, H. R. Wang, S. Xu, Wenhe Jiao, B. M. Wang, Zhu'an Xu, Xiaofeng Xu*, and S. Y. Li*, Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless, [Phys. Rev. B 111, 174505 (2025)](https://doi.org/10.1103/PhysRevB.111.174505).
 1. Chutong Zhang, Xiangzhuo Xing*, Song Huang, Xiao Tang, Linchao Yu, Na Zuo, Bin Li*, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Xin Chen, Xiaofeng Xu*, and Xiaobing Liu*, Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4, [Phys. Rev. B 111, L140502 (2025)](https://doi.org/10.1103/PhysRevB.111.L140502).
 1. Bin Li*, Yuxiang Fan, Junjie Zhai, Zhisi Cao, Cong Zhu, Jie Cheng, Shengli Liu and Zhixiang Shi, Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure, [The Journal of Physical Chemistry C 129 (14), 7098-7106 (2025)](https://doi.org/10.1021/acs.jpcc.5c00513).
 1. Cong Zhu, Bin Li*, Yuxiang Fan, Chuanhui Yin, Junjie Zhai, Jie Cheng, Shengli Liu, Zhixiang Shi, Magnetic phases and electron-phonon coupling in La3Ni2O7 under pressure, [Computational Materials Science 250, 113676 (2025)](https://doi.org/10.1016/j.commatsci.2025.113676).
@@ -144,6 +145,7 @@ author_profile: false
 **2009**
 
 1. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
+
 
 
 
