@@ -1,4 +1,5 @@
 # 🆕 News
+- *2025.11.29*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" has been accepted by Annalen der Physik (AdP).
 - *2025.11.11*: &nbsp;🎉🎉 "Pressure-driven amorphous superconductivity in the topological semimetal VP4" has been published online in PRB.  [**Phys. Rev. B 112, 184508 (2025)**](https://doi.org/10.1103/rc5t-65bw).
 - *2025.07.22*: &nbsp;🎉🎉 "Pressure-driven superconductivity in the topological insulator GeBi4Te7" has been published at PRB.  [**Phys. Rev. B 112, 014515 (2025)**](https://doi.org/10.1103/6gs6-p872).
 - *2025.05.03*: &nbsp;🎉🎉 "Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless" has been published at PRB. [**Phys. Rev. B 111, 174505 (2025)**](https://doi.org/10.1103/PhysRevB.111.174505).
