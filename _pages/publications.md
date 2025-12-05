@@ -8,7 +8,8 @@ author_profile: false
 # 🕮 Publications
 
 <!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
-
+**2026**
+1. Bin Li*, Zhisi Cao, Junjie Zhai, Mian Wu, Ding Chi, Shengli Liu*, Jian Sun*, High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure, [Chin. Phys. Lett. 43, 010712 (2026)](https://doi.org/10.1088/0256-307X/43/1/010712).
 
 **2025**
 
@@ -145,6 +146,7 @@ author_profile: false
 **2009**
 
 1. Zhao Zhi-Gang, Xu Zi-Wei, Li Bin, Liu Mei*. Magnetic-field-induced phase transition of vortex glass states in disordered Josephson junction arrays. Acta Phys. Sin. 58(8), 5750-5756 (2009).
+
 
 
 
