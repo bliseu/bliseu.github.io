@@ -1,4 +1,5 @@
 # 🆕 News
+- *2025.12.13*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" is now published nonline in [**Annalen der Physik**](http://doi.org/10.1002/andp.202500462). 
 - *2025.12.04*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" has been accepted for publication in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
 - *2025.11.29*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" has been accepted by Annalen der Physik (AdP).
 - *2025.11.11*: &nbsp;🎉🎉 "Pressure-driven amorphous superconductivity in the topological semimetal VP4" has been published online in PRB.  [**Phys. Rev. B 112, 184508 (2025)**](https://doi.org/10.1103/rc5t-65bw).
