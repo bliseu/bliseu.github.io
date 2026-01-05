@@ -1,4 +1,4 @@
-# 🪙 Honors and Awards
+# 🎖️ Honors and Awards
 - *2022*, Outstanding Master's Supervisor of NJUPT
 
 # 🏫 Educations
