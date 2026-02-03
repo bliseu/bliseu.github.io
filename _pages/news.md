@@ -8,6 +8,10 @@
 - *2025.05.03*: &nbsp;🎉🎉 "Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless" has been published at PRB. [**Phys. Rev. B 111, 174505 (2025)**](https://doi.org/10.1103/PhysRevB.111.174505).
 - *2025.04.03*: &nbsp;🎉🎉 "Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4" has been published at PRB. [**Phys. Rev. B 111, L140502 (2025)**](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.L140502).
 - *2025.03.28*: &nbsp;🎉🎉 "Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure" has been published at JPCC. [**acs.jpcc.5c00513**](https://pubs.acs.org/doi/full/10.1021/acs.jpcc.5c00513).
+<details>
+<summary><strong>Show More News</strong></summary>
+  <ul style="list-style: none; padding-left: 0; margin: 10px 0;">
+    
 - *2025.03.13*: &nbsp;🎉🎉 “Pressure-induced superconductivity, amorphization,and topological phase transitions in the topologica semimetal MoP4” has been accepted by PRB.
 - *2025.02.27*: &nbsp;🎉🎉 Our team has been awarded as "Wiley China Excellent Author Program" for the paper "Superconductive Sodalite‐Like Clathrate Hydrides MXH12 with Critical Temperatures of near 300 K under Pressures".
 - *2025.01.17*: &nbsp;🎉🎉 "Magnetic phases and electron-phonon coupling in La3Ni2O7 under pressure" has been published at Computational Materials Science. [**Computational Materials Science 250, 113676 (2025)**](https://doi.org/10.1016/j.commatsci.2025.113676).[**arXiv**](https://arxiv.org/abs/2503.07929).
@@ -24,4 +28,8 @@
 - *2024.05.22*: &nbsp;🎉🎉 "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure"  has been published online today, 22 May 2024, in the 1 May 2024 issue of Physical Review B (Vol. 109, No. 18). [**PhysRevB.109.184517**](https://link.aps.org/doi/10.1103/PhysRevB.109.184517). [**arXiv**](https://arxiv.org/abs/2405.13752).
 - *2024.05.16*: &nbsp;🎉🎉 Our work titled "Superconductivity near 70 K in boron-carbon clathrates MB2C8 (M=Na, K, Rb, Cs) at ambient pressure" has been accepted by PRB. [**Link**](https://journals.aps.org/prb/accepted/1407dObaD0614b4166df89f8fe9070b09bbdc97d1).
 - *2024.05.10*: &nbsp;🎉🎉 Our work titled "Quantum oscillations and electronic features in V1−δSb2 single crystals" published as cover article on APL. [**Link**](https://doi.org/10.1063/5.0205296).
-- *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage. 
+- *2024.04*: &nbsp;🎉🎉 Li Bin starts this homepage.
+
+</ul>
+
+</details>
