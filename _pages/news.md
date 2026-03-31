@@ -1,5 +1,5 @@
 # 🆕 News
-- *2025.01.22*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" is now published online in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
+- *2026.01.22*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" is now published online in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
 - *2025.12.13*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" is now published online in [**Annalen der Physik**](http://doi.org/10.1002/andp.202500462). 
 - *2025.12.04*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" has been accepted for publication in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
 - *2025.11.29*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" has been accepted by Annalen der Physik (AdP).
