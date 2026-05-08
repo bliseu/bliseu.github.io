@@ -1,4 +1,5 @@
 # 🆕 News
+- *2026.05.08*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" is now published online in [**Physica B: Condensed Matter**](https://doi.org/10.1016/j.physb.2026.418748).
 - *2026.05.02*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" has been accepted for publication in Physica B: Condensed Matter.
 - *2026.01.22*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" is now published online in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
 - *2025.12.13*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" is now published online in [**Annalen der Physik**](http://doi.org/10.1002/andp.202500462). 
