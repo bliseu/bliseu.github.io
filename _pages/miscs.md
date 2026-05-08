@@ -7,8 +7,8 @@
 
 # 🧑‍🏫 Employments
 - *2016.09 - Now*, School of Science, Nanjing Unviversity of Posts and Telecommunications, Associate Professor, Nanjing, Jiangsu, China.
-- *2014.04 - 2016.09*, School of Science, Nanjing Unviversity of Posts and Telecommunications, Lecture, Nanjing, Jiangsu, China.
 - *2020.02 - 2021.03*, School of Physics and Astronomy, The University of Edinburgh, Visiting researcher, Edinburgh, GB.
+- *2014.04 - 2016.09*, School of Science, Nanjing Unviversity of Posts and Telecommunications, Lecture, Nanjing, Jiangsu, China.
 - *2012.04 - 2014.04*, School of Physics, Nanjing Unviversity, Postdoc, Nanjing, Jiangsu, China.
 
 # 🧑‍🎓 Courses
