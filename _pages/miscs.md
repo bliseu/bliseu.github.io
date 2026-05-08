@@ -12,6 +12,7 @@
 - *2012.04 - 2014.04*, School of Physics, Nanjing Unviversity, Postdoc, Nanjing, Jiangsu, China.
 
 # 🧑‍🎓 Courses
+- Principles and Applications of Machine Learning
 - Group Theory and its Applications in Physics
 - Physical Experiments
 - Brief College Physics
