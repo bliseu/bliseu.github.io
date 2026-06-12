@@ -9,8 +9,9 @@ author_profile: false
 
 <!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
 **2026**
-1. Simin Liu, Junqi Wang, Bin Li*, Junjie Zhai, Mian Wu, Zixin Cui, Yinjuan Ren, Yalin Zhang, Shengli Liu, Understanding Tc variation in isostructural hydrides: Interpretable machine learning with physical descriptors, [Physica B: Condensed Matter, 737, 418748, (2026)](https://doi.org/10.1016/j.physb.2026.418748).
-2. Bin Li*, Zhisi Cao, Junjie Zhai, Mian Wu, Ding Chi, Shengli Liu*, Jian Sun*, High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure, [Chin. Phys. Lett. 43, 010712 (2026)](https://doi.org/10.1088/0256-307X/43/1/010712).
+1. Chutong Zhang, Xiangzhuo Xing*, Na Zuo, Bowen Zheng, Bin Li*, Jiajia Feng, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Chao Wang, Xin Chen, Yongsheng Zhang, Xiaofeng Xu*, and Xiaobing Liu*, Superconductivity in the pressure-amorphized topological insulator CrP4, [Phys. Rev. B 113, 224516, (2026)](https://doi.org/10.1103/3k5r-qr3n).
+2. Simin Liu, Junqi Wang, Bin Li*, Junjie Zhai, Mian Wu, Zixin Cui, Yinjuan Ren, Yalin Zhang, Shengli Liu, Understanding Tc variation in isostructural hydrides: Interpretable machine learning with physical descriptors, [Physica B: Condensed Matter, 737, 418748, (2026)](https://doi.org/10.1016/j.physb.2026.418748).
+3. Bin Li*, Zhisi Cao, Junjie Zhai, Mian Wu, Ding Chi, Shengli Liu*, Jian Sun*, High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure, [Chin. Phys. Lett. 43, 010712 (2026)](https://doi.org/10.1088/0256-307X/43/1/010712).
 
 **2025**
 
