@@ -1,4 +1,5 @@
 # 🆕 News
+- *2026.06.16*: &nbsp;🎉🎉 "Synthesis, physical properties, and band structure of antiferromagnetic Cr2Se3" has been accepted for publication in [**Phys. Rev. B**](https://journals.aps.org/prb/accepted/10.1103/561h-2r2h).
 - *2026.06.10*: &nbsp;🎉🎉 "Superconductivity in the pressure-amorphized topological insulator CrP4" is now published online in [**Phys. Rev. B**](https://doi.org/10.1103/3k5r-qr3n).
 - *2026.05.08*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" is now published online in [**Physica B: Condensed Matter**](https://doi.org/10.1016/j.physb.2026.418748).
 - *2026.05.02*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" has been accepted for publication in Physica B: Condensed Matter.
