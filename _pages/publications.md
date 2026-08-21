@@ -9,11 +9,12 @@ author_profile: false
 
 <!-- ![Google Scholar](https://img.shields.io/badge/GoogleScholar-1544-green) -->
 **2026**
-1. Yalin Zhang*, Yunrui Zhu, Bin Li, Jinxiang Liu, Yongsen Tang, Jie Cheng, Shengli Liu, Zhongwen Xing*, Structural symmetry and superconducting transport in heteroepitaxial FeSe0.4Te0.6/Bi2Se3 systems, [Appl. Phys. Lett. 129 (1), 012604, (2026)](https://doi.org/10.1063/5.0336060). 
-2. Xiaoqing Qian, Wenhao Shen, Shouli Zhou, Zixin Cui, Zize Zheng, Wei Wei, Yingying Gao, Bin Li*, Xiaofeng Xu, Wei Zhou*, and Chunqiang Xu*, Synthesis, physical properties, and band structure of antiferromagnetic C⁢r2⁢S⁢e3, [Phys. Rev. B 114, 024404, (2026)](https://doi.org/10.1103/561h-2r2h).
-3. Chutong Zhang, Xiangzhuo Xing*, Na Zuo, Bowen Zheng, Bin Li*, Jiajia Feng, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Chao Wang, Xin Chen, Yongsheng Zhang, Xiaofeng Xu*, and Xiaobing Liu*, Superconductivity in the pressure-amorphized topological insulator CrP4, [Phys. Rev. B 113, 224516, (2026)](https://doi.org/10.1103/3k5r-qr3n).
-4. Simin Liu, Junqi Wang, Bin Li*, Junjie Zhai, Mian Wu, Zixin Cui, Yinjuan Ren, Yalin Zhang, Shengli Liu, Understanding Tc variation in isostructural hydrides: Interpretable machine learning with physical descriptors, [Physica B: Condensed Matter, 737, 418748, (2026)](https://doi.org/10.1016/j.physb.2026.418748).
-5. Bin Li*, Zhisi Cao, Junjie Zhai, Mian Wu, Ding Chi, Shengli Liu*, Jian Sun*, High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure, [Chin. Phys. Lett. 43, 010712 (2026)](https://doi.org/10.1088/0256-307X/43/1/010712).
+1. Bin Li*, Mian Wu, Zixin Cui, Chi Ding, Yalin Zhang, Shengli Liu*, Jian Sun*, Rational design of high-temperature superconductors from hydrides to boron clathrates, [Appl. Phys. Rev. 13, 031322 (2026)](https://doi.org/10.1063/5.0341243).
+2. Yalin Zhang*, Yunrui Zhu, Bin Li, Jinxiang Liu, Yongsen Tang, Jie Cheng, Shengli Liu, Zhongwen Xing*, Structural symmetry and superconducting transport in heteroepitaxial FeSe0.4Te0.6/Bi2Se3 systems, [Appl. Phys. Lett. 129 (1), 012604, (2026)](https://doi.org/10.1063/5.0336060). 
+3. Xiaoqing Qian, Wenhao Shen, Shouli Zhou, Zixin Cui, Zize Zheng, Wei Wei, Yingying Gao, Bin Li*, Xiaofeng Xu, Wei Zhou*, and Chunqiang Xu*, Synthesis, physical properties, and band structure of antiferromagnetic C⁢r2⁢S⁢e3, [Phys. Rev. B 114, 024404, (2026)](https://doi.org/10.1103/561h-2r2h).
+4. Chutong Zhang, Xiangzhuo Xing*, Na Zuo, Bowen Zheng, Bin Li*, Jiajia Feng, Xiaolei Yi, Yan Meng, Xiaoran Zhang, Bingchao Yang, Chao Wang, Xin Chen, Yongsheng Zhang, Xiaofeng Xu*, and Xiaobing Liu*, Superconductivity in the pressure-amorphized topological insulator CrP4, [Phys. Rev. B 113, 224516, (2026)](https://doi.org/10.1103/3k5r-qr3n).
+5. Simin Liu, Junqi Wang, Bin Li*, Junjie Zhai, Mian Wu, Zixin Cui, Yinjuan Ren, Yalin Zhang, Shengli Liu, Understanding Tc variation in isostructural hydrides: Interpretable machine learning with physical descriptors, [Physica B: Condensed Matter, 737, 418748, (2026)](https://doi.org/10.1016/j.physb.2026.418748).
+6. Bin Li*, Zhisi Cao, Junjie Zhai, Mian Wu, Ding Chi, Shengli Liu*, Jian Sun*, High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure, [Chin. Phys. Lett. 43, 010712 (2026)](https://doi.org/10.1088/0256-307X/43/1/010712).
 
 **2025**
 
