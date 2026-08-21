@@ -1,4 +1,5 @@
 # 🆕 News
+- *2026.08.21*: &nbsp;🎉🎉 “Rational design of high-temperature superconductors from hydrides to boron clathrates” is now published online in [**Appl. Phys. Rev.**](https://doi.org/10.1063/5.0341243).
 - *2026.07.09*: &nbsp;🎉🎉 "Structural symmetry and superconducting transport in heteroepitaxial FeSe0.4Te0.6/Bi2Se3 systems" is now published online in [**Appl. Phys. Lett.**](https://doi.org/10.1063/5.0336060).
 - *2026.07.06*: &nbsp;🎉🎉 "Synthesis, physical properties, and band structure of antiferromagnetic Cr2Se3" is now published online in [**Phys. Rev. B**](https://doi.org/10.1103/561h-2r2h).
 - *2026.06.16*: &nbsp;🎉🎉 "Synthesis, physical properties, and band structure of antiferromagnetic Cr2Se3" has been accepted for publication in [**Phys. Rev. B**](https://journals.aps.org/prb/accepted/10.1103/561h-2r2h).
