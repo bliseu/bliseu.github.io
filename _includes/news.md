@@ -10,6 +10,10 @@
 - *2026.05.08*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" is now published online in [**Physica B: Condensed Matter**](https://doi.org/10.1016/j.physb.2026.418748).
 - *2026.05.02*: &nbsp;🎉🎉 "Understanding Tc Variation in Isostructural Hydrides: Interpretable Machine Learning with Physical Descriptors" has been accepted for publication in Physica B: Condensed Matter.
 - *2026.01.22*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" is now published online in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
+
+<button id="showMoreNews" class="show-more-news-btn" type="button">Show More News</button>
+<div id="moreNews" class="more-news" hidden markdown="1">
+    
 - *2025.12.13*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" is now published online in [**Annalen der Physik**](http://doi.org/10.1002/andp.202500462). 
 - *2025.12.04*: &nbsp;🎉🎉 "High-Tc nearly-free-electron superconductivity in quaternary hydrides under ambient pressure" has been accepted for publication in [**Chinese Physics Letters**](https://doi.org/10.1088/0256-307X/43/1/010712).
 - *2025.11.29*: &nbsp;🎉🎉 "Design and Discovery of High-Temperature Superconducting Ternary Hydrides: From High Pressure to Ambient Conditions" has been accepted by Annalen der Physik (AdP).
@@ -18,10 +22,6 @@
 - *2025.05.03*: &nbsp;🎉🎉 "Superconducting gap structure of the miassite Rh17S15: Nodal or nodeless" has been published at PRB. [**Phys. Rev. B 111, 174505 (2025)**](https://doi.org/10.1103/PhysRevB.111.174505).
 - *2025.04.03*: &nbsp;🎉🎉 "Pressure-induced superconductivity, amorphization, and topological phase transitions in the topological semimetal MoP4" has been published at PRB. [**Phys. Rev. B 111, L140502 (2025)**](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.111.L140502).
 - *2025.03.28*: &nbsp;🎉🎉 "Prediction of High-Temperature Superconductivity in Cubic Ternary Hydride M3XH8 at Ambient Pressure" has been published at JPCC. [**acs.jpcc.5c00513**](https://pubs.acs.org/doi/full/10.1021/acs.jpcc.5c00513).
-
-<button id="showMoreNews" class="show-more-news-btn" type="button">Show More News</button>
-<div id="moreNews" class="more-news" hidden markdown="1">
-    
  - *2025.03.13*: &nbsp;🎉🎉 “Pressure-induced superconductivity, amorphization,and topological phase transitions in the topologica semimetal MoP4” has been accepted by PRB.
  - *2025.02.27*: &nbsp;🎉🎉 Our team has been awarded as "Wiley China Excellent Author Program" for the paper "Superconductive Sodalite‐Like Clathrate Hydrides MXH12 with Critical Temperatures of near 300 K under Pressures".
  - *2025.01.17*: &nbsp;🎉🎉 "Magnetic phases and electron-phonon coupling in La3Ni2O7 under pressure" has been published at Computational Materials Science. [**Computational Materials Science 250, 113676 (2025)**](https://doi.org/10.1016/j.commatsci.2025.113676).[**arXiv**](https://arxiv.org/abs/2503.07929).
