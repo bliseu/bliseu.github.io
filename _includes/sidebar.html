@@ -1,5 +1,22 @@
 {% if page.author_profile or layout.author_profile or page.sidebar %}
   <div class="sidebar sticky">
+  {% if page.url == "/" %}
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换浅深色模式" title="切换浅深色模式">
+      <span class="theme-toggle-icon" aria-hidden="true"></span>
+    </button>
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var btn = document.getElementById('themeToggle');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          try { localStorage.setItem('home-theme', next); } catch (e) {}
+        });
+      })();
+    </script>
+  {% endif %}
   {% if page.author_profile or layout.author_profile %}{% include author-profile.html %}{% endif %}
   {% if page.sidebar %}
     {% for s in page.sidebar %}

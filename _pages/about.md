@@ -2,18 +2,22 @@
 permalink: /
 title: ""
 excerpt: ""
+body_class: home
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
-<!-- Notion-style Banner Start -->
-<div style="width:100%;height:180px;overflow:hidden;display:flex;justify-content:center;align-items:center;margin-bottom:24px;">
-  <!--<img src="https://images.unsplash.com/photo-1746950862748-df7d2c5af81d" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">-->
-  <!--<img src="https://images.unsplash.com/photo-1756296576509-e0d97f11cd3a" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">-->
-  <img src="https://images.unsplash.com/photo-1759503408358-b9083a7c27f0" alt="Banner" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+<!-- Homepage Hero Start -->
+<div class="home-banner">
+  <img src="https://images.unsplash.com/photo-1759503408358-b9083a7c27f0" alt="Physics research banner">
+  <div class="home-banner__overlay">
+    <p class="home-banner__eyebrow">Condensed Matter Physics &amp; Computational Materials</p>
+    <h1>Li Bin</h1>
+    <p>Associate Professor · School of Science, Nanjing University of Posts and Telecommunications</p>
+  </div>
 </div>
-<!-- Notion-style Banner End -->
+<!-- Homepage Hero End -->
 <!--https://images.unsplash.com/photo-1506744038136-46273834b3fb-->
 <!--https://images.unsplash.com/photo-1749627995669-4d4dda3a9c1d-->
 <!--https://images.unsplash.com/photo-1533371452382-d45a9da51ad9-->
