@@ -33,3 +33,19 @@
     items[j].appendChild(marker);
   }
 })();
+
+(function () {
+  var btn = document.getElementById('showMoreNews');
+  var box = document.getElementById('moreNews');
+  if (!btn || !box) return;
+  btn.addEventListener('click', function () {
+    var hidden = box.hasAttribute('hidden');
+    if (hidden) {
+      box.removeAttribute('hidden');
+      btn.textContent = 'Show Less News';
+    } else {
+      box.setAttribute('hidden', '');
+      btn.textContent = 'Show More News';
+    }
+  });
+})();
