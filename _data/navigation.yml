@@ -5,31 +5,31 @@ main:
     url: "/#about-me"
 
   - title: "News"
-    url: "/#-news"
+    url: "/#news"
       
   - title: "Honors and Awards"
-    url: "/#-honors-and-awards"
+    url: "/#honors-and-awards"
 
   - title: "Educations"
-    url: "/#-educations"
+    url: "/#educations"
 
   - title: "Employments"
-    url: "/#-employments"
+    url: "/#employments"
 
   - title: "Courses"
-    url: "/#-courses"
+    url: "/#courses"
 
   - title: "Talks"
-    url: "/#-talks"
+    url: "/#talks"
     
   - title: "Links"
-    url: "/#-links"
+    url: "/#links"
 
   - title: "Publications"
-    url: "/#-publications"
+    url: "/#publications"
 
   - title: "Crystree"
-    url: "/#-crystree"
+    url: "/#crystree"
 
   - title: "PhyExp"
-    url: "/#-phyexp"
+    url: "/#phyexp"

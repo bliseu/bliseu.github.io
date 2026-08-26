@@ -9,13 +9,13 @@ redirect_from:
   - /about.html
 ---
 <!-- Homepage Hero Start -->
-<div class="home-banner">
-  <img src="https://images.unsplash.com/photo-1759503408358-b9083a7c27f0" alt="Physics research banner">
-  <div class="home-banner__overlay">
-    <p class="home-banner__eyebrow">Condensed Matter Physics &amp; Computational Materials</p>
-    <h1>Li Bin</h1>
-    <p>Associate Professor · School of Science, Nanjing University of Posts and Telecommunications</p>
-  </div>
+<div class="home-banner" role="img" aria-label="Physics research banner">
+  <img src="https://images.unsplash.com/photo-1759503408358-b9083a7c27f0" alt="">
+</div>
+<div class="home-intro">
+  <p class="home-intro__eyebrow">Condensed Matter Physics &amp; Computational Materials</p>
+  <h1>Li Bin</h1>
+  <p class="home-intro__role">Associate Professor · School of Science, Nanjing University of Posts and Telecommunications</p>
 </div>
 <!-- Homepage Hero End -->
 <!--https://images.unsplash.com/photo-1506744038136-46273834b3fb-->
@@ -31,7 +31,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-My research focuses on first-principles computational explorations of exotic quantum materials, with a particular emphasis on advancing the frontiers of three key areas: hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can [**DOWNLOAD**](https://libinlab.cn/#-crystree) it after registration.
+My research focuses on first-principles computational explorations of exotic quantum materials, with a particular emphasis on advancing the frontiers of three key areas: hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can [**DOWNLOAD**](https://libinlab.cn/#crystree) it after registration.
 
 
 Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
@@ -64,15 +64,15 @@ window.TallyConfig = {
 </script>
 -->
 
-{% include_relative news.md %}
+{% include news.md %}
 
-{% include_relative miscs.md %}
+{% include miscs.md %}
 
-{% include_relative publications.md %}
+{% include publications.md %}
 
-{% include_relative crystree.md %}
+{% include crystree.md %}
 
-{% include_relative phyexp.md %}
+{% include phyexp.md %}
 
 
 
