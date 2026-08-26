@@ -6,8 +6,8 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-title                    : "Li Bin"
-description              : "Scientist on Condensed Matter Physics. "
+title                    : "Li Bin 李斌"
+description              : "Scientist on Condensed Matter Physics / 凝聚态物理科研工作者"
 repository               : "bliseu/bliseu.github.io"
 url                      : "https://libinlab.cn"
 google_scholar_stats_use_cdn : true
@@ -22,9 +22,9 @@ baidu_site_verification  :  # get baidu_site_verification from https://ziyuan.ba
 
 # Site Author
 author:
-  name             : "Li Bin"
+  name             : "Li Bin 李斌"
   avatar           : "/images/android-chrome-512x512.png"
-  bio              : "Nanjing University of Posts and Telecommunications"
+  bio              : "南京邮电大学 / Nanjing University of Posts and Telecommunications"
   location         : "Nanjing, China"
   employer         :
   pubmed           : 

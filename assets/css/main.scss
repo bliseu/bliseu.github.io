@@ -308,6 +308,11 @@ body.home .home-intro__role {
   font-size: 1rem;
 }
 
+body.home .home-intro__role-zh {
+  margin-top: .2rem;
+  color: var(--home-muted);
+}
+
 body.home .page__content {
   color: var(--home-text);
 }

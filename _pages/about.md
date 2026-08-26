@@ -13,9 +13,10 @@ redirect_from:
   <img src="https://images.unsplash.com/photo-1759503408358-b9083a7c27f0" alt="">
 </div>
 <div class="home-intro">
-  <p class="home-intro__eyebrow">Condensed Matter Physics &amp; Computational Materials</p>
-  <h1>Li Bin</h1>
+  <p class="home-intro__eyebrow">Condensed Matter Physics &amp; Computational Materials / 凝聚态物理与计算材料</p>
+  <h1>Li Bin 李斌</h1>
   <p class="home-intro__role">Associate Professor · School of Science, Nanjing University of Posts and Telecommunications</p>
+  <p class="home-intro__role home-intro__role-zh">副教授 · 南京邮电大学理学院</p>
 </div>
 <!-- Homepage Hero End -->
 <!--https://images.unsplash.com/photo-1506744038136-46273834b3fb-->
@@ -31,7 +32,9 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-My research focuses on first-principles computational explorations of exotic quantum materials, with a particular emphasis on advancing the frontiers of three key areas: hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can [**DOWNLOAD**](https://libinlab.cn/#crystree) it after registration.
+<p lang="en">My research focuses on first-principles computational explorations of exotic quantum materials, with a particular emphasis on advancing the frontiers of three key areas: hydrogen-based superconductors, non-centrosymmetric superconductors, and topological insulators and semimetals. I am also the author of crystal structure prediction code CRYSTREE, you can <a href="https://libinlab.cn/#crystree"><strong>DOWNLOAD</strong></a> it after registration.</p>
+
+<p lang="zh-CN">我的研究主要围绕奇异量子材料的第一性原理计算探索，重点关注氢基超导体、非中心对称超导体，以及拓扑绝缘体和拓扑半金属三个前沿方向。我也是晶体结构预测软件 CRYSTREE 的作者，可在注册后<a href="https://libinlab.cn/#crystree"><strong>下载</strong></a>。</p>
 
 
 Web of Science ResearcherID: [**E-4702-2016**](https://webofscience.clarivate.cn/wos/author/record/E-4702-2016)
