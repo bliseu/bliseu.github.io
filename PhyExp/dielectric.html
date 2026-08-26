@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="电介质介电常数的测量：模拟平行板电极间放入/取出 PET 薄片、螺旋测微器调节极板间距并读数，LCR 数字电桥测量电容，最小二乘法测定固体相对介电常数与空气介电常数。">
+<title>电介质介电常数的测量 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --field-bg:#ffffff; --row-line:#f1f3f6; --hl-bg:#f2f7ff;
+  --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --blue-dark:#8fb8e8; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --field-bg:#0d1524; --row-line:#223047; --hl-bg:#16283f;
+  --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,#104281,#2a78d6);color:#fff;padding:20px 16px 16px;text-align:center}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.78;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+main{max-width:760px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--blue-dark)}
+.hint{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none;font-family:inherit}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{flex:1;min-height:46px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:1.02rem;font-weight:600;border-radius:10px}
+.btn.primary:hover{background:#2069bd;color:#fff}
+.btn.primary small,.btn small{display:block;font-size:.72rem;font-weight:400;opacity:.85;margin-top:1px}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* 模拟装置侧视图 */
+.simwrap{position:relative;max-width:520px;margin:0 auto}
+#cvSim{width:100%;aspect-ratio:5/6;display:block;border:1px solid var(--line);border-radius:12px;background:#fff;touch-action:none}
+#cvSim.hoverth{cursor:ew-resize}
+#cvSim.dragging{cursor:grabbing}
+.simbadge{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.88);border:1px solid var(--line);color:#374151;padding:3px 13px;border-radius:999px;font-size:.78rem;font-weight:600;pointer-events:none;white-space:nowrap;font-variant-numeric:tabular-nums}
+.simcap{text-align:center;font-size:.78rem;color:var(--muted);margin:6px 0 2px}
+#cvMic{width:100%;aspect-ratio:10/2.9;display:block;border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:10px}
+
+/* LCR 数字电桥（LCD 保持实物外观，两主题一致） */
+.lcrwrap{max-width:340px;margin:12px auto 0}
+.lcr{border:2px solid #4c5540;border-radius:8px;background:#a9bd8e;padding:8px 12px 9px;box-shadow:inset 0 2px 6px rgba(31,41,26,.35),0 1px 3px rgba(0,0,0,.18)}
+.lcrtop{font-family:Consolas,"Courier New",monospace;font-size:.68rem;color:#39452c;letter-spacing:.06em;display:flex;justify-content:space-between}
+.lcrval{font-family:Consolas,"Courier New",monospace;font-size:2.05rem;font-weight:700;color:#17251a;text-align:center;letter-spacing:.05em;font-variant-numeric:tabular-nums;line-height:1.25;text-shadow:0 1px 0 rgba(255,255,255,.28)}
+.lcrsub{font-family:Consolas,"Courier New",monospace;font-size:.68rem;color:#39452c;display:flex;justify-content:space-between;letter-spacing:.04em}
+.lcrcap{text-align:center;font-size:.76rem;color:var(--muted);margin:5px 0 0}
+
+/* 读数显示 */
+.readout{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 2px}
+.part{flex:1;min-width:104px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 6px;background:var(--card)}
+.part .lab{font-size:.72rem;color:var(--muted);margin-bottom:2px}
+.part .val{font-size:1.22rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--blue-dark);letter-spacing:.03em}
+.part .unit{font-size:.7rem;color:var(--muted)}
+.part.dpart{border-color:var(--blue);background:var(--hl-bg)}
+.part.dpart .val{color:var(--blue)}
+
+/* 测微器旋钮已移除：直接在装置图中拧动微分筒 */
+
+/* 步进按钮 */
+.drumBtns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+.drumBtns .btn{padding:7px 10px;font-size:.82rem;min-width:70px;font-variant-numeric:tabular-nums}
+.drumBtns .lbl{align-self:center;font-size:.8rem;color:var(--muted);margin:0 4px}
+
+/* 参数输入 */
+.paramgrid{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.pfield{flex:1;min-width:150px;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--card)}
+.pfield label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px}
+.pfield input{width:100%;height:40px;font-size:16px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 4px;background:var(--field-bg);color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+.pfield input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.pfield input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.pcomp{font-size:.8rem;color:var(--muted);text-align:center;margin:8px 0 0}
+.pcomp b{color:var(--blue-dark);font-variant-numeric:tabular-nums}
+
+/* 数据表 */
+table{width:100%;border-collapse:collapse}
+th{font-size:.78rem;color:var(--muted);font-weight:600;padding:6px 3px;border-bottom:1px solid var(--line);text-align:center;line-height:1.25}
+td{padding:5px 3px;text-align:center;border-bottom:1px solid var(--row-line);vertical-align:middle}
+tr.sep td,tr.sep th{border-top:2px solid var(--line)}
+td.dcell{font-variant-numeric:tabular-nums;color:var(--blue-dark);font-weight:600}
+td.ccalc{font-variant-numeric:tabular-nums;color:var(--ink)}
+.cell input{width:100%;height:38px;font-size:15px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+.cell input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.cell input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+tr.avg td{font-weight:700;color:var(--blue-dark);font-variant-numeric:tabular-nums}
+
+/* 结果 */
+.result{text-align:center}
+.result .big{font-size:1.75rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.result .lab{font-size:.85rem;color:var(--muted);margin-top:2px}
+.result .expr{font-size:.95rem;font-weight:600;color:var(--blue-dark);font-variant-numeric:tabular-nums;margin-top:4px}
+.result .row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:12px}
+.result .item{text-align:center}
+.result .item .v{font-size:1.08rem;font-weight:700;color:var(--blue-dark);font-variant-numeric:tabular-nums}
+.result .item .lab{font-size:.75rem;color:var(--muted)}
+.hidden{display:none!important}
+
+/* 拟合图 */
+.fitwrap{max-width:480px;margin:12px auto 4px}
+.fitwrap canvas{width:100%;aspect-ratio:3/2;display:block;border:1px solid var(--line);border-radius:10px;background:#fff}
+
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 右上角主题切换按钮（自动/浅色/深色，与主页一致） */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.theme-btn{display:none!important}}
+footer{max-width:760px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+footer details{border:0;padding-top:0}
+footer li{margin:4px 0}
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.mathlist li{margin:11px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+@media print{
+  header{background:#104281!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --field-bg:#fff; --row-line:#f1f3f6; --hl-bg:#f2f7ff;
+    --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>电介质介电常数的测量</h1>
+  <p class="en">Dielectric Constant &middot; Capacitance Method</p>
+  <p>平行板电极间放入 / 取出 PET 薄片，螺旋测微器读数＋LCR 电桥测电容，最小二乘法求固体 ε<sub>r</sub> 与空气 ε<sub>0</sub></p>
+</header>
+
+<noscript><p style="text-align:center;color:#dc2626">本工具需要在浏览器中启用 JavaScript 才能运行。</p></noscript>
+
+<main>
+  <!-- ======== 第一部分：模拟装置与读数 ======== -->
+  <section class="card">
+    <h2>一、测微装置模拟与读数</h2>
+    <p class="hint" style="margin-top:0">在图中左右拖动（拧动）微分筒（测微套筒），或用步进按钮，调节上、下极板的间距 D（微分筒每转一周 = 0.5 mm），从螺旋测微器读数窗读出 D，同时读取 LCR 数字电桥显示的电容。按「放入样品 / 取出样品」可将 PET 薄片放进或移出极板之间；两次测量必须保持同一间距 D，以消除边界电容与分布电容的影响。</p>
+    <div class="simwrap noprint">
+      <canvas id="cvSim" aria-label="平行板电极测微装置侧视图"></canvas>
+      <div class="simbadge" id="simBadge">—</div>
+      <div class="simcap" id="simCap">PET 样品未放入</div>
+    </div>
+    <div class="noprint">
+      <canvas id="cvMic" aria-label="螺旋测微器读数窗"></canvas>
+      <div class="simcap">螺旋测微器读数窗（上：主尺，最小分度 0.5 mm；下：微分筒，每格 0.01 mm，估读到 0.001 mm）</div>
+    </div>
+
+    <div class="readout noprint">
+      <div class="part"><div class="lab">主尺读数 a</div><div class="val" id="rA">—</div><div class="unit">mm（含半毫米刻线）</div></div>
+      <div class="part"><div class="lab">微分筒读数 b</div><div class="val" id="rB">—</div><div class="unit">格（50 格 = 0.5 mm）</div></div>
+      <div class="part dpart"><div class="lab">极板间距 D</div><div class="val" id="rD">—</div><div class="unit">mm（三位小数）</div></div>
+      <div class="part dpart"><div class="lab">电容 C</div><div class="val" id="rC">—</div><div class="unit">pF（三位小数）</div></div>
+    </div>
+
+    <div class="lcrwrap noprint">
+      <div class="lcr">
+        <div class="lcrtop"><span>DF2826 LCR</span><span>C&nbsp;SERIES</span></div>
+        <div class="lcrval" id="lcrVal">&mdash;</div>
+        <div class="lcrsub"><span>SER&middot;1kHz</span><span>pF</span></div>
+      </div>
+      <div class="lcrcap">LCR 数字电桥示值（示值稳定后记录）</div>
+    </div>
+
+    <div class="drumBtns noprint">
+      <span class="lbl">间距减小 ←</span>
+      <button type="button" class="btn" id="btnK1000M">−1.000</button>
+      <button type="button" class="btn" id="btnK100M">−0.100</button>
+      <button type="button" class="btn" id="btnK10M">−0.010</button>
+      <span class="lbl">→ 增大</span>
+    </div>
+    <div class="drumBtns noprint">
+      <button type="button" class="btn" id="btnK10P">+0.010</button>
+      <button type="button" class="btn" id="btnK100P">+0.100</button>
+      <button type="button" class="btn" id="btnK1000P">+1.000</button>
+    </div>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnStart">回到 D = 1.000 mm</button>
+      <button type="button" class="btn" id="btnPet">放入样品<small>PET 薄片进 / 出极板</small></button>
+    </div>
+    <div class="btnrow">
+      <button type="button" class="btn primary" id="btnRec1">记录 C₁ / C₂（表一）<small id="recNext1">下一个：第 1 次 C₁（空气）</small></button>
+      <button type="button" class="btn primary" id="btnRec2">记录电容（表二）<small id="recNext2">下一个：D = 1.000 mm</small></button>
+    </div>
+  </section>
+
+  <!-- ======== 第二部分：样品参数 ======== -->
+  <section class="card">
+    <h2>二、样品与电极参数</h2>
+    <p class="hint" style="margin-top:0">样品直径用游标卡尺、厚度用螺旋测微器分别测量；电极直径由仪器给出。参数测一次即可，三次重复测量共用。</p>
+    <div class="paramgrid">
+      <div class="pfield"><label for="inPhi">电极直径 φ / mm（两位小数）</label><input id="inPhi" type="text" inputmode="decimal" value="50.00"></div>
+      <div class="pfield"><label for="inDia">样品直径 d / mm（两位小数）</label><input id="inDia" type="text" inputmode="decimal" value="40.00"></div>
+      <div class="pfield"><label for="inThk">样品厚度 t / mm（三位小数）</label><input id="inThk" type="text" inputmode="decimal" value="1.000"></div>
+    </div>
+    <p class="pcomp">电极面积 S₀ = πφ²/4 = <b id="outS0">—</b>，　样品面积 S = πd²/4 = <b id="outS">—</b></p>
+  </section>
+
+  <!-- ======== 第三部分：表一 固体电介质 ======== -->
+  <section class="card">
+    <h2>三、固体电介质的介电常数（表一）</h2>
+    <p class="hint" style="margin-top:0">调节间距至约 1.3 倍样品厚度，先在空气介质下按「记录」得该次的 D 与 C₁；保持间距不变放入样品后再按「记录」得 C₂。共测 3 次，每次可稍改间距。C₀、C串 与 εᵣ 自动计算。</p>
+    <table>
+      <thead>
+        <tr><th style="width:9%">次数</th><th>D / mm</th><th>C₁ / pF<br>（空气）</th><th>C₂ / pF<br>（放样品）</th><th>C₀ / pF</th><th>C串 / pF</th><th>εᵣ</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dcell">1</td>
+          <td class="cell"><input id="t1D0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Ca0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Cb0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="t1C00">—</td>
+          <td class="ccalc" id="t1Cs0">—</td>
+          <td class="ccalc" id="t1Er0">—</td>
+        </tr>
+        <tr>
+          <td class="dcell">2</td>
+          <td class="cell"><input id="t1D1" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Ca1" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Cb1" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="t1C01">—</td>
+          <td class="ccalc" id="t1Cs1">—</td>
+          <td class="ccalc" id="t1Er1">—</td>
+        </tr>
+        <tr>
+          <td class="dcell">3</td>
+          <td class="cell"><input id="t1D2" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Ca2" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="t1Cb2" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="t1C02">—</td>
+          <td class="ccalc" id="t1Cs2">—</td>
+          <td class="ccalc" id="t1Er2">—</td>
+        </tr>
+        <tr class="sep avg">
+          <td>平均</td><td>—</td><td>—</td><td>—</td>
+          <td id="t1C0m">—</td><td id="t1Csm">—</td><td id="t1Erm">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="result hidden" id="resT1">
+      <div class="big" id="bigT1">—</div>
+      <div class="lab">平均法　ε<sub>r</sub>（三次平均，A 类不确定度 s/√3）</div>
+      <div class="expr" id="exprT1">—</div>
+    </div>
+    <div class="result hidden" id="resT1Lsq" style="margin-top:14px">
+      <div class="expr" id="exprT1Fit">—</div>
+      <div class="row">
+        <div class="item"><div class="v" id="rSfit">—</div><div class="lab">S（斜率检验）/ mm²</div></div>
+        <div class="item"><div class="v" id="rR1">—</div><div class="lab">相关系数 |r|</div></div>
+      </div>
+      <p class="hint">对 1/C串 = a＋b·D 作最小二乘拟合：斜率 b = 1/(ε₀S) 可反推面积作检验；截距 a = −t(1−1/εᵣ)b 给出 εᵣ = 1/(1＋a/(bt))。仅 3 个数据点时截距对散点较敏感，结果以平均法为准，拟合法主要用于检验 C串 与 D 的线性关系。</p>
+    </div>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnDemo1">示例数据（表一）</button>
+      <button type="button" class="btn" id="btnUndo1">撤销上一条</button>
+      <button type="button" class="btn" id="btnClear1">清空表一</button>
+    </div>
+    <div class="fitwrap noprint"><canvas id="cvFit1" aria-label="1/C串 与 D 的最小二乘拟合图"></canvas></div>
+  </section>
+
+  <!-- ======== 第四部分：表二 空气介电常数与分布电容 ======== -->
+  <section class="card">
+    <h2>四、空气的介电常数与分布电容（表二）</h2>
+    <p class="hint" style="margin-top:0">取出样品，将极板间距从 1.000 mm 开始每次增大 0.100 mm 直到 1.900 mm，逐点记录对应的电容 C（把间距调到表中数值后按第一部分的「记录电容（表二）」）。对 C = C分＋ε₀S₀/D 即 C = A＋BX（X = 1/D）作最小二乘拟合。</p>
+    <table>
+      <thead>
+        <tr><th style="width:14%">序号</th><th style="width:28%">D / mm</th><th style="width:30%">C / pF</th><th>X = 1/D / mm⁻¹</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="dcell">1</td><td class="dcell">1.000</td><td class="cell"><input id="t2C0" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X0">1.0000</td></tr>
+        <tr><td class="dcell">2</td><td class="dcell">1.100</td><td class="cell"><input id="t2C1" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X1">0.9091</td></tr>
+        <tr><td class="dcell">3</td><td class="dcell">1.200</td><td class="cell"><input id="t2C2" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X2">0.8333</td></tr>
+        <tr><td class="dcell">4</td><td class="dcell">1.300</td><td class="cell"><input id="t2C3" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X3">0.7692</td></tr>
+        <tr><td class="dcell">5</td><td class="dcell">1.400</td><td class="cell"><input id="t2C4" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X4">0.7143</td></tr>
+        <tr><td class="dcell">6</td><td class="dcell">1.500</td><td class="cell"><input id="t2C5" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X5">0.6667</td></tr>
+        <tr><td class="dcell">7</td><td class="dcell">1.600</td><td class="cell"><input id="t2C6" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X6">0.6250</td></tr>
+        <tr><td class="dcell">8</td><td class="dcell">1.700</td><td class="cell"><input id="t2C7" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X7">0.5882</td></tr>
+        <tr><td class="dcell">9</td><td class="dcell">1.800</td><td class="cell"><input id="t2C8" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X8">0.5556</td></tr>
+        <tr><td class="dcell">10</td><td class="dcell">1.900</td><td class="cell"><input id="t2C9" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="t2X9">0.5263</td></tr>
+      </tbody>
+    </table>
+
+    <div class="result hidden" id="resT2">
+      <div class="big" id="bigT2">—</div>
+      <div class="lab">空气介电常数 ε<sub>0</sub> = B/S₀（参考值 8.854×10<sup>−12</sup> F/m）</div>
+      <div class="expr" id="exprT2">—</div>
+      <div class="row">
+        <div class="item"><div class="v" id="rAf">—</div><div class="lab">截距 A = 分布电容 C分 / pF</div></div>
+        <div class="item"><div class="v" id="rBf">—</div><div class="lab">斜率 B / (pF·mm)</div></div>
+        <div class="item"><div class="v" id="rRel2">—</div><div class="lab">相对误差</div></div>
+        <div class="item"><div class="v" id="rR2">—</div><div class="lab">相关系数 |r|</div></div>
+      </div>
+    </div>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnDemo2">示例数据（表二）</button>
+      <button type="button" class="btn" id="btnUndo2">撤销上一条</button>
+      <button type="button" class="btn" id="btnClear2">清空表二</button>
+    </div>
+    <div class="fitwrap noprint"><canvas id="cvFit2" aria-label="C 与 1/D 的最小二乘拟合图"></canvas></div>
+  </section>
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">同一间距 D 下先后两次测量：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>C</mi><mn>1</mn></msub><mo>=</mo><msub><mi>C</mi><mn>0</mn></msub><mo>+</mo><msub><mi>C</mi><mtext>边</mtext></msub><mo>+</mo><msub><mi>C</mi><mtext>分</mtext></msub><mo>,</mo><mspace width="0.4em"/><msub><mi>C</mi><mn>2</mn></msub><mo>=</mo><msub><mi>C</mi><mtext>串</mtext></msub><mo>+</mo><msub><mi>C</mi><mtext>边</mtext></msub><mo>+</mo><msub><mi>C</mi><mtext>分</mtext></msub></math></div>
+      </li>
+      <li><span class="flabel">其中样品面积 S 的空气电容与介质层、空气层串联电容：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>C</mi><mn>0</mn></msub><mo>=</mo><mfrac><msub><mi>ε</mi><mn>0</mn></msub><mi>S</mi></mfrac><mi>D</mi><mo>,</mo><mspace width="0.5em"/><msub><mi>C</mi><mtext>串</mtext></msub><mo>=</mo><mfrac><msub><mi>ε</mi><mn>0</mn></msub><mi>S</mi></mfrac><mrow><mo fence="true">(</mo><mi>D</mi><mo>−</mo><mi>t</mi><mo>+</mo><mfrac><mi>t</mi><msub><mi>ε</mi><mi>r</mi></msub></mfrac><mo fence="true">)</mo></mrow></math></div>
+      </li>
+      <li><span class="flabel">两次相减消去 C边 与 C分：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>C</mi><mtext>串</mtext></msub><mo>=</mo><msub><mi>C</mi><mn>2</mn></msub><mo>−</mo><msub><mi>C</mi><mn>1</mn></msub><mo>+</mo><msub><mi>C</mi><mn>0</mn></msub></math></div>
+      </li>
+      <li><span class="flabel">固体相对介电常数（逐行计算，再取三次平均）：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>ε</mi><mi>r</mi></msub><mo>=</mo><mfrac><mrow><mi>t</mi><msub><mi>C</mi><mtext>串</mtext></msub></mrow><mrow><msub><mi>ε</mi><mn>0</mn></msub><mi>S</mi><mo>−</mo><mo fence="true">(</mo><mi>D</mi><mo>−</mo><mi>t</mi><mo fence="true">)</mo><msub><mi>C</mi><mtext>串</mtext></msub></mrow></mfrac></math></div>
+      </li>
+      <li><span class="flabel">固体数据的线性检验（最小二乘）：</span>
+        <div class="mathwrap"><math display="block"><mfrac><mn>1</mn><msub><mi>C</mi><mtext>串</mtext></msub></mfrac><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>D</mi><mo>,</mo><mspace width="0.4em"/><mi>b</mi><mo>=</mo><mfrac><mn>1</mn><msub><mi>ε</mi><mn>0</mn></msub><mi>S</mi></mfrac><mo>,</mo><mspace width="0.4em"/><mi>a</mi><mo>=</mo><mo>−</mo><mi>t</mi><mo fence="true">(</mo><mn>1</mn><mo>−</mo><mfrac><mn>1</mn><msub><mi>ε</mi><mi>r</mi></msub></mfrac><mo fence="true">)</mo><mi>b</mi></math></div>
+      </li>
+      <li><span class="flabel">空气数据的统计计算法（Y = A＋BX，X = 1/D）：</span>
+        <div class="mathwrap"><math display="block"><mi>C</mi><mo>=</mo><msub><mi>C</mi><mtext>分</mtext></msub><mo>+</mo><mfrac><msub><mi>ε</mi><mn>0</mn></msub><msub><mi>S</mi><mn>0</mn></msub></mfrac><mfrac><mn>1</mn><mi>D</mi></mfrac><mo>,</mo><mspace width="0.4em"/><msub><mi>ε</mi><mn>0</mn></msub><mo>=</mo><mfrac><mi>B</mi><msub><mi>S</mi><mn>0</mn></msub></mfrac></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>两次测量：C₁ = C₀＋C边＋C分（空气）；C₂ = C串＋C边＋C分（放入样品）。同一间距 D 下 C边、C分 不变。</li>
+      <li>C₀ = ε₀S/D 为样品面积 S 的空气电容；C串 = ε₀S/(D−t＋t/εᵣ) 为介质层与空气层串联的电容。</li>
+      <li>两次相减消去 C边、C分：C串 = C₂−C₁＋C₀。</li>
+      <li>固体相对介电常数：εᵣ = tC串/[ε₀S−(D−t)C串]，逐行计算后取三次平均。</li>
+      <li>线性检验：1/C串 = a＋b·D，b = 1/(ε₀S) 反推面积，a = −t(1−1/εᵣ)b 给出 εᵣ = 1/(1＋a/(bt))。</li>
+      <li>统计计算法：C = C分＋ε₀S₀/D 与 Y = A＋BX 对比（X = 1/D），A = C分，B = ε₀S₀，故 ε₀ = B/S₀。</li>
+    </ul>
+    <p>两次测量必须保持同一极板间距 D 且系统状态不变，才能消去边界电容 C边 与分布电容 C分。样品直径用游标卡尺、厚度用螺旋测微器测量，电极直径由仪器标牌给出。不确定度至多保留两位有效数字（四舍六入五凑偶）。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 8.86 ± 0.01 记作 8.86(1)；U 不小于 1 时括号内原样保留。</p>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 常量与纯计算部分 ===================== */
+
+var EPS0 = 8.854e-3;          // 真空介电常数 ε₀ / (pF/mm)，即 8.854×10⁻¹² F/m
+var REF_E0 = 8.854;           // ε₀ 参考值（单位 10⁻¹² F/m）
+var ER_TRUE  = 3.100;         // PET 样品真实相对介电常数（模拟内部值）
+var CFAN_TRUE = 3.500;        // 系统真实分布电容 / pF（模拟内部值）
+var D_MIN_UM = 300, D_MAX_UM = 2500;   // 极板间距量程（0.001 mm 整数）
+var START_UM = 1000;          // 初始间距 1.000 mm
+
+// 模拟仪器的微小漂移与示值抖动（确定性函数，非随机数）
+function driftW(D){ return 0.012*Math.sin(D*97.3) + 0.009*Math.cos(D*41.7) + 0.006*Math.sin(D*13.1); }
+function flickAir(D){ return 0.004*Math.sin(23.17*D + 1.3) + 0.003*Math.cos(11.71*D + 0.4); }
+function flickPet(D){ return 0.004*Math.sin(29.53*D + 2.1) + 0.003*Math.cos(13.37*D + 1.1); }
+function quant(x){ return Math.round(x * 1000) / 1000; }     // LCR 显示量化到 0.001 pF
+
+// 空气介质下的电容示值 / pF（D 单位 mm；S₀ 电极面积 mm²）
+function capAirVal(D, S0){
+  return quant(CFAN_TRUE + EPS0 * S0 / D + driftW(D) + flickAir(D));
+}
+// 放入样品后的电容示值 / pF（样品平贴下极板，空气层厚 D−t）
+function capPetVal(D, S0, S, t){
+  if (D <= t) return null;                                    // 极板压到样品上，无法测量
+  var cs = EPS0 * S / (D - t + t / ER_TRUE);
+  return quant(CFAN_TRUE + EPS0 * (S0 - S) / D + cs + driftW(D) + flickPet(D));
+}
+
+// 解析长度类输入（mm）：限小数位数 dp、范围 [lo,hi]（均按 mm），非法返回 null
+function parseLen(str, dp, lo, hi){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  var re = new RegExp('^\\d{1,2}(\\.\\d{1,' + dp + '})?$');
+  if (!re.test(str)) return null;
+  var v = parseFloat(str);
+  if (!(v >= lo && v <= hi)) return null;
+  return v;
+}
+// 解析电容示值（pF，三位小数以内），非法返回 null
+function parseCap(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1,3}(\.\d{1,3})?$/.test(str)) return null;
+  var v = parseFloat(str);
+  if (!(v > 0 && v < 500)) return null;
+  return v;
+}
+// 由一行数据计算 εᵣ（D、t 单位 mm，C 单位 pF，S 样品面积 mm²）
+function erOfRow(D, Ca, Cb, S, t){
+  var c0 = EPS0 * S / D;
+  var cs = Cb - Ca + c0;
+  if (cs <= 0) return { c0: c0, cs: cs, er: NaN };
+  var den = EPS0 * S - (D - t) * cs;
+  return { c0: c0, cs: cs, er: t * cs / den };
+}
+
+// 四舍六入五凑偶（保留 n 位有效数字）
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return NaN;
+  if (x === 0) return 0;
+  var v = Number(x.toPrecision(15));
+  var f = Math.floor(Math.log(Math.abs(v)) / Math.LN10) - (n - 1);
+  var p = Math.pow(10, f);
+  var d = v / p;
+  var r = Math.round(d);
+  var diff = d - r;
+  if (Math.abs(Math.abs(diff) - 0.5) < 1e-9){   // 恰好 .5 → 凑偶
+    if (r % 2 !== 0) r += (diff > 0 ? 1 : -1);
+  }
+  return Number((r * p).toPrecision(15));
+}
+function fmtSig(x, n){
+  var v = sigRound(x, n);
+  if (!Number.isFinite(v)) return '—';
+  if (v === 0) return '0';
+  var abs = Math.abs(v);
+  if (abs >= 1e6 || abs < 1e-4) return v.toExponential(Math.max(0, n - 1));
+  return v.toPrecision(n).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+// 新标准记法 X(U)：U 小于 1 时去掉「0.」与其后的前导零，如 0.0014 → 14；
+// U 不小于 1 时原样保留，如 1.2 → 1.2
+function uStd(u){
+  var s = String(u);
+  if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
+  return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
+}
+// 不确定度格式化：至多两位有效数字（凑偶），小数位数不超过 maxDp
+function fmtU2(u, maxDp){
+  if (!Number.isFinite(u)) return '—';
+  if (u === 0) return '0';
+  var abs = Math.abs(u);
+  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
+  var e = Math.floor(Math.log10(abs));
+  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
+  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
+  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 最小二乘直线拟合 y = a + b·x。返回 {b, a, s, ub, r}；数据退化返回 null
+function linFit(xs, ys){
+  var n = xs.length, Sx = 0, Sy = 0, Sxx = 0, Syy = 0, Sxy = 0, i;
+  for (i = 0; i < n; i++){
+    Sx += xs[i]; Sy += ys[i]; Sxx += xs[i] * xs[i]; Syy += ys[i] * ys[i]; Sxy += xs[i] * ys[i];
+  }
+  var den = n * Sxx - Sx * Sx;
+  if (den === 0) return null;
+  var b = (n * Sxy - Sx * Sy) / den;
+  var a = (Sxx * Sy - Sx * Sxy) / den;
+  var ss = 0;
+  for (i = 0; i < n; i++){ var e = ys[i] - (a + b * xs[i]); ss += e * e; }
+  var s = Math.sqrt(ss / (n - 2));              // 残差标准差
+  var ub = s * Math.sqrt(n / den);              // 斜率的标准不确定度
+  var denr = Math.sqrt(den * (n * Syy - Sy * Sy));
+  var r = denr === 0 ? NaN : (n * Sxy - Sx * Sy) / denr;
+  return { b: b, a: a, s: s, ub: ub, r: r };
+}
+
+// Heckbert 美观刻度
+function niceNum(range, round){
+  if (!(range > 0)) return 1;
+  var exp = Math.floor(Math.log(range) / Math.LN10);
+  var f = range / Math.pow(10, exp);
+  var nf;
+  if (round) nf = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+  else       nf = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+  return nf * Math.pow(10, exp);
+}
+function ticks(lo, hi, want){
+  var step = niceNum((hi - lo) / (want - 1), true);
+  var out = [], v = Math.ceil(lo / step) * step;
+  for (; v <= hi + step * 1e-6; v += step) out.push(Math.round(v / step) * step === 0 ? 0 : v);
+  return out;
+}
+
+/*__CALC_END__*/
+
+/* ===================== DOM 交互部分 ===================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var toastEl = $('toast'), toastTimer = null;
+
+var SIM = {
+  m: START_UM,            // 当前极板间距（0.001 mm 整数）
+  pet: false,             // 是否已放入样品
+  petPos: 0,              // 样品滑入程度 0（外）～ 1（内），用于动画
+  phi: null, dia: null, thk: null,   // 输入参数（mm）
+  S0: null, S: null       // 电极 / 样品面积（mm²）
+};
+var lastFit1 = null, lastFit2 = null;   // 两张拟合图的数据缓存
+
+/* MathML 支持检测 */
+(function(){
+  var ok = false;
+  try{
+    var probe = document.createElement('div');
+    var m  = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'math');
+    var ms = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'mspace');
+    ms.setAttribute('width', '60px');
+    m.appendChild(ms); probe.appendChild(m);
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(probe);
+    ok = m.getBoundingClientRect().width > 40;
+    document.body.removeChild(probe);
+  }catch(e){ ok = false; }
+  document.documentElement.classList.add(ok ? 'has-mathml' : 'no-mathml');
+})();
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+}
+
+function setupCanvas(cv){
+  var dpr = Math.max(1, window.devicePixelRatio || 1);
+  var rect = cv.getBoundingClientRect();
+  var W = rect.width, H = rect.height;
+  if (W < 10) W = 480; if (H < 10) H = 300;
+  cv.width = Math.round(W * dpr);
+  cv.height = Math.round(H * dpr);
+  var ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx: ctx, W: W, H: H };
+}
+
+/* ---------- 当前状态下的电容示值 ---------- */
+function capNow(){
+  if (SIM.S0 === null || SIM.S === null || SIM.thk === null) return null;
+  var D = SIM.m / 1000;
+  return SIM.pet ? capPetVal(D, SIM.S0, SIM.S, SIM.thk)
+                 : capAirVal(D, SIM.S0);
+}
+
+/* ---------- 读数显示与画布刷新 ---------- */
+function updateReadout(){
+  var main = Math.floor(SIM.m / 1000);
+  var rem = SIM.m - main * 1000;                    // 0–999（μm）
+  var half = rem >= 500 ? 1 : 0;
+  var th = rem - half * 500;                        // 微分筒 0–499（μm）
+  $('rA').textContent = (main + half * 0.5).toFixed(1);
+  $('rB').textContent = (th / 10).toFixed(1);
+  $('rD').textContent = (SIM.m / 1000).toFixed(3);
+  var cap = capNow();
+  var capStr = (cap === null) ? '——' : cap.toFixed(3);
+  $('rC').textContent = capStr;
+  $('lcrVal').innerHTML = (cap === null) ? '&mdash;&mdash;' :
+    cap.toFixed(3) + '<span style="font-size:1rem">&nbsp;pF</span>';
+  $('simBadge').textContent = SIM.pet ? '已放入 PET 样品' : '空气介质（未放样品）';
+  var pc = SIM.pet ? '已放入' : '未放入';
+  $('simCap').textContent = (SIM.dia !== null && SIM.thk !== null)
+    ? 'PET 样品：d = ' + SIM.dia.toFixed(2) + ' mm，t = ' + SIM.thk.toFixed(3) + ' mm（' + pc + '）'
+    : ('PET 样品' + pc);
+  drawMic();
+  drawSim();
+}
+
+function changeM(dUm){
+  SIM.m += dUm;
+  if (SIM.m < D_MIN_UM) SIM.m = D_MIN_UM;
+  if (SIM.m > D_MAX_UM) SIM.m = D_MAX_UM;
+  updateReadout();
+}
+
+/* ---------- 装置图内拧动微分筒（左右拖动模拟旋转套筒，螺杆带动上下位移） ---------- */
+(function(){
+  var cv = $('cvSim');
+  var active = false, lastX = 0, acc = 0;
+  function ptOf(e){
+    if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    return { x: e.clientX, y: e.clientY };
+  }
+  function overThimble(e){
+    if (!SIM._th) return false;
+    var r = cv.getBoundingClientRect(), p = ptOf(e), m = 10;
+    var x = p.x - r.left, y = p.y - r.top;
+    return x > SIM._th.x0 - m && x < SIM._th.x1 + m && y > SIM._th.y0 - m && y < SIM._th.y1 + m;
+  }
+  function onDown(e){
+    if (!overThimble(e)) return;
+    active = true; lastX = ptOf(e).x; acc = 0;
+    cv.classList.add('dragging');
+    if (e.cancelable) e.preventDefault();
+  }
+  function onMove(e){
+    if (active){
+      var x = ptOf(e).x;
+      if (SIM._ppm > 0) acc += (x - lastX) * 1000 / SIM._ppm;   // 右拖 = 拧动 = 间距增大
+      lastX = x;
+      var d = Math.trunc(acc);
+      if (d !== 0){ acc -= d; changeM(d); }
+      if (e.cancelable) e.preventDefault();
+    } else if (e.pointerType !== 'touch'){
+      cv.classList.toggle('hoverth', overThimble(e));
+    }
+  }
+  function onUp(){ active = false; cv.classList.remove('dragging'); }
+  cv.addEventListener('pointerdown', onDown);
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('pointerup', onUp);
+  window.addEventListener('pointercancel', onUp);
+  // 滚轮在微分筒上 = 拧动（向上滚增大，向下滚减小）
+  cv.addEventListener('wheel', function(e){
+    if (!overThimble(e)) return;
+    if (e.cancelable) e.preventDefault();
+    changeM(e.deltaY < 0 ? 10 : -10);
+  }, { passive: false });
+})();
+
+/* ---------- 步进按钮 ---------- */
+$('btnK1000M').addEventListener('click', function(){ changeM(-1000); });
+$('btnK100M').addEventListener('click', function(){ changeM(-100); });
+$('btnK10M').addEventListener('click', function(){ changeM(-10); });
+$('btnK10P').addEventListener('click', function(){ changeM(10); });
+$('btnK100P').addEventListener('click', function(){ changeM(100); });
+$('btnK1000P').addEventListener('click', function(){ changeM(1000); });
+$('btnStart').addEventListener('click', function(){
+  SIM.m = START_UM;
+  updateReadout();
+  toast('已回到 D = 1.000 mm');
+});
+
+/* ---------- 样品放入 / 取出（滑动动画） ---------- */
+var petAnimId = null;
+$('btnPet').addEventListener('click', function(){
+  if (SIM.S === null){ toast('请先填写有效的样品参数'); return; }
+  SIM.pet = !SIM.pet;
+  this.innerHTML = SIM.pet ? '取出样品<small>PET 薄片进 / 出极板</small>'
+                           : '放入样品<small>PET 薄片进 / 出极板</small>';
+  updateReadout();
+  animatePet();
+});
+function animatePet(){
+  if (petAnimId) cancelAnimationFrame(petAnimId);
+  var from = SIM.petPos, to = SIM.pet ? 1 : 0;
+  var t0 = null;
+  function step(ts){
+    if (t0 === null) t0 = ts;
+    var x = Math.min(1, (ts - t0) / 450);
+    x = 1 - Math.pow(1 - x, 3);                     // 缓出
+    SIM.petPos = from + (to - from) * x;
+    drawSim();
+    if ((to > from && SIM.petPos < to) || (to < from && SIM.petPos > to)){
+      petAnimId = requestAnimationFrame(step);
+    } else {
+      SIM.petPos = to;
+      petAnimId = null;
+    }
+  }
+  petAnimId = requestAnimationFrame(step);
+}
+
+/* ---------- 装置侧视图（白底示意图，两主题一致）：螺旋测微器竖装，微分筒直接带动上极板 ---------- */
+function drawSim(){
+  var sc = setupCanvas($('cvSim')), ctx = sc.ctx, W = sc.W, H = sc.H;
+  ctx.clearRect(0, 0, W, H);
+  var cx = W * 0.44;                                 // 装置中轴（略偏左，右侧留标注与接线空间）
+  var ppm = H * 0.08;                                // 竖直比例尺：像素 / mm
+  SIM._ppm = ppm;
+  var D = SIM.m / 1000;
+  var phi = (SIM.phi !== null) ? SIM.phi : 50;
+  var dia = (SIM.dia !== null) ? SIM.dia : 40;
+  var t   = (SIM.thk !== null) ? SIM.thk : 1;
+
+  // 关键纵坐标（装置竖直布置：上为测微器，极板直接置于底座上）
+  var yBaseTop = H * 0.87, yBaseBot = H * 0.95;
+  var ySleeveTop = H * 0.27, ySleeveBot = H * 0.57;
+  var yZero = H * 0.55;                              // 主尺 0 刻线（D = 0 时微分筒上缘与此对齐）
+  var thW = W * 0.125, thH = H * 0.22;               // 筒长须在最大间距时仍盖住主尺下端
+  var yTh = yZero - D * ppm;                         // 微分筒上缘（读数指示位置，随 D 上移）
+  var spW = W * 0.03;
+  var plW = W * 0.44, plH = H * 0.026;
+  var yLowTop = yBaseTop - plH;                      // 下极板直接放在底座上（上表面固定）
+  var yUpTop = yLowTop - plH - D * ppm;              // 上极板上表面（随 D 上移）
+
+  function metal(yT, yB){
+    var g = ctx.createLinearGradient(0, yT, 0, yB);
+    g.addColorStop(0, '#dde3e8'); g.addColorStop(.5, '#b7c1ca'); g.addColorStop(1, '#98a3ad');
+    return g;
+  }
+  function box(x, y, w, h, fill, stroke, lw){
+    ctx.fillStyle = fill; ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1.2;
+    ctx.strokeRect(x, y, w, h);
+  }
+
+  // 底座（木质垫块）与左立柱、横臂构成机架
+  box(W * 0.08, yBaseTop, W * 0.72, yBaseBot - yBaseTop, '#e3dac9', '#b3a58a');
+  box(W * 0.10, H * 0.245, W * 0.045, yBaseTop - H * 0.245, '#c3ccd4', '#7d8894'); // 左立柱（支架）
+
+  // 固定套筒（主尺，竖直，刻度 0 在下、向上增大）
+  box(cx - W * 0.0425, ySleeveTop, W * 0.085, ySleeveBot - ySleeveTop, metal(ySleeveTop, ySleeveBot), '#7d8894');
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1;
+  ctx.font = '10px system-ui,sans-serif'; ctx.fillStyle = '#374151';
+  ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+  for (var mm = 0; mm <= 3.01; mm += 0.5){
+    var yt = yZero - mm * ppm;
+    if (yt < ySleeveTop + 5) break;
+    var isInt = Math.abs(mm - Math.round(mm)) < 0.01;
+    ctx.beginPath();
+    ctx.moveTo(cx - W * 0.0425, yt);
+    ctx.lineTo(cx - W * 0.0425 + (isInt ? 12 : 7), yt);
+    ctx.stroke();
+    if (isInt) ctx.fillText(String(Math.round(mm)), cx - W * 0.0425 - 4, yt - 3);
+  }
+  // 支架横臂（夹持固定套筒顶部）
+  box(W * 0.10, H * 0.245, (cx + W * 0.0425) - W * 0.10, H * 0.032, '#c3ccd4', '#7d8894');
+
+  // 测微螺杆（微分筒下端伸出，直连上极板）
+  var ySpTop = yTh + thH;
+  box(cx - spW / 2, ySpTop, spW, Math.max(2, yUpTop - ySpTop), '#9aa5af', '#6f7a84', 1);
+
+  // 微分筒（测微套筒，带滚花，可拧动）
+  box(cx - thW / 2, yTh, thW, thH, metal(yTh, yTh + thH), '#5f6a75', 1.2);
+  ctx.lineWidth = 0.7; ctx.strokeStyle = 'rgba(90,100,110,.55)';
+  // 滚花随拧动水平滚动（每 0.5 mm 一圈，模拟套筒旋转）
+  var pitch = 4.5;
+  var rollOff = ((SIM.m % 500) / 500) * pitch;
+  for (var kx = cx - thW / 2 + 4 + rollOff; kx <= cx + thW / 2 - 4; kx += pitch){
+    ctx.beginPath();
+    ctx.moveTo(kx, yTh + 3); ctx.lineTo(kx, yTh + thH - 3);
+    ctx.stroke();
+  }
+  ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2;    // 读数指标线（微分筒上缘）
+  ctx.beginPath();
+  ctx.moveTo(cx - thW / 2 - 3, yTh); ctx.lineTo(cx + thW / 2 + 3, yTh);
+  ctx.stroke();
+  SIM._th = { x0: cx - thW / 2, y0: yTh, x1: cx + thW / 2, y1: yTh + thH };
+
+  // 上极板（随微分筒上下移动）与下极板（固定）
+  box(cx - plW / 2, yUpTop, plW, plH, metal(yUpTop, yUpTop + plH), '#7d8894');
+  box(cx - plW / 2, yLowTop, plW, plH, metal(yLowTop, yLowTop + plH), '#7d8894');
+
+  // 接线示意：下极板 → LCR 电桥
+  ctx.strokeStyle = '#8a5a2f'; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + plW / 2 + 2, yLowTop + plH / 2);
+  ctx.quadraticCurveTo(W - 34, yLowTop + plH / 2 + 14, W - 14, yBaseBot - 12);
+  ctx.stroke();
+
+  // PET 样品：放入时平贴下极板上表面居中；取出时沿极板间隙向右抽出（u=1 为完全取出）
+  var pxX = plW / phi;                               // 水平比例尺：像素 / mm（按极板直径标定）
+  var u = 1 - SIM.petPos;
+  if (SIM.petPos > 0.01 || u > 0.01){
+    var drPx = (dia / 2) * pxX, shH = Math.max(2.5, t * pxX);
+    var xIn = cx, xOut = W - drPx - 16;              // 放入位 / 取出位（画布右缘内）
+    var sxp = xIn + (xOut - xIn) * u;
+    var syp = yLowTop;                               // 样品底边贴下极板上表面
+    if (u > 0.05){                                   // 放入位虚线轮廓（提示样品归属）
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = 'rgba(232,89,18,.45)'; ctx.lineWidth = 1;
+      ctx.strokeRect(cx - drPx, syp - shH, drPx * 2, shH);
+      ctx.setLineDash([]);
+    }
+    ctx.fillStyle = 'rgba(232,89,18,.55)';
+    ctx.fillRect(sxp - drPx, syp - shH, drPx * 2, shH);
+    ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 1.5;
+    ctx.strokeRect(sxp - drPx, syp - shH, drPx * 2, shH);
+    ctx.beginPath();                                 // 提手小柄
+    ctx.moveTo(sxp + drPx, syp - shH / 2);
+    ctx.lineTo(sxp + drPx + 10, syp - shH / 2);
+    ctx.stroke();
+    ctx.fillStyle = '#b54708'; ctx.font = '11px system-ui,sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('PET 样品', Math.min(sxp, W - 45), syp - shH - 5);
+  }
+
+  // 间距标注（双箭头，置于极板左侧，避开抽出的样品）
+  var ax = cx - plW / 2 - 12;
+  var y1 = yLowTop, y2 = yUpTop;
+  ctx.strokeStyle = '#e8590c'; ctx.fillStyle = '#e8590c'; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(ax, y1); ctx.lineTo(ax, y2);
+  ctx.moveTo(ax - 3.5, y1); ctx.lineTo(ax + 3.5, y1);
+  ctx.moveTo(ax - 3.5, y2); ctx.lineTo(ax + 3.5, y2);
+  ctx.stroke();
+  if (y1 - y2 > 12){
+    ctx.beginPath();                                 // 箭头头部
+    ctx.moveTo(ax, y1); ctx.lineTo(ax - 2.4, y1 - 5); ctx.lineTo(ax + 2.4, y1 - 5);
+    ctx.moveTo(ax, y2); ctx.lineTo(ax - 2.4, y2 + 5); ctx.lineTo(ax + 2.4, y2 + 5);
+    ctx.fill();
+  }
+  ctx.font = 'bold 12px system-ui,sans-serif';
+  ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText('D = ' + D.toFixed(3) + ' mm', W - 8, 16);
+
+  // 结构名称标注（极板名称放在极板内部，避免出界）
+  ctx.font = '11px system-ui,sans-serif';
+  ctx.fillStyle = '#3b4552'; ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+  ctx.fillText('支架', W * 0.10 + W * 0.045 + 5, H * 0.52);
+  ctx.fillText('固定套筒（主尺）', cx + W * 0.0425 + 7, ySleeveTop + 14);
+  ctx.fillText('测微螺杆', cx + spW / 2 + 6, (ySpTop + yUpTop) / 2 + 4);
+  ctx.fillText('微分筒（测微套筒，拧动）', cx + thW / 2 + 7, yTh + thH / 2 + 4);
+  ctx.fillText('上极板', cx - plW / 2 + 7, yUpTop + plH / 2 + 4);
+  ctx.fillText('下极板', cx - plW / 2 + 7, yLowTop + plH / 2 + 4);
+  ctx.fillStyle = '#7a6a4d';
+  ctx.fillText('底座', W * 0.08 + 6, yBaseBot - 6);
+  ctx.fillStyle = '#8a5a2f'; ctx.textAlign = 'right';
+  ctx.fillText('至 LCR', W - 8, yBaseBot - 6);
+  ctx.textBaseline = 'alphabetic';
+}
+
+/* ---------- 螺旋测微器读数窗（固定像素布局） ---------- */
+function drawMic(){
+  var sc = setupCanvas($('cvMic')), ctx = sc.ctx, W = sc.W, H = sc.H;
+  ctx.clearRect(0, 0, W, H);
+  var k = W / 480;                                   // 缩放因子
+  var fs = Math.max(9, 11 * k);
+
+  var D = SIM.m / 1000;
+  var main = Math.floor(SIM.m / 1000);
+  var rem = SIM.m - main * 1000;
+  var half = rem >= 500 ? 1 : 0;
+  var T = rem - half * 500;                          // 微分筒位置 0–499 μm
+
+  /* 上半：主尺（固定刻度），微分筒体从右侧盖住主尺，其左边缘即指标线 */
+  var bandY = 42 * k, bandH = 34 * k;
+  var xi = W * 0.64;                                 // 主尺指标线（= 微分筒左边缘）
+  var ppmMain = 30 * k;                              // 主尺像素每毫米
+  ctx.font = fs + 'px system-ui,sans-serif';
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#6b7280';
+  ctx.fillText('主尺 a（最小分度 0.5 mm）', 8 * k, 15 * k);
+  // 主尺基线与刻度
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(6 * k, bandY); ctx.lineTo(xi, bandY); ctx.lineTo(xi, bandY + bandH);
+  ctx.lineTo(6 * k, bandY + bandH); ctx.stroke();
+  var mLo = Math.floor(D - xi / ppmMain) - 1, mHi = Math.ceil(D + (W - xi) / ppmMain) + 1;
+  ctx.lineWidth = 1;
+  for (var m = mLo; m <= mHi; m++){
+    for (var sub = 0; sub < 2; sub++){
+      var mm = m + sub * 0.5;
+      var xp = xi + (mm - D) * ppmMain;
+      if (xp < 6 * k - 1 || xp > xi) continue;
+      var isInt = (sub === 0);
+      ctx.strokeStyle = isInt ? '#374151' : '#6b7280';
+      ctx.beginPath();
+      if (isInt){                                    // 整毫米刻线朝上，标数字
+        ctx.moveTo(xp, bandY); ctx.lineTo(xp, bandY - 12 * k);
+      } else {                                       // 半毫米刻线朝下
+        ctx.moveTo(xp, bandY + bandH); ctx.lineTo(xp, bandY + bandH + 8 * k);
+      }
+      ctx.stroke();
+      if (isInt){
+        ctx.fillStyle = '#374151'; ctx.textAlign = 'center';
+        ctx.fillText(String(m), xp, bandY - 16 * k);
+      }
+    }
+  }
+  // 微分筒体（盖住主尺右段）
+  var g = ctx.createLinearGradient(0, bandY - 14 * k, 0, bandY + bandH + 10 * k);
+  g.addColorStop(0, '#aab4be'); g.addColorStop(.5, '#848f9a'); g.addColorStop(1, '#67717c');
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(xi, bandY - 14 * k, W - xi - 4 * k, bandH + 24 * k, 4 * k);
+  else ctx.rect(xi, bandY - 14 * k, W - xi - 4 * k, bandH + 24 * k);
+  ctx.fill();
+  ctx.strokeStyle = '#4d565f'; ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.85)';
+  ctx.textAlign = 'center';
+  ctx.fillText('微分筒', xi + (W - xi) / 2, bandY + bandH / 2 + 5 * k);
+  // 指标线（橙）
+  ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(xi, bandY - 14 * k); ctx.lineTo(xi, bandY + bandH + 10 * k);
+  ctx.stroke();
+
+  /* 下半：微分筒分度（0–49 循环，水平展开） */
+  var paneY2 = bandY + bandH + 20 * k;
+  var baseY2 = paneY2 + 24 * k;
+  var xi2 = W * 0.42;
+  var ppDiv = 24 * k;                                // 每 0.01 mm 格的像素
+  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'left';
+  ctx.fillText('微分筒 b（每格 0.01 mm）', 8 * k, paneY2 - 4 * k);
+  ctx.strokeStyle = '#9aa3af'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(6 * k, baseY2); ctx.lineTo(W - 6 * k, baseY2); ctx.stroke();
+  var Tv = T / 10;                                   // 连续格数 0–49.9
+  var dLo = Math.floor(Tv - xi2 / ppDiv) - 1, dHi = Math.ceil(Tv + (W - xi2) / ppDiv) + 1;
+  for (var dv = dLo; dv <= dHi; dv++){
+    var wrapped = ((dv % 50) + 50) % 50;
+    var xp2 = xi2 + (dv - Tv) * ppDiv;
+    if (xp2 < 6 * k || xp2 > W - 6 * k) continue;
+    var major = (wrapped % 5 === 0);
+    ctx.strokeStyle = major ? '#374151' : '#9aa3af';
+    ctx.beginPath();
+    ctx.moveTo(xp2, baseY2); ctx.lineTo(xp2, baseY2 - (major ? 13 : 7) * k);
+    ctx.stroke();
+    if (major){
+      ctx.fillStyle = '#374151'; ctx.textAlign = 'center';
+      ctx.fillText(String(wrapped), xp2, baseY2 - 17 * k);
+    }
+  }
+  ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(xi2, baseY2 + 3 * k); ctx.lineTo(xi2, baseY2 - 20 * k);
+  ctx.stroke();
+  ctx.fillStyle = '#9aa3af'; ctx.font = Math.max(8, 10 * k) + 'px system-ui,sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('读数 D = a＋0.01·b（估读到 0.001 mm）', W - 8 * k, H - 5 * k);
+}
+
+/* ---------- 参数解析与联动 ---------- */
+function readParams(){
+  var phi = parseLen($('inPhi').value, 2, 10, 80);
+  var dia = parseLen($('inDia').value, 2, 5, 79);
+  var thk = parseLen($('inThk').value, 3, 0.1, 2.5);
+  $('inPhi').classList.toggle('invalid', $('inPhi').value.trim() !== '' && phi === null);
+  $('inDia').classList.toggle('invalid', ($('inDia').value.trim() !== '' && dia === null) || (dia !== null && phi !== null && dia >= phi));
+  $('inThk').classList.toggle('invalid', $('inThk').value.trim() !== '' && thk === null);
+  if (dia !== null && phi !== null && dia >= phi) dia = null;
+  SIM.phi = phi; SIM.dia = dia; SIM.thk = thk;
+  SIM.S0 = phi === null ? null : Math.PI * phi * phi / 4;
+  SIM.S  = dia === null ? null : Math.PI * dia * dia / 4;
+  $('outS0').textContent = SIM.S0 === null ? '—' : SIM.S0.toFixed(2) + ' mm²';
+  $('outS').textContent  = SIM.S  === null ? '—' : SIM.S.toFixed(2) + ' mm²';
+}
+
+document.addEventListener('input', function(e){
+  if (e.target && e.target.tagName === 'INPUT'){
+    if (e.target === $('inPhi') || e.target === $('inDia') || e.target === $('inThk')){
+      readParams();
+      updateReadout();
+    }
+    recomputeTables();
+  }
+});
+
+/* ---------- 表一：记录 / 撤销 ---------- */
+var undoStack1 = [];
+function t1RowState(i){
+  return {
+    D: $('t1D' + i).value,
+    Ca: $('t1Ca' + i).value,
+    Cb: $('t1Cb' + i).value
+  };
+}
+function nextAction1(){
+  var i, s;
+  // 先找「已记 D、C₁，还差 C₂」的行：同一行应连续完成两次测量
+  for (i = 0; i < 3; i++){
+    s = t1RowState(i);
+    if (s.D.trim() !== '' && s.Ca.trim() !== '' && s.Cb.trim() === '')
+      return { row: i, part: 2 };
+  }
+  // 再找全新空行
+  for (i = 0; i < 3; i++){
+    s = t1RowState(i);
+    if (s.D.trim() === '' && s.Ca.trim() === '' && s.Cb.trim() === '')
+      return { row: i, part: 1 };
+  }
+  return null;
+}
+function updateRecLabel1(){
+  var act = nextAction1();
+  if (!act){ $('recNext1').textContent = '3 次测量已记满'; return; }
+  $('recNext1').textContent = act.part === 1
+    ? '下一个：第 ' + (act.row + 1) + ' 次 C₁（空气）'
+    : '下一个：第 ' + (act.row + 1) + ' 次 C₂（放入样品）';
+}
+$('btnRec1').addEventListener('click', function(){
+  readParams();
+  if (SIM.S0 === null || SIM.S === null || SIM.thk === null){
+    toast('请先在「样品参数」中填写有效参数'); return;
+  }
+  var cap = capNow(), Dstr = (SIM.m / 1000).toFixed(3);
+  if (cap === null){ toast('当前状态下无法测量（放入样品时间距需大于厚度 t）'); return; }
+  var act = nextAction1();
+  if (!act){ toast('3 次测量已记满，如需重记请先清空'); return; }
+  if (act.part === 1){
+    if (SIM.pet){ toast('测 C₁ 需先「取出样品」'); return; }
+    $('t1D' + act.row).value = Dstr;
+    $('t1Ca' + act.row).value = cap.toFixed(3);
+    undoStack1.push({ row: act.row, part: 1 });
+    toast('已记录第 ' + (act.row + 1) + ' 次：D = ' + Dstr + ' mm，C₁ = ' + cap.toFixed(3) + ' pF');
+  } else {
+    if (!SIM.pet){ toast('测 C₂ 需先「放入样品」'); return; }
+    var dRow = parseLen($('t1D' + act.row).value, 3, 0.3, 2.5);
+    if (dRow === null || Math.abs(dRow * 1000 - SIM.m) > 0){
+      toast('极板间距已改变，请调回 D = ' + $('t1D' + act.row).value + ' mm 再记录 C₂');
+      return;
+    }
+    $('t1Cb' + act.row).value = cap.toFixed(3);
+    undoStack1.push({ row: act.row, part: 2 });
+    toast('已记录第 ' + (act.row + 1) + ' 次：C₂ = ' + cap.toFixed(3) + ' pF');
+  }
+  recomputeTables();
+});
+$('btnUndo1').addEventListener('click', function(){
+  var op = undoStack1.pop();
+  if (!op){ toast('没有可撤销的记录'); return; }
+  if (op.part === 2){
+    $('t1Cb' + op.row).value = '';
+  } else {
+    $('t1D' + op.row).value = '';
+    $('t1Ca' + op.row).value = '';
+  }
+  recomputeTables();
+  toast('已撤销');
+});
+
+/* ---------- 表二：记录 / 撤销 ---------- */
+var D2LIST = [1.000,1.100,1.200,1.300,1.400,1.500,1.600,1.700,1.800,1.900];
+var undoStack2 = [];
+function nextRow2(){
+  for (var j = 0; j < 10; j++) if ($('t2C' + j).value.trim() === '') return j;
+  return null;
+}
+function updateRecLabel2(){
+  var j = nextRow2();
+  $('recNext2').textContent = j === null ? '10 个点已记满' : '下一个：D = ' + D2LIST[j].toFixed(3) + ' mm';
+}
+$('btnRec2').addEventListener('click', function(){
+  var cap = capNow();
+  if (cap === null){ toast('当前状态下无法测量（请取出样品）'); return; }
+  if (SIM.pet){ toast('表二测空气电容，请先「取出样品」'); return; }
+  var target = -1;
+  for (var j = 0; j < 10; j++) if (Math.abs(D2LIST[j] * 1000 - SIM.m) === 0) target = j;
+  if (target < 0){
+    toast('当前间距 ' + (SIM.m / 1000).toFixed(3) + ' mm 不在表中：需为 1.000 至 1.900、步进 0.100 mm');
+    return;
+  }
+  if ($('t2C' + target).value.trim() !== ''){ toast('D = ' + D2LIST[target].toFixed(3) + ' mm 已记录过'); return; }
+  $('t2C' + target).value = cap.toFixed(3);
+  undoStack2.push(target);
+  toast('已记录 D = ' + D2LIST[target].toFixed(3) + ' mm，C = ' + cap.toFixed(3) + ' pF');
+  recomputeTables();
+});
+$('btnUndo2').addEventListener('click', function(){
+  var j = undoStack2.pop();
+  if (j === undefined){ toast('没有可撤销的记录'); return; }
+  $('t2C' + j).value = '';
+  recomputeTables();
+  toast('已撤销');
+});
+
+/* ---------- 数据处理 ---------- */
+function recomputeTables(){
+  readParams();
+
+  /* 表一：逐行 C₀、C串、εᵣ */
+  var ds = [], ers = [], css = [], full = true, i;
+  var sumC0 = 0, sumCs = 0, nCc = 0;
+  for (i = 0; i < 3; i++){
+    var elD = $('t1D' + i), elCa = $('t1Ca' + i), elCb = $('t1Cb' + i);
+    var vD = parseLen(elD.value, 3, 0.3, 2.5);
+    var vCa = parseCap(elCa.value), vCb = parseCap(elCb.value);
+    elD.classList.toggle('invalid', elD.value.trim() !== '' && vD === null);
+    elCa.classList.toggle('invalid', elCa.value.trim() !== '' && vCa === null);
+    elCb.classList.toggle('invalid', elCb.value.trim() !== '' && vCb === null);
+    var r = (vD !== null && vCa !== null && vCb !== null && SIM.S !== null && SIM.thk !== null && vD > SIM.thk)
+      ? erOfRow(vD, vCa, vCb, SIM.S, SIM.thk) : null;
+    if (r !== null){
+      $('t1C0' + i).textContent = quant(r.c0).toFixed(3);
+      $('t1Cs' + i).textContent = quant(r.cs).toFixed(3);
+      sumC0 += r.c0; sumCs += r.cs; nCc++;
+      if (Number.isFinite(r.er)){
+        $('t1Er' + i).textContent = r.er.toFixed(3);
+        ds.push(vD); ers.push(r.er); css.push(r.cs);
+      } else {
+        $('t1Er' + i).textContent = '—';          // C串 异常，算不出 εᵣ
+        full = false;
+      }
+    } else {
+      $('t1C0' + i).textContent = '—';
+      $('t1Cs' + i).textContent = '—';
+      $('t1Er' + i).textContent = '—';
+      full = false;
+    }
+  }
+  // 平均行：按未舍入的数值取平均，与下方结果一致
+  if (nCc > 0){
+    $('t1C0m').textContent = (sumC0 / nCc).toFixed(3);
+    $('t1Csm').textContent = (sumCs / nCc).toFixed(3);
+  } else {
+    $('t1C0m').textContent = '—';
+    $('t1Csm').textContent = '—';
+  }
+  if (ers.length > 0){
+    var sEr = 0, q;
+    for (q = 0; q < ers.length; q++) sEr += ers[q];
+    $('t1Erm').textContent = (sEr / ers.length).toFixed(3);
+  } else {
+    $('t1Erm').textContent = '—';
+  }
+
+  if (ds.length === 3){
+    var avg = (ers[0] + ers[1] + ers[2]) / 3;
+    var ss = 0, q;
+    for (q = 0; q < 3; q++){ var ee = ers[q] - avg; ss += ee * ee; }
+    var uA = Math.sqrt(ss / 2) / Math.sqrt(3);      // 平均值的 A 类不确定度
+    var vE = avg.toFixed(3), uE = fmtU2(uA, 3);
+    $('bigT1').textContent = vE;
+    $('exprT1').innerHTML = 'ε<sub>r</sub> = ' + vE + ' ± ' + uE +
+      '，即 ' + vE + '(' + uStd(uE) + ')';
+    $('resT1').classList.remove('hidden');
+
+    var fit = linFit(ds, css.map(function(c){ return 1 / c; }));
+    if (fit && fit.b > 0 && Number.isFinite(fit.r)){
+      var erf = 1 / (1 + fit.a / (fit.b * SIM.thk));
+      var Sfit = 1 / (EPS0 * fit.b);
+      $('exprT1Fit').innerHTML = '最小二乘法：1/C<sub>串</sub> = a＋b·D，ε<sub>r</sub>（拟合）= ' + erf.toFixed(3);
+      $('rSfit').textContent = Sfit.toFixed(1);
+      $('rR1').textContent = Math.abs(fit.r).toFixed(6);
+      lastFit1 = { xs: ds.slice(), ys: css.map(function(c){ return 1 / c; }), a: fit.a, b: fit.b };
+      $('resT1Lsq').classList.remove('hidden');
+    } else {
+      lastFit1 = null;
+      $('resT1Lsq').classList.add('hidden');
+    }
+  } else {
+    $('resT1').classList.add('hidden');
+    $('resT1Lsq').classList.add('hidden');
+    lastFit1 = null;
+  }
+
+  /* 表二：C = A＋B·(1/D) */
+  var xs2 = [], ys2 = [], allFull = true, j2;
+  for (j2 = 0; j2 < 10; j2++){
+    var vC = parseCap($('t2C' + j2).value);
+    $('t2C' + j2).classList.toggle('invalid', $('t2C' + j2).value.trim() !== '' && vC === null);
+    if (vC !== null){ xs2.push(1 / D2LIST[j2]); ys2.push(vC); }
+    else allFull = false;
+  }
+  if (allFull && SIM.S0 !== null){
+    var f2 = linFit(xs2, ys2);
+    if (f2){
+      var A = f2.a, B = f2.b;
+      var e0 = B / SIM.S0 * 1000;                   // 单位 10⁻¹² F/m
+      var u0 = f2.ub / SIM.S0 * 1000;
+      var v0 = e0.toFixed(2), u0s = fmtU2(u0, 2);
+      $('bigT2').innerHTML = v0 + '×10<sup>−12</sup> F/m';
+      $('exprT2').innerHTML = 'ε<sub>0</sub> = (' + v0 + ' ± ' + u0s + ')×10<sup>−12</sup> F/m，即 ' +
+        v0 + '(' + uStd(u0s) + ')×10<sup>−12</sup> F/m';
+      $('rAf').textContent = A.toFixed(3);
+      $('rBf').textContent = B.toFixed(3);
+      $('rRel2').textContent = (Math.abs(e0 - REF_E0) / REF_E0 * 100).toFixed(2) + '%';
+      $('rR2').textContent = Math.abs(f2.r).toFixed(6);
+      lastFit2 = { xs: xs2.slice(), ys: ys2.slice(), a: A, b: B };
+      $('resT2').classList.remove('hidden');
+    } else {
+      lastFit2 = null;
+      $('resT2').classList.add('hidden');
+    }
+  } else {
+    lastFit2 = null;
+    $('resT2').classList.add('hidden');
+  }
+
+  updateRecLabel1();
+  updateRecLabel2();
+  drawFit1();
+  drawFit2();
+}
+
+/* ---------- 示例数据与清空 ---------- */
+/* 示例数据与模拟装置自洽（默认参数 φ=50.00、d=40.00、t=1.000，含仪器微小抖动） */
+var DEMO_T1 = [
+  ['1.250', '17.405', '27.947'],
+  ['1.300', '16.867', '26.186'],
+  ['1.350', '16.375', '24.674']
+];
+var DEMO_T2 = ['20.883','19.316','17.986','16.867','15.903','15.113','14.358','13.734','13.146','12.649'];
+$('btnDemo1').addEventListener('click', function(){
+  for (var i = 0; i < 3; i++){
+    $('t1D' + i).value = DEMO_T1[i][0];
+    $('t1Ca' + i).value = DEMO_T1[i][1];
+    $('t1Cb' + i).value = DEMO_T1[i][2];
+  }
+  undoStack1 = [];
+  recomputeTables();
+  toast('已填入示例数据（基于默认样品参数）');
+});
+$('btnDemo2').addEventListener('click', function(){
+  for (var j = 0; j < 10; j++) $('t2C' + j).value = DEMO_T2[j];
+  undoStack2 = [];
+  recomputeTables();
+  toast('已填入示例数据（基于默认样品参数）');
+});
+$('btnClear1').addEventListener('click', function(){
+  if (!confirm('确定清空表一的所有数据吗？')) return;
+  for (var i = 0; i < 3; i++){
+    $('t1D' + i).value = '';
+    $('t1Ca' + i).value = '';
+    $('t1Cb' + i).value = '';
+  }
+  undoStack1 = [];
+  recomputeTables();
+  toast('已清空表一');
+});
+$('btnClear2').addEventListener('click', function(){
+  if (!confirm('确定清空表二的所有数据吗？')) return;
+  for (var j = 0; j < 10; j++) $('t2C' + j).value = '';
+  undoStack2 = [];
+  recomputeTables();
+  toast('已清空表二');
+});
+
+/* ---------- 拟合图绘制（白底，加号描点 + 橙色拟合线） ---------- */
+function fmtTick(v){ return String(Number(v.toPrecision(10))); }
+function drawScatter(cvId, emptyMsg, data, xlab, ylab){
+  var cv = $(cvId);
+  var sc = setupCanvas(cv), ctx = sc.ctx, W = sc.W, H = sc.H;
+  ctx.clearRect(0, 0, W, H);
+  ctx.font = '12px system-ui,sans-serif';
+  if (!data){
+    ctx.fillStyle = '#9aa3af';
+    ctx.textAlign = 'center';
+    ctx.fillText(emptyMsg, W / 2, H / 2);
+    return;
+  }
+  var mg = { l: 56, r: 16, t: 16, b: 36 };
+  var pw = W - mg.l - mg.r, ph = H - mg.t - mg.b;
+  var xmin = Infinity, xmax = -Infinity, ymin = Infinity, ymax = -Infinity, i;
+  for (i = 0; i < data.xs.length; i++){
+    if (data.xs[i] < xmin) xmin = data.xs[i];
+    if (data.xs[i] > xmax) xmax = data.xs[i];
+    if (data.ys[i] < ymin) ymin = data.ys[i];
+    if (data.ys[i] > ymax) ymax = data.ys[i];
+  }
+  var padx = Math.max((xmax - xmin) * 0.08, 1e-6);
+  var pady = Math.max((ymax - ymin) * 0.1, 1e-6);
+  xmin -= padx; xmax += padx; ymin -= pady; ymax += pady;
+  var xt = ticks(xmin, xmax, 5), yt = ticks(ymin, ymax, 5);
+  function X(x){ return mg.l + (x - xmin) / (xmax - xmin) * pw; }
+  function Y(y){ return mg.t + (1 - (y - ymin) / (ymax - ymin)) * ph; }
+  // 网格
+  ctx.strokeStyle = '#eef1f5'; ctx.lineWidth = 1;
+  for (i = 0; i < yt.length; i++){
+    ctx.beginPath(); ctx.moveTo(mg.l, Y(yt[i])); ctx.lineTo(W - mg.r, Y(yt[i])); ctx.stroke();
+  }
+  for (i = 0; i < xt.length; i++){
+    ctx.beginPath(); ctx.moveTo(X(xt[i]), mg.t); ctx.lineTo(X(xt[i]), H - mg.b); ctx.stroke();
+  }
+  // 坐标轴
+  ctx.strokeStyle = '#9aa3af';
+  ctx.beginPath();
+  ctx.moveTo(mg.l, mg.t); ctx.lineTo(mg.l, H - mg.b); ctx.lineTo(W - mg.r, H - mg.b);
+  ctx.stroke();
+  // 刻度值
+  ctx.fillStyle = '#6b7280';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (i = 0; i < xt.length; i++) ctx.fillText(fmtTick(xt[i]), X(xt[i]), H - mg.b + 6);
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (i = 0; i < yt.length; i++) ctx.fillText(fmtTick(yt[i]), mg.l - 5, Y(yt[i]));
+  // 轴标签
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText(xlab, mg.l + pw / 2, H - 4);
+  ctx.save();
+  ctx.translate(11, mg.t + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText(ylab, 0, 0);
+  ctx.restore();
+  // 拟合直线
+  ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(X(xmin), Y(data.a + data.b * xmin));
+  ctx.lineTo(X(xmax), Y(data.a + data.b * xmax));
+  ctx.stroke();
+  // 数据点（加号描点）
+  ctx.strokeStyle = '#2a78d6'; ctx.lineWidth = 1.7;
+  for (i = 0; i < data.xs.length; i++){
+    var px = X(data.xs[i]), py = Y(data.ys[i]);
+    ctx.beginPath();
+    ctx.moveTo(px - 4, py); ctx.lineTo(px + 4, py);
+    ctx.moveTo(px, py - 4); ctx.lineTo(px, py + 4);
+    ctx.stroke();
+  }
+}
+function drawFit1(){
+  drawScatter('cvFit1',
+    '记录完 3 次 C₁ / C₂ 后，此处自动绘制 1/C串-D 拟合图',
+    lastFit1, 'D / mm', '1/C串 / pF⁻¹');
+}
+function drawFit2(){
+  drawScatter('cvFit2',
+    '记录完全部 10 个电容后，此处自动绘制 C-1/D 拟合图',
+    lastFit2, '1/D / mm⁻¹', 'C / pF');
+}
+
+/* ---------- 窗口缩放时重绘（防抖） ---------- */
+var resizeTimer = null;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    drawSim(); drawMic(); drawFit1(); drawFit2();
+  }, 150);
+});
+
+/* 初始化 */
+readParams();
+recomputeTables();
+updateReadout();
+</script>
+
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>

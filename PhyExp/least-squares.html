@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="最小二乘法直线拟合：输入实验数据，自动计算斜率、截距、相关系数与不确定度，并绘制拟合图像。适用于物理实验数据处理。">
+<title>最小二乘法直线拟合 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --h2-ink:#104281; --field-bg:#ffffff; --row-line:#f1f3f6; --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --h2-ink:#8fb8e8; --field-bg:#0d1524; --row-line:#223047; --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff;padding:20px 16px 16px;text-align:center}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.75;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+main{max-width:760px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--h2-ink)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{flex:1;min-height:46px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:1.05rem;font-weight:600;border-radius:10px}
+.btn.primary:hover{background:#2069bd;color:#fff}
+.chk{display:inline-flex;gap:6px;align-items:center;font-size:.9rem;cursor:pointer}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue)}
+.axlabels{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.axlabels label{flex:1;min-width:150px;font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+table{width:100%;border-collapse:collapse}
+th{font-size:.82rem;color:var(--muted);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line);text-align:center}
+td{padding:4px 3px;text-align:center;border-bottom:1px solid var(--row-line)}
+td.idx{width:2.6em;color:var(--muted);font-size:.85rem}
+.cell input,.axlabels input{width:100%;height:42px;font-size:16px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 6px;background:var(--field-bg);color:var(--ink);font-family:inherit}
+.axlabels input{text-align:left;height:38px}
+.cell input:focus,.axlabels input:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.cell input.invalid{border-color:var(--danger);background:#fef2f2}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+details{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+summary{cursor:pointer;font-size:.88rem;color:var(--blue);-webkit-tap-highlight-color:transparent}
+textarea{width:100%;height:110px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:.92rem;font-family:ui-monospace,Consolas,monospace;margin-top:8px;background:var(--field-bg);color:var(--ink)}
+.hidden{display:none!important}
+#eq{font-family:Georgia,"Times New Roman",serif;font-size:1.28rem;text-align:center;margin:4px 0 12px;word-break:break-all;line-height:1.4}
+.stats td{padding:8px 6px;font-size:.95rem}
+.stats td:first-child{color:var(--muted);text-align:left;width:9em;white-space:nowrap}
+.stats td:last-child{text-align:left;font-family:"Cambria Math",Georgia,serif}
+.hint{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+.chartbox{width:100%}
+canvas{width:100%;display:block;border:1px solid var(--line);border-radius:8px;background:#fff}
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+footer{max-width:760px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+footer details{border:0;padding-top:0}
+footer li{margin:4px 0}
+/* 公式排版：优先使用浏览器原生 MathML（LaTeX 级效果），老浏览器自动回退纯文本 */
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.mathlist li{margin:11px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+@media print{
+  header{background:var(--blue-dark)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --h2-ink:#104281; --field-bg:#fff; --row-line:#f1f3f6; --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn noprint" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>最小二乘法直线拟合</h1>
+  <p class="en">Method of Least Squares</p>
+  <p>输入实验数据，自动计算斜率 k、截距 b 并绘制拟合图</p>
+</header>
+
+<noscript><p style="text-align:center;color:#dc2626">本工具需要在浏览器中启用 JavaScript 才能运行。</p></noscript>
+
+<main>
+  <!-- ======== 数据输入 ======== -->
+  <section class="card">
+    <h2>一、输入实验数据</h2>
+    <div class="controls noprint">
+      <span style="font-size:.88rem;color:var(--muted)">组数</span>
+      <button type="button" class="btn" id="btnAddRow">＋ 加一组</button>
+      <button type="button" class="btn" id="btnDelRow">－ 减一组</button>
+    </div>
+    <div class="axlabels noprint">
+      <label>横轴名称（选填）<input type="text" id="xLabel" placeholder="例如：I / mA"></label>
+      <label>纵轴名称（选填）<input type="text" id="yLabel" placeholder="例如：U / V"></label>
+    </div>
+    <table id="dataTable">
+      <thead><tr><th>#</th><th>x（自变量）</th><th>y（因变量）</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+
+    <details class="noprint">
+      <summary>批量粘贴导入（支持从 Excel / WPS 直接复制两列数字）</summary>
+      <textarea id="pasteArea" placeholder="每行两组数，用空格、逗号或制表符分隔：
+2.0    0.31
+4.0    0.59
+6.0    0.90
+也支持科学记数法，如 1.05e-3"></textarea>
+      <div class="btnrow">
+        <button type="button" class="btn" id="btnImport">导入到表格</button>
+        <button type="button" class="btn" id="btnDemo">载入示例数据</button>
+        <button type="button" class="btn" id="btnClear">清空全部</button>
+      </div>
+    </details>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnCalc">计算并绘图</button>
+    </div>
+    <label class="chk noprint" style="margin-top:10px">
+      <input type="checkbox" id="forceZero"> 强制过原点（拟合 y = k·x，截距固定为 0）
+    </label>
+  </section>
+
+  <!-- ======== 计算结果 ======== -->
+  <section class="card hidden" id="resultCard">
+    <h2>二、拟合结果</h2>
+    <p id="eq"></p>
+    <table class="stats"><tbody id="statsBody"></tbody></table>
+    <p class="hint">u(k)、u(b) 为斜率与截距的 A 类标准不确定度；r 为相关系数，|r| 越接近 1 说明线性越好。不确定度至多保留两位有效数字（四舍六入五凑偶），测量值末位与不确定度对齐；结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 0.149242 ± 0.00136 记作 0.14924 ± 0.0014，即 0.14924(14)、4.6170 ± 0.0006 记作 4.6170(6)；U 不小于 1 时括号内原样保留，如 3.1(1.2)。</p>
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnCopy">复制结果文字</button>
+      <button type="button" class="btn" onclick="window.print()">打印 / 存为 PDF</button>
+    </div>
+  </section>
+
+  <!-- ======== 拟合图像 ======== -->
+  <section class="card hidden" id="chartCard">
+    <h2>三、拟合图像</h2>
+    <div class="chartbox"><canvas id="cv"></canvas></div>
+    <p class="hint noprint">提示：图片也可在图上长按（手机）或右键（电脑）保存。</p>
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnSave">下载图片 (PNG)</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">拟合直线：</span>
+        <div class="mathwrap"><math display="block"><mi>k</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∑</mo><msub><mi>y</mi><mi>i</mi></msub></mrow><mrow><mi>n</mi><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></mfrac><mtext>，&#8195;</mtext><mi>b</mi><mo>=</mo><mover accent="true"><mi>y</mi><mo>&#175;</mo></mover><mo>−</mo><mi>k</mi><mover accent="true"><mi>x</mi><mo>&#175;</mo></mover></math></div>
+      </li>
+      <li><span class="flabel">相关系数：</span>
+        <div class="mathwrap"><math display="block"><mi>r</mi><mo>=</mo><mfrac><mrow><mi>n</mi><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∑</mo><msub><mi>y</mi><mi>i</mi></msub></mrow><msqrt><mrow><mo>(</mo><mi>n</mi><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>)</mo><mo>(</mo><mi>n</mi><mo>∑</mo><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>)</mo></mrow></msqrt></mfrac></math></div>
+      </li>
+      <li><span class="flabel">决定系数：</span>
+        <div class="mathwrap"><math display="block"><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><msup><mi>r</mi><mn>2</mn></msup><mo>=</mo><mfrac><mrow><msup><mrow><mo>(</mo><mi>n</mi><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∑</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow><mrow><mo>(</mo><mi>n</mi><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>)</mo><mo>(</mo><mi>n</mi><mo>∑</mo><msubsup><mi>y</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>)</mo></mrow></mfrac></math></div>
+      </li>
+      <li><span class="flabel">残差标准差：</span>
+        <div class="mathwrap"><math display="block"><mi>s</mi><mo>=</mo><msqrt><mfrac><mrow><mo>∑</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>−</mo><mi>k</mi><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>b</mi><mo>)</mo></mrow><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></mfrac></msqrt></math></div>
+      </li>
+      <li><span class="flabel">A 类不确定度：</span>
+        <div class="mathwrap"><math display="block"><mi>u</mi><mrow><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mo>=</mo><mi>s</mi><msqrt><mfrac><mi>n</mi><mrow><mi>n</mi><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></mfrac></msqrt></math></div>
+        <div class="mathwrap"><math display="block"><mi>u</mi><mrow><mo>(</mo><mi>b</mi><mo>)</mo></mrow><mo>=</mo><mi>s</mi><msqrt><mfrac><mrow><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><mi>n</mi><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup><mo>−</mo><msup><mrow><mo>(</mo><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></mfrac></msqrt></math></div>
+      </li>
+      <li><span class="flabel">强制过原点时：</span>
+        <div class="mathwrap"><math display="block"><mi>k</mi><mo>=</mo><mfrac><mrow><mo>∑</mo><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub></mrow><mrow><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><mtext>，&#8195;</mtext><mi>u</mi><mrow><mo>(</mo><mi>k</mi><mo>)</mo></mrow><mo>=</mo><mi>s</mi><msqrt><mfrac><mn>1</mn><mrow><mo>∑</mo><msubsup><mi>x</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac></msqrt><mtext>（自由度取</mtext><mi>n</mi><mo>−</mo><mn>1</mn><mtext>）</mtext></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>斜率 k = [ nΣxᵢyᵢ − Σxᵢ Σyᵢ ] / [ nΣxᵢ² − (Σxᵢ)² ]，截距 b = ȳ − k·x̄</li>
+      <li>相关系数 r = [ nΣxᵢyᵢ − Σxᵢ Σyᵢ ] / √[ ( nΣxᵢ² − (Σxᵢ)² )( nΣyᵢ² − (Σyᵢ)² ) ]</li>
+      <li>决定系数 R² = r² = [ nΣxᵢyᵢ − Σxᵢ Σyᵢ ]² / { ( nΣxᵢ² − (Σxᵢ)² )( nΣyᵢ² − (Σyᵢ)² ) }</li>
+      <li>残差标准差 s = √{ Σ(yᵢ − k·xᵢ − b)² / (n − 2) }</li>
+      <li>u(k) = s·√[ n / (nΣxᵢ² − (Σxᵢ)²) ]；u(b) = s·√[ Σxᵢ² / (nΣxᵢ² − (Σxᵢ)²) ]</li>
+      <li>强制过原点时：k = Σxᵢyᵢ / Σxᵢ²，u(k) = s·√(1/Σxᵢ²)，自由度取 n − 1</li>
+    </ul>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 纯计算部分 ===================== */
+
+// 解析一个数字字符串（允许科学记数法）；非法返回 null
+function parseNum(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!str) return null;
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(str)) return null;
+  var v = parseFloat(str);
+  return Number.isFinite(v) ? v : null;
+}
+
+// 最小二乘法拟合。xs、ys 为等长数值数组；forceZero 为 true 时强制 b=0。
+// 返回 {n,k,b,r,r2,s,uk,ub}；数据不满足条件时抛出中文错误。
+function computeFit(xs, ys, forceZero){
+  var n = xs.length;
+  if (ys.length !== n) throw new Error('x 与 y 数据组数不一致');
+  if (n < 3) throw new Error('有效数据至少需要 3 组');
+
+  var Sx=0, Sy=0, Sxx=0, Syy=0, Sxy=0, i, x, y;
+  for (i=0;i<n;i++){ x=xs[i]; y=ys[i]; Sx+=x; Sy+=y; Sxx+=x*x; Syy+=y*y; Sxy+=x*y; }
+
+  var k, b, dof, D = n*Sxx - Sx*Sx;
+  if (forceZero){
+    if (Sxx === 0) throw new Error('所有 x 均为 0，无法拟合');
+    k = Sxy/Sxx; b = 0; dof = n-1;
+  } else {
+    if (D === 0) throw new Error('所有 x 都相同，无法确定一条直线');
+    k = (n*Sxy - Sx*Sy)/D;
+    b = (Sxx*Sy - Sx*Sxy)/D;
+    dof = n-2;
+  }
+
+  var ssRes=0, d;
+  for (i=0;i<n;i++){ d = ys[i] - (k*xs[i] + b); ssRes += d*d; }
+  var s2 = ssRes/dof;
+
+  var uk = forceZero ? Math.sqrt(s2/Sxx) : Math.sqrt(s2*n/D);
+  var ub = forceZero ? null       : Math.sqrt(s2*Sxx/D);
+
+  var den = Math.sqrt((n*Sxx - Sx*Sx)*(n*Syy - Sy*Sy));
+  var r = forceZero ? (Syy===0 ? NaN : Sxy/Math.sqrt(Sxx*Syy))
+                    : (den===0 ? NaN : (n*Sxy - Sx*Sy)/den);
+
+  return { n:n, k:k, b:b, r:r, r2:r*r, s:Math.sqrt(s2), uk:uk, ub:ub };
+}
+
+// 按“有效数字”格式化；过大/过小自动转为 e 记数法
+function fmtSig(v, sig){
+  if (!Number.isFinite(v)) return '—';
+  if (v === 0) return '0';
+  var abs = Math.abs(v);
+  var s;
+  if (abs >= 1e6 || abs < 1e-4){
+    s = v.toExponential(Math.max(0, sig-1));
+    var parts = s.split('e');
+    var m = parts[0].replace(/\.?0+$/, '');
+    return m + 'e' + parts[1];
+  }
+  s = v.toPrecision(sig);
+  if (s.indexOf('.') >= 0 && s.indexOf('e') < 0){
+    s = s.replace(/0+$/, '').replace(/\.$/, '');
+  }
+  return s;
+}
+
+// 新标准记法 X(U)：U 小于 1 时去掉「0.」与其后的前导零，如 0.30 → 30、0.0006 → 6；
+// U 不小于 1 时原样保留，如 1.2 → 1.2
+function uStd(u){
+  var s = String(u);
+  if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
+  return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
+}
+
+// 四舍六入五凑偶的有效数字舍入
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return 0;
+  if (x === 0) return 0;
+  var sg = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  x = Number(x.toPrecision(15));              // 消除二进制表示噪声
+  var e = Math.floor(Math.log10(x));
+  var scale = Math.pow(10, n - 1 - e);
+  var v = x * scale;
+  var f = Math.floor(v), d = v - f, r;
+  if (Math.abs(d - 0.5) < 1e-9) r = (f % 2 === 0) ? f : f + 1;   // 恰为 5：凑偶
+  else if (d > 0.5) r = f + 1;
+  else r = f;                                                     // 四舍六入
+  return sg * r / scale;
+}
+
+// 不确定度保留至多 2 位有效数字（四舍六入五凑偶），且小数位数不超过 maxDp（与测量值末位对齐）；
+// 末尾多余的 0 略去。如 fmtU2(0.00136,5) = "0.0014"、fmtU2(0.047,2) = "0.05"
+function fmtU2(u, maxDp){
+  if (!Number.isFinite(u)) return '—';
+  if (u === 0) return '0';
+  var abs = Math.abs(u);
+  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
+  var e = Math.floor(Math.log10(abs));
+  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
+  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
+  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 测量值末位与不确定度的末位对齐：按 U 的三位有效数字参考显示取小数位数
+// （如 U = 0.00136 显示 "0.00136" → X 保留 5 位小数：0.149242 → "0.14924"）
+function xAligned(x, uStr3){
+  if (!Number.isFinite(x)) return fmtSig(x, 6);
+  var dot = uStr3.indexOf('.');
+  if (dot < 0 || uStr3.indexOf('e') >= 0 || Math.abs(x) >= 1e6) return fmtSig(x, 6);
+  return x.toFixed(uStr3.length - dot - 1);
+}
+
+// 拟合方程字符串，如 "y = 0.149242 x + 0.003333"
+function eqStr(res){
+  var s = 'y = ' + fmtSig(res.k, 6) + ' x';
+  if (res.ub !== null) s += (res.b < 0 ? ' − ' : ' + ') + fmtSig(Math.abs(res.b), 6);
+  return s;
+}
+
+// Heckbert 美观刻度
+function niceNum(range, round){
+  if (!(range > 0)) return 1;
+  var exp = Math.floor(Math.log(range)/Math.LN10);
+  var f = range/Math.pow(10, exp);
+  var nf;
+  if (round) nf = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+  else       nf = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+  return nf*Math.pow(10, exp);
+}
+function ticks(lo, hi, want){
+  var step = niceNum((hi-lo)/(want-1), true);
+  var out = [], v = Math.ceil(lo/step)*step;
+  for (; v <= hi + step*1e-6; v += step) out.push(Math.round(v/step)*step === 0 ? 0 : v);
+  return out;
+}
+
+/*__CALC_END__*/
+
+/* ===================== DOM 交互部分 ===================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var tbody = $('tbody'), toastEl = $('toast'), cv = $('cv');
+var toastTimer = null;
+var lastPlot = null;   // 最近一次成功绘制的数据，用于窗口缩放时重绘
+
+/* MathML 支持检测：支持的浏览器用原生数学排版，否则显示纯文本公式回退 */
+(function(){
+  var ok = false;
+  try{
+    var probe = document.createElement('div');
+    var m  = document.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+    var ms = document.createElementNS('http://www.w3.org/1998/Math/MathML','mspace');
+    ms.setAttribute('width','60px');
+    m.appendChild(ms); probe.appendChild(m);
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(probe);
+    ok = m.getBoundingClientRect().width > 40;
+    document.body.removeChild(probe);
+  }catch(e){ ok = false; }
+  document.documentElement.classList.add(ok ? 'has-mathml' : 'no-mathml');
+})();
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+}
+
+/* ---------- 表格行管理 ---------- */
+function makeRow(idx, xv, yv){
+  var tr = document.createElement('tr');
+  var c1 = '<td class="idx">' + idx + '</td>';
+  var cx = '<td class="cell"><input type="text" inputmode="decimal" autocomplete="off" value="' + (xv!=null?String(xv):'') + '" aria-label="第' + idx + '组 x 值"></td>';
+  var cy = '<td class="cell"><input type="text" inputmode="decimal" autocomplete="off" value="' + (yv!=null?String(yv):'') + '" aria-label="第' + idx + '组 y 值"></td>';
+  tr.innerHTML = c1 + cx + cy;
+  return tr;
+}
+function getRowCount(){ return tbody.children.length; }
+function setRowCount(n){
+  n = Math.max(3, Math.min(50, n));
+  // 保留已填的值
+  var old = [];
+  Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function(tr){
+    var ins = tr.querySelectorAll('input');
+    old.push([ins[0].value, ins[1].value]);
+  });
+  tbody.innerHTML = '';
+  for (var i=0;i<n;i++){
+    var v = i < old.length ? old[i] : ['', ''];
+    tbody.appendChild(makeRow(i+1, v[0]===''?null:v[0], v[1]===''?null:v[1]));
+  }
+}
+
+$('btnAddRow').addEventListener('click', function(){ setRowCount(getRowCount()+1); });
+$('btnDelRow').addEventListener('click', function(){
+  if (getRowCount() <= 3){ toast('至少保留 3 组数据'); return; }
+  setRowCount(getRowCount()-1);
+});
+
+// 用户修改某格后清除其错误标红
+tbody.addEventListener('input', function(e){
+  if (e.target && e.target.classList.contains('invalid')) e.target.classList.remove('invalid');
+});
+
+/* ---------- 收集并校验数据 ---------- */
+function collectData(){
+  var xs=[], ys=[], bad=[];
+  var rows = tbody.querySelectorAll('tr');
+  Array.prototype.forEach.call(rows, function(tr, i){
+    var ins = tr.querySelectorAll('input');
+    var sx = ins[0].value.trim(), sy = ins[1].value.trim();
+    var x = parseNum(sx), y = parseNum(sy);
+    if (sx === '' && sy === '') return;          // 整行为空则跳过
+    if (x === null){ ins[0].classList.add('invalid'); bad.push('第'+(i+1)+'组 x'); }
+    else xs.push(x);
+    if (y === null){ ins[1].classList.add('invalid'); bad.push('第'+(i+1)+'组 y'); }
+    else ys.push(y);
+  });
+  if (bad.length) throw new Error(bad.join('、') + ' 不是有效数字，请检查红框内容');
+  if (xs.length !== ys.length) throw new Error('x 与 y 的有效个数不一致，请成对填写');
+  return { xs:xs, ys:ys };
+}
+
+/* ---------- 结果展示 ---------- */
+function showResults(res){
+  $('eq').textContent = eqStr(res);
+  var rowsHtml = '';
+  rowsHtml += '<tr><td>数据组数 n</td><td>' + res.n + '</td></tr>';
+  var uk3 = (res.uk != null) ? fmtSig(res.uk,3) : null;
+  var ub3 = (res.ub !== null) ? fmtSig(res.ub,3) : null;
+  var kStr = uk3 ? xAligned(res.k, uk3) : fmtSig(res.k,6);
+  var bStr = ub3 ? xAligned(res.b, ub3) : fmtSig(res.b,6);
+  var ukStr = (res.uk != null) ? fmtU2(res.uk, uk3.length - uk3.indexOf('.') - 1) : null;
+  var ubStr = (res.ub !== null) ? fmtU2(res.ub, ub3.length - ub3.indexOf('.') - 1) : null;
+  rowsHtml += '<tr><td>斜率 k</td><td>' + kStr +
+              (ukStr ? ' ± ' + ukStr + '，即 ' + kStr + '(' + uStd(ukStr) + ')' : '') + '</td></tr>';
+  if (res.ub !== null){
+    rowsHtml += '<tr><td>截距 b</td><td>' + bStr + ' ± ' + ubStr +
+                '，即 ' + bStr + '(' + uStd(ubStr) + ')</td></tr>';
+  } else {
+    rowsHtml += '<tr><td>截距 b</td><td>0（强制过原点）</td></tr>';
+  }
+  rowsHtml += '<tr><td>相关系数 r</td><td>' + fmtSig(res.r,6) + '</td></tr>';
+  rowsHtml += '<tr><td>决定系数 R²</td><td>' + fmtSig(res.r2,6) + '</td></tr>';
+  rowsHtml += '<tr><td>残差标准差 s</td><td>' + fmtSig(res.s,6) + '</td></tr>';
+  $('statsBody').innerHTML = rowsHtml;
+  $('resultCard').classList.remove('hidden');
+}
+
+function resultText(res){
+  var t = '最小二乘法直线拟合结果\n';
+  t += '拟合方程: ' + eqStr(res).replace('−','-') + '\n';
+  var uk3 = (res.uk != null) ? fmtSig(res.uk,3) : null;
+  var ub3 = (res.ub !== null) ? fmtSig(res.ub,3) : null;
+  var kStr = uk3 ? xAligned(res.k, uk3) : fmtSig(res.k,6);
+  var bStr = ub3 ? xAligned(res.b, ub3) : fmtSig(res.b,6);
+  var ukStr = (res.uk != null) ? fmtU2(res.uk, uk3.length - uk3.indexOf('.') - 1) : null;
+  var ubStr = (res.ub !== null) ? fmtU2(res.ub, ub3.length - ub3.indexOf('.') - 1) : null;
+  t += '斜率 k = ' + kStr +
+       (ukStr ? ' ± ' + ukStr + '，即 ' + kStr + '(' + uStd(ukStr) + ')' : '') + '\n';
+  t += res.ub !== null
+     ? '截距 b = ' + bStr + ' ± ' + ubStr + '，即 ' + bStr + '(' + uStd(ubStr) + ')\n'
+     : '截距 b = 0（过原点拟合）\n';
+  t += '相关系数 r = ' + fmtSig(res.r,6) + '\n';
+  t += 'R² = ' + fmtSig(res.r2,6) + '\n';
+  t += '数据组数 n = ' + res.n;
+  return t;
+}
+
+/* ---------- 绘图 ---------- */
+function drawChart(xs, ys, res){
+  var xLabel = $('xLabel').value.trim() || 'x';
+  var yLabel = $('yLabel').value.trim() || 'y';
+
+  var dpr = window.devicePixelRatio || 1;
+  var W = cv.parentElement.clientWidth || 600;
+  var H = Math.max(260, Math.round(W*0.76));
+  cv.style.height = H + 'px';
+  cv.width  = Math.round(W*dpr);
+  cv.height = Math.round(H*dpr);
+  var ctx = cv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,W,H);
+
+  var i, v;
+  var xmin=Infinity,xmax=-Infinity,ymin=Infinity,ymax=-Infinity;
+  for(i=0;i<xs.length;i++){
+    v=xs[i]; if(v<xmin)xmin=v; if(v>xmax)xmax=v;
+    v=ys[i]; if(v<ymin)ymin=v; if(v>ymax)ymax=v;
+  }
+  // 把拟合直线两端纳入 y 范围
+  var yl = res.k*xmin + res.b, yr2_ = res.k*xmax + res.b;
+  if (yl<ymin)ymin=yl; if (yl>ymax)ymax=yl;
+  if (yr2_<ymin)ymin=yr2_; if (yr2_>ymax)ymax=yr2_;
+
+  var px=(xmax-xmin)||Math.abs(xmin)||1, py=(ymax-ymin)||Math.abs(ymin)||1;
+  xmin-=px*0.07; xmax+=px*0.07; ymin-=py*0.07; ymax+=py*0.07;
+
+  // 顶部预留一条边距带放方程、r 值与图例，使它们永不与图内线条重叠
+  var M={l:58,r:14,b:44};
+  M.t=(W-M.l-M.r>300)?64:90;   // 窄屏时边距带更高，图例单独一行
+  var pw=W-M.l-M.r, ph=H-M.t-M.b;
+  function X(x){ return M.l + (x-xmin)/(xmax-xmin)*pw; }
+  function Y(y){ return M.t + (1-(y-ymin)/(ymax-ymin))*ph; }
+
+  // 背景网格
+  ctx.strokeStyle='#e8eaee'; ctx.lineWidth=1;
+  var xt=ticks(xmin,xmax,6), yt=ticks(ymin,ymax,5);
+  ctx.beginPath();
+  for(i=0;i<xt.length;i++){ v=X(xt[i]); ctx.moveTo(v,M.t); ctx.lineTo(v,M.t+ph); }
+  for(i=0;i<yt.length;i++){ v=Y(yt[i]); ctx.moveTo(M.l,v); ctx.lineTo(M.l+pw,v); }
+  ctx.stroke();
+
+  // 坐标轴（带箭头）
+  ctx.strokeStyle='#374151'; ctx.fillStyle='#374151'; ctx.lineWidth=1.4;
+  ctx.beginPath();
+  ctx.moveTo(M.l, M.t-6); ctx.lineTo(M.l, M.t+ph); ctx.lineTo(M.l+pw, M.t+ph);
+  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(M.l,   M.t-6); ctx.lineTo(M.l-4,   M.t+1);  ctx.lineTo(M.l+4,   M.t+1);  ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(M.l+pw+6, M.t+ph); ctx.lineTo(M.l+pw-1, M.t+ph-4); ctx.lineTo(M.l+pw-1, M.t+ph+4); ctx.closePath(); ctx.fill();
+
+  // 刻度与刻度值
+  ctx.font='11px system-ui, sans-serif';
+  ctx.fillStyle='#111'; ctx.strokeStyle='#374151'; ctx.lineWidth=1;
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  for(i=0;i<xt.length;i++){
+    var txp=X(xt[i]);
+    ctx.beginPath(); ctx.moveTo(txp,M.t+ph); ctx.lineTo(txp,M.t+ph+5); ctx.stroke();
+    ctx.fillText(fmtSig(xt[i],4), txp, M.t+ph+8);
+  }
+  ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(i=0;i<yt.length;i++){
+    var typ=Y(yt[i]);
+    ctx.beginPath(); ctx.moveTo(M.l-5,typ); ctx.lineTo(M.l,typ); ctx.stroke();
+    ctx.fillText(fmtSig(yt[i],4), M.l-8, typ);
+  }
+
+  // 轴名称
+  ctx.font='13px system-ui, sans-serif'; ctx.fillStyle='#374151';
+  ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+  ctx.fillText(xLabel, M.l+pw/2, H-8);
+  ctx.save();
+  ctx.translate(13, M.t+ph/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0);
+  ctx.restore();
+
+  // 拟合直线（裁剪到绘图区）
+  ctx.save();
+  ctx.beginPath(); ctx.rect(M.l,M.t,pw,ph); ctx.clip();
+  ctx.strokeStyle='#e8590c'; ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(X(xmin), Y(res.k*xmin+res.b));
+  ctx.lineTo(X(xmax), Y(res.k*xmax+res.b));
+  ctx.stroke();
+  ctx.restore();
+
+  // 数据点（叉号 ×）
+  ctx.strokeStyle='#2a78d6'; ctx.lineWidth=2; ctx.lineCap='round';
+  var m=5;
+  for(i=0;i<xs.length;i++){
+    var cx=X(xs[i]), cy=Y(ys[i]);
+    ctx.beginPath();
+    ctx.moveTo(cx-m,cy-m); ctx.lineTo(cx+m,cy+m);
+    ctx.moveTo(cx-m,cy+m); ctx.lineTo(cx+m,cy-m);
+    ctx.stroke();
+  }
+
+  // 图例：绘图区上方边距带右侧，按实测文字宽度排布
+  ctx.font='12px system-ui, sans-serif';
+  ctx.textAlign='left'; ctx.textBaseline='middle';
+  var wFit=ctx.measureText('拟合直线').width,
+      wData=ctx.measureText('实验数据').width,
+      segW=26, markR=5, gap=6, sep=18;
+  var legendW=segW+gap+wFit+sep+markR*2+gap+wData;
+  var rowY=(pw>300)? 38 : 62;   // 与 r 值同行；窄屏另起一行
+  var x0=M.l+pw-legendW;
+  ctx.strokeStyle='#e8590c'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(x0,rowY); ctx.lineTo(x0+segW,rowY); ctx.stroke();
+  ctx.fillStyle='#111';
+  ctx.fillText('拟合直线', x0+segW+gap, rowY);
+  var xm=x0+segW+gap+wFit+sep+markR;
+  ctx.strokeStyle='#2a78d6';   // 叉号样例
+  ctx.beginPath();
+  ctx.moveTo(xm-markR,rowY-markR); ctx.lineTo(xm+markR,rowY+markR);
+  ctx.moveTo(xm-markR,rowY+markR); ctx.lineTo(xm+markR,rowY-markR);
+  ctx.stroke();
+  ctx.fillStyle='#111';
+  ctx.fillText('实验数据', xm+markR+gap, rowY);
+
+  // 方程与相关系数（绘图区上方边距带内）
+  ctx.textAlign='left'; ctx.textBaseline='top';
+  ctx.font='bold 13px Georgia, serif'; ctx.fillStyle='#111';
+  ctx.fillText(eqStr(res), M.l, 12);
+  ctx.font='12px Georgia, serif'; ctx.fillStyle='#555';
+  ctx.fillText('r = '+fmtSig(res.r,6), M.l, 32);
+
+  lastPlot = { xs:xs.slice(), ys:ys.slice(), res:res };
+  $('chartCard').classList.remove('hidden');
+}
+
+/* ---------- 主流程 ---------- */
+function runCalc(scrollToResult){
+  try{
+    var data = collectData();
+    var res = computeFit(data.xs, data.ys, $('forceZero').checked);
+    showResults(res);
+    drawChart(data.xs, data.ys, res);
+    if (scrollToResult) $('resultCard').scrollIntoView({behavior:'smooth', block:'start'});
+  }catch(err){
+    $('resultCard').classList.add('hidden');
+    $('chartCard').classList.add('hidden');
+    lastPlot = null;
+    toast(err.message || '计算出错，请检查输入');
+  }
+}
+
+$('btnCalc').addEventListener('click', function(){ runCalc(true); });
+
+$('btnClear').addEventListener('click', function(){
+  if (!confirm('确定清空所有数据吗？')) return;
+  Array.prototype.forEach.call(tbody.querySelectorAll('input'), function(inp){ inp.value=''; });
+  $('resultCard').classList.add('hidden');
+  $('chartCard').classList.add('hidden');
+  lastPlot = null;
+  toast('已清空');
+});
+
+/* 示例数据：伏安法测电阻 U–I 关系（10 组） */
+var DEMO_X = ['2.0','4.0','6.0','8.0','10.0','12.0','14.0','16.0','18.0','20.0'];
+var DEMO_Y = ['0.32','0.58','0.91','1.17','1.52','1.78','2.10','2.37','2.73','2.97'];
+$('btnDemo').addEventListener('click', function(){
+  setRowCount(DEMO_X.length);
+  var rows = tbody.querySelectorAll('tr');
+  for (var i=0;i<rows.length;i++){
+    var ins = rows[i].querySelectorAll('input');
+    ins[0].value = DEMO_X[i]; ins[1].value = DEMO_Y[i];
+  }
+  $('xLabel').value = 'I / mA'; $('yLabel').value = 'U / V';
+  toast('已载入示例数据，点击「计算并绘图」试试');
+});
+
+/* 批量导入 */
+$('btnImport').addEventListener('click', function(){
+  var lines = $('pasteArea').value.split(/\r?\n/);
+  var pairs = [];
+  var numRe = /[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?/g;
+  for (var i=0;i<lines.length;i++){
+    var line = lines[i].trim();
+    if (!line) continue;
+    var m = line.match(numRe);
+    if (m && m.length >= 2) pairs.push([parseNum(m[0]), parseNum(m[1])]);
+  }
+  pairs = pairs.filter(function(p){ return p[0]!==null && p[1]!==null; });
+  if (!pairs.length){ toast('未识别到有效数据，请每行放两组数'); return; }
+  if (pairs.length > 50){ toast('最多支持 50 组，已只取前 50 组'); pairs = pairs.slice(0,50); }
+  setRowCount(pairs.length);
+  var rows = tbody.querySelectorAll('tr');
+  for (var j=0;j<rows.length;j++){
+    var ins = rows[j].querySelectorAll('input');
+    ins[0].value = String(pairs[j][0]); ins[1].value = String(pairs[j][1]);
+  }
+  toast('成功导入 ' + pairs.length + ' 组数据');
+});
+
+/* 复制结果 */
+$('btnCopy').addEventListener('click', function(){
+  if (!lastPlot){ toast('请先完成一次计算'); return; }
+  var text = resultText(lastPlot.res);
+  function fallback(){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('结果已复制'); }
+    catch(e){ toast('复制失败，请手动选择文字复制'); }
+    document.body.removeChild(ta);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast('结果已复制'); }, fallback);
+  } else fallback();
+});
+
+/* 保存图片 */
+$('btnSave').addEventListener('click', function(){
+  if (!lastPlot){ toast('请先完成一次计算'); return; }
+  var a = document.createElement('a');
+  a.download = '最小二乘法拟合结果.png';
+  a.href = cv.toDataURL('image/png');
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  toast('图片已生成，若未自动保存可在图上长按保存');
+});
+
+/* 窗口缩放时重绘（防抖） */
+var resizeTimer=null;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    if (lastPlot) drawChart(lastPlot.xs, lastPlot.ys, lastPlot.res);
+  }, 200);
+});
+
+/* 初始化：默认 10 行 */
+setRowCount(10);
+</script>
+
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>

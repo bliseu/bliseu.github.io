@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="受迫振动的研究：自动处理实验数据，绘制可取点的 T₀-θ 曲线、幅频特性与相频特性曲线。">
+<title>受迫振动的研究 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --field-bg:#ffffff; --th-bg:#eef3fa; --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --blue-dark:#8fb8e8; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --field-bg:#0d1524; --th-bg:#1c2a44; --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,#104281,#2a78d6);color:#fff;padding:20px 16px 16px;text-align:center}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.75;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+main{max-width:780px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--blue-dark)}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-dark)}
+.params{display:flex;flex-wrap:wrap;gap:12px}
+.params label{flex:1;min-width:180px;font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.params input{width:100%;height:40px;font-size:14px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 6px;background:var(--field-bg);color:var(--ink);font-family:inherit}
+.params input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.params input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.hidden{display:none!important}
+.reslist{margin:12px 0 0;border-top:1px dashed var(--line);padding-top:10px}
+.rline{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding:3px 0}
+.rlab{color:var(--muted)}
+.rval{font-family:"Cambria Math",Georgia,serif;color:var(--ink);text-align:right;white-space:nowrap}
+.rval.hl{color:var(--blue-dark);font-weight:700}
+.rwarn{color:var(--danger);font-size:.86rem;margin:10px 0 0}
+.twrap{overflow-x:auto}
+table.sum{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:10px;min-width:640px}
+.sum th,.sum td{border:1px solid var(--line);padding:7px 6px;text-align:center;line-height:1.45}
+.sum th{background:var(--th-bg);color:var(--blue-dark);font-weight:600}
+.sum .num{font-family:"Cambria Math",Georgia,serif;white-space:nowrap}
+.sum input{width:100%;height:34px;font-size:14px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit;min-width:64px}
+.sum input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.sum input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.graph{width:100%;height:300px;margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;touch-action:manipulation}
+.gcap{text-align:center;font-size:.82rem;color:var(--muted);margin-top:4px}
+.gread{font-size:.85rem;color:var(--blue-dark);margin-top:6px;min-height:1.2em;font-family:"Cambria Math",Georgia,serif}
+.gpair{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 右上角主题切换按钮（自动/浅色/深色，与主页一致） */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.theme-btn{display:none!important}}
+footer{max-width:780px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+footer details{border:0;padding-top:0}
+footer li{margin:11px 0;list-style:none}
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+@media (min-width:720px){.gpair{flex-direction:row}.gpair>div{flex:1;min-width:0}}
+@media print{
+  header{background:#104281!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --field-bg:#fff; --th-bg:#eef3fa; --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>受迫振动的研究</h1>
+  <p class="en">Forced Vibration</p>
+  <p>借助波尔共振仪处理实验数据：绘 T₀-θ 曲线、幅频特性与相频特性曲线</p>
+</header>
+
+<main>
+
+  <!-- ======== 第一部分 ======== -->
+  <section class="card">
+    <h2>一、摆轮振幅 θ 与振动频率 ω₀ 的对应关系</h2>
+    <p class="hint">自由振荡（阻尼 0）下，摆轮由 140°–160° 摆动到小于 50°，逐组记录振幅 θ 与对应的固有周期 T₀。ω₀ = 2π/T₀。下方 T₀-θ 曲线支持鼠标移动与点击取点，供第三部分查 T₀ 使用。</p>
+    <div class="twrap">
+      <table class="sum" id="tbl1">
+        <thead>
+          <tr><th>振幅 <i>θ</i> / °</th><th><i>T</i><sub>0</sub> / s</th><th><i>ω</i><sub>0</sub> = 2π/<i>T</i><sub>0</sub> / s⁻¹</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><input type="text" id="A1" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B1" inputmode="decimal" autocomplete="off"></td><td class="num" id="O1">—</td></tr>
+          <tr><td><input type="text" id="A2" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B2" inputmode="decimal" autocomplete="off"></td><td class="num" id="O2">—</td></tr>
+          <tr><td><input type="text" id="A3" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B3" inputmode="decimal" autocomplete="off"></td><td class="num" id="O3">—</td></tr>
+          <tr><td><input type="text" id="A4" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B4" inputmode="decimal" autocomplete="off"></td><td class="num" id="O4">—</td></tr>
+          <tr><td><input type="text" id="A5" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B5" inputmode="decimal" autocomplete="off"></td><td class="num" id="O5">—</td></tr>
+          <tr><td><input type="text" id="A6" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B6" inputmode="decimal" autocomplete="off"></td><td class="num" id="O6">—</td></tr>
+          <tr><td><input type="text" id="A7" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B7" inputmode="decimal" autocomplete="off"></td><td class="num" id="O7">—</td></tr>
+          <tr><td><input type="text" id="A8" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="B8" inputmode="decimal" autocomplete="off"></td><td class="num" id="O8">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <canvas id="cvT0" class="graph" aria-label="T₀-θ 曲线"></canvas>
+    <div class="gread" id="cvT0out"></div>
+    <p class="rwarn hidden" id="wT0">至少输入两组振幅与周期数据后才能绘制 T₀-θ 曲线。</p>
+  </section>
+
+  <!-- ======== 第二部分 ======== -->
+  <section class="card">
+    <h2>二、测定阻尼振动的阻尼系数 β</h2>
+    <div class="params">
+      <label><span>阻尼振动周期 10<i>T</i> / s</span><input type="text" id="dT10" inputmode="decimal" autocomplete="off"></label>
+    </div>
+    <p class="hint">仪器在阻尼振荡时显示 10 个周期的总时间，页面自动换算单周期 <i>T</i>。摆轮每周期振幅按 θ<sub>0</sub>、θ<sub>1</sub>…θ<sub>9</sub> 记录，由相隔 5 个周期的振幅比求 5β<i>T</i> = ln(θ<sub>i</sub>/θ<sub>i+5</sub>)。</p>
+    <div class="twrap">
+      <table class="sum" id="tbl2">
+        <thead>
+          <tr><th colspan="4">摆轮振幅 <i>θ</i> / °</th><th rowspan="2">5β<i>T</i> = ln(θ<sub>i</sub>/θ<sub>i+5</sub>)</th></tr>
+          <tr><th><i>θ</i><sub>0</sub></th><th><i>θ</i><sub>5</sub></th><th><i>θ</i><sub>i</sub>…</th><th><i>θ</i><sub>i+5</sub>…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>θ<sub>0</sub></td><td><input type="text" id="p0" inputmode="decimal" autocomplete="off"></td><td>θ<sub>5</sub></td><td><input type="text" id="p5" inputmode="decimal" autocomplete="off"></td><td class="num" id="bT0">—</td></tr>
+          <tr><td>θ<sub>1</sub></td><td><input type="text" id="p1" inputmode="decimal" autocomplete="off"></td><td>θ<sub>6</sub></td><td><input type="text" id="p6" inputmode="decimal" autocomplete="off"></td><td class="num" id="bT1">—</td></tr>
+          <tr><td>θ<sub>2</sub></td><td><input type="text" id="p2" inputmode="decimal" autocomplete="off"></td><td>θ<sub>7</sub></td><td><input type="text" id="p7" inputmode="decimal" autocomplete="off"></td><td class="num" id="bT2">—</td></tr>
+          <tr><td>θ<sub>3</sub></td><td><input type="text" id="p3" inputmode="decimal" autocomplete="off"></td><td>θ<sub>8</sub></td><td><input type="text" id="p8" inputmode="decimal" autocomplete="off"></td><td class="num" id="bT3">—</td></tr>
+          <tr><td>θ<sub>4</sub></td><td><input type="text" id="p4" inputmode="decimal" autocomplete="off"></td><td>θ<sub>9</sub></td><td><input type="text" id="p9" inputmode="decimal" autocomplete="off"></td><td class="num" id="bT4">—</td></tr>
+          <tr><th colspan="4">5β<i>T</i> 平均值</th><td class="num" id="bAvg">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reslist">
+      <div class="rline"><span class="rlab">阻尼振动周期 <i>T</i></span><span class="rval" id="rTdamp">—</span></div>
+      <div class="rline"><span class="rlab">阻尼系数 <i>β</i> = (5β<i>T</i>) / (5<i>T</i>)</span><span class="rval hl" id="rBeta">—</span></div>
+    </div>
+    <p class="rwarn hidden" id="wBeta">请补全阻尼振动的输入：10T 总时间与 10 个周期振幅，且 θ<sub>i</sub> 应大于 θ<sub>i+5</sub>（振幅递减）。</p>
+  </section>
+
+  <!-- ======== 第三部分 ======== -->
+  <section class="card">
+    <h2>三、幅频特性和相频特性</h2>
+    <p class="hint">受迫振动稳定后逐点记录电机转速值、摆轮振幅 θ、振动周期 T 与相位差 φ。页面由振幅 θ 在第一部分的 T₀-θ 曲线上查得 T₀，计算频率比 ω/ω₀ = T₀/T，并绘制幅频（θ-ω/ω₀）与相频（φ-ω/ω₀）两条曲线。※ 表示该振幅超出第一部分数据范围，T₀ 为外推值。</p>
+    <div class="twrap">
+      <table class="sum" id="tbl3">
+        <thead>
+          <tr><th>电机转速值</th><th>摆轮振幅 <i>θ</i> / °</th><th>振动周期 <i>T</i> / s</th><th>相位差 <i>φ</i> / °</th><th>查 T₀-θ 曲线得 <i>T</i><sub>0</sub> / s</th><th><i>ω</i> / s⁻¹</th><th><i>ω</i><sub>0</sub> / s⁻¹</th><th><i>ω</i>/<i>ω</i><sub>0</sub></th></tr>
+        </thead>
+        <tbody>
+          <tr><td><input type="text" id="M1" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C1" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S1" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P1" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q1">—</td><td class="num" id="W1">—</td><td class="num" id="WO1">—</td><td class="num" id="R1">—</td></tr>
+          <tr><td><input type="text" id="M2" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C2" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S2" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P2" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q2">—</td><td class="num" id="W2">—</td><td class="num" id="WO2">—</td><td class="num" id="R2">—</td></tr>
+          <tr><td><input type="text" id="M3" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C3" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S3" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P3" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q3">—</td><td class="num" id="W3">—</td><td class="num" id="WO3">—</td><td class="num" id="R3">—</td></tr>
+          <tr><td><input type="text" id="M4" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C4" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S4" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P4" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q4">—</td><td class="num" id="W4">—</td><td class="num" id="WO4">—</td><td class="num" id="R4">—</td></tr>
+          <tr><td><input type="text" id="M5" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C5" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S5" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P5" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q5">—</td><td class="num" id="W5">—</td><td class="num" id="WO5">—</td><td class="num" id="R5">—</td></tr>
+          <tr><td><input type="text" id="M6" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C6" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S6" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P6" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q6">—</td><td class="num" id="W6">—</td><td class="num" id="WO6">—</td><td class="num" id="R6">—</td></tr>
+          <tr><td><input type="text" id="M7" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C7" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S7" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P7" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q7">—</td><td class="num" id="W7">—</td><td class="num" id="WO7">—</td><td class="num" id="R7">—</td></tr>
+          <tr><td><input type="text" id="M8" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C8" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S8" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P8" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q8">—</td><td class="num" id="W8">—</td><td class="num" id="WO8">—</td><td class="num" id="R8">—</td></tr>
+          <tr><td><input type="text" id="M9" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C9" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S9" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P9" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q9">—</td><td class="num" id="W9">—</td><td class="num" id="WO9">—</td><td class="num" id="R9">—</td></tr>
+          <tr><td><input type="text" id="M10" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="C10" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="S10" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="P10" inputmode="decimal" autocomplete="off"></td><td class="num" id="Q10">—</td><td class="num" id="W10">—</td><td class="num" id="WO10">—</td><td class="num" id="R10">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gpair">
+      <div>
+        <canvas id="cvAmp" class="graph" aria-label="幅频特性曲线"></canvas>
+        <div class="gcap">幅频特性曲线（θ 随 ω/ω₀ 变化）</div>
+        <div class="gread" id="cvAmpout"></div>
+      </div>
+      <div>
+        <canvas id="cvPha" class="graph" aria-label="相频特性曲线"></canvas>
+        <div class="gcap">相频特性曲线（φ 随 ω/ω₀ 变化）</div>
+        <div class="gread" id="cvPhaout"></div>
+      </div>
+    </div>
+    <p class="rwarn hidden" id="wT3">请先完成第一部分的数据，才能由 T₀-θ 曲线查 T₀。</p>
+  </section>
+
+  <!-- ======== 四、结果汇总 ======== -->
+  <section class="card">
+    <h2>四、结果汇总</h2>
+    <div class="reslist">
+      <div class="rline"><span class="rlab">阻尼系数 <i>β</i></span><span class="rval hl" id="rBetaSum">—</span></div>
+      <div class="rline"><span class="rlab">5β<i>T</i> 平均值</span><span class="rval" id="rAvgSum">—</span></div>
+      <div class="rline"><span class="rlab">共振频率比 <i>ω</i>/<i>ω</i><sub>0</sub>（振幅最大处）</span><span class="rval" id="rRes">—</span></div>
+      <div class="rline"><span class="rlab">共振振幅 θ<sub>max</sub></span><span class="rval" id="rThmax">—</span></div>
+    </div>
+  </section>
+
+  <section class="card noprint">
+    <div class="btnrow">
+      <button type="button" class="btn primary" id="btnDemo">填入示例数据</button>
+      <button type="button" class="btn" id="btnClear">清空全部</button>
+      <button type="button" class="btn" onclick="window.print()">打印 / 存为 PDF</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">固有角频率：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>ω</mi><mn>0</mn></msub><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><msub><mi>T</mi><mn>0</mn></msub></mfrac></math></div>
+      </li>
+      <li><span class="flabel">阻尼系数：</span>
+        <div class="mathwrap"><math display="block"><mn>5</mn><mi>β</mi><mi>T</mi><mo>=</mo><mi>ln</mi><mfrac><msub><mi>θ</mi><mi>i</mi></msub><msub><mi>θ</mi><mrow><mi>i</mi><mo>+</mo><mn>5</mn></mrow></msub></mfrac><mtext>，&#8195;</mtext><mi>β</mi><mo>=</mo><mfrac><mrow><mn>5</mn><mi>β</mi><mi>T</mi></mrow><mrow><mn>5</mn><mi>T</mi></mrow></mfrac></math></div>
+      </li>
+      <li><span class="flabel">受迫振动频率比：</span>
+        <div class="mathwrap"><math display="block"><mi>ω</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi></mrow><mi>T</mi></mfrac><mtext>，&#8195;</mtext><mfrac><mi>ω</mi><msub><mi>ω</mi><mn>0</mn></msub></mfrac><mo>=</mo><mfrac><msub><mi>T</mi><mn>0</mn></msub><mi>T</mi></mfrac><mtext>（</mtext><msub><mi>T</mi><mn>0</mn></msub><mtext> 由 </mtext><msub><mi>T</mi><mn>0</mn></msub><mtext>-</mtext><mi>θ</mi><mtext> 曲线查得）</mtext></math></div>
+      </li>
+      <li><span class="flabel">共振条件：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>ω</mi><mn>0</mn></msub><mo>=</mo><mi>ω</mi><mtext>，此时振幅最大，相位差 </mtext><mi>φ</mi><mo>=</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mo>=</mo><mn>90</mn><mo>°</mo></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>固有角频率：ω<sub>0</sub> = 2π/T<sub>0</sub></li>
+      <li>阻尼系数：5βT = ln(θ<sub>i</sub>/θ<sub>i+5</sub>)，β = (5βT)/(5T)</li>
+      <li>受迫振动频率比：ω = 2π/T，ω/ω₀ = T₀/T（T₀ 由 T₀-θ 曲线查得）</li>
+      <li>共振条件：ω<sub>0</sub> = ω，此时振幅最大，相位差 φ = π/2 = 90°</li>
+    </ul>
+    <p>本页面处理受迫振动研究的数据。自由振荡下测定摆轮振幅 θ 与固有周期 T₀ 的对应关系，绘制 T₀-θ 曲线；阻尼振动中由相隔 5 个周期的振幅比求阻尼系数 β；受迫振动时记录振幅 θ、周期 T 与相位差 φ，由 T₀-θ 曲线查得 T₀ 后计算频率比 ω/ω₀，绘制幅频特性与相频特性两条曲线。图上的鼠标移动可实时读数，点击可固定取点标记。</p>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 纯计算部分 ===================== */
+
+// 严格数值输入：正整数/小数，至多 4 位小数；非法返回 null
+function parseNum(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1,4}(\.\d{1,4})?$/.test(str)) return null;
+  var v = parseFloat(str);
+  if (!Number.isFinite(v) || v <= 0) return null;
+  return v;
+}
+
+// 四舍六入五凑偶（银行家舍入）：保留 n 位有效数字
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return 0;
+  if (x === 0) return 0;
+  var s = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  x = Number(x.toPrecision(15));
+  var e = Math.floor(Math.log10(x));
+  var dec = n - 1 - e;
+  var scale = Math.pow(10, dec);
+  var v = x * scale;
+  var f = Math.floor(v), d = v - f, r;
+  if (Math.abs(d - 0.5) < 1e-9) r = (f % 2 === 0) ? f : f + 1;
+  else if (d > 0.5) r = f + 1;
+  else r = f;
+  return s * r / scale;
+}
+
+// 固定位有效数字的字符串（去掉浮点残渣）
+function fmtSig(x, n){
+  if (!Number.isFinite(x)) return '—';
+  if (x === 0) return (0).toFixed(n - 1);
+  var e = Math.floor(Math.log10(Math.abs(x)));
+  var dec = Math.max(0, n - 1 - e);
+  return sigRound(x, n).toFixed(dec);
+}
+
+// 固有角频率
+function omega0(T0){ return 2 * Math.PI / T0; }
+
+// 单对振幅的 5βT = ln(θi/θi+5)；θi 不大于 θi+5 时返回 null
+function lnRatio(thA, thB){
+  if (!(thA > thB && thB > 0)) return null;
+  return Math.log(thA / thB);
+}
+
+// 阻尼系数 β = (5βT) / (5T)
+function dampBeta(avg5bT, T){ return (avg5bT !== null && T > 0) ? avg5bT / (5 * T) : null; }
+
+// 频率比：ω/ω0 = T0/T（ω = 2π/T，ω0 = 2π/T0）
+function freqRatio(T0, T){ return T0 / T; }
+
+/*__CALC_END__*/
+
+/* ===================== DOM 交互 ===================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var toastEl = $('toast'), toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+}
+
+/* MathML 支持检测 */
+(function(){
+  var ok = false;
+  try{
+    var probe = document.createElement('div');
+    var m  = document.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+    var ms = document.createElementNS('http://www.w3.org/1998/Math/MathML','mspace');
+    ms.setAttribute('width','60px');
+    m.appendChild(ms); probe.appendChild(m);
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(probe);
+    ok = m.getBoundingClientRect().width > 40;
+    document.body.removeChild(probe);
+  }catch(e){ ok = false; }
+  document.documentElement.classList.add(ok ? 'has-mathml' : 'no-mathml');
+})();
+
+/* 读取并校验一个输入；非法时加红框并返回 null */
+function readV(id, min, max){
+  var inp = $(id);
+  var v = parseNum(inp.value);
+  if (v === null || v < min || v > max){ inp.classList.add('invalid'); return null; }
+  inp.classList.remove('invalid');
+  return v;
+}
+
+/* 全局状态 */
+var S = { t1: [], t2: {}, t3: [] };
+
+/* ---------- 绘图工具 ---------- */
+function cssSize(cv){
+  var W = cv.clientWidth || cv.parentNode.clientWidth || 700;
+  return { W: W, H: 300 };
+}
+function setupCanvas(cv){
+  var dpr = Math.max(1, window.devicePixelRatio || 1);
+  var s = cssSize(cv);
+  cv.width = Math.round(s.W * dpr);
+  cv.height = Math.round(s.H * dpr);
+  var ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx: ctx, W: s.W, H: s.H };
+}
+function niceNum(r, round){
+  var exp = Math.floor(Math.log10(r));
+  var f = r / Math.pow(10, exp);
+  var nf;
+  if (round){ if (f < 1.5) nf = 1; else if (f < 3) nf = 2; else if (f < 7) nf = 5; else nf = 10; }
+  else { if (f <= 1) nf = 1; else if (f <= 2) nf = 2; else if (f <= 5) nf = 5; else nf = 10; }
+  return nf * Math.pow(10, exp);
+}
+function niceTicks(min, max, n){
+  var range = niceNum(max - min, false);
+  var step = niceNum(range / (n - 1), true);
+  var lo = Math.floor(min / step) * step;
+  var hi = Math.ceil(max / step) * step;
+  var out = [];
+  for (var v = lo; v <= hi + step * 1e-6; v += step) out.push(v);
+  return out;
+}
+function tickFmt(v, step){
+  var d = Math.max(0, -Math.floor(Math.log10(Math.abs(step))));
+  return v.toFixed(d);
+}
+function catmull(pts){
+  var out = [], n = pts.length;
+  if (n === 0) return out;
+  if (n === 1) return [pts[0]];
+  var p = [pts[0]].concat(pts).concat([pts[n - 1]]);
+  var seg = 18;
+  for (var i = 1; i < n; i++){
+    var p0 = p[i-1], p1 = p[i], p2 = p[i+1], p3 = p[i+2];
+    for (var j = 0; j < seg; j++){
+      var t = j / seg, t2 = t * t, t3 = t2 * t;
+      var x = 0.5 * ((2*p1.x) + (-p0.x + p2.x)*t + (2*p0.x - 5*p1.x + 4*p2.x - p3.x)*t2 + (-p0.x + 3*p1.x - 3*p2.x + p3.x)*t3);
+      var y = 0.5 * ((2*p1.y) + (-p0.y + p2.y)*t + (2*p0.y - 5*p1.y + 4*p2.y - p3.y)*t2 + (-p0.y + 3*p1.y - 3*p2.y + p3.y)*t3);
+      out.push({ x: x, y: y });
+    }
+  }
+  out.push(pts[n-1]);
+  return out;
+}
+function drawGraph(cv, pts, opts, cursor){
+  var s = setupCanvas(cv);
+  var ctx = s.ctx, W = s.W, H = s.H;
+  var padL = opts.padL || 50, padR = 14, padT = 12, padB = opts.padB || 38;
+  var xmin = Math.min.apply(null, pts.map(function(p){ return p.x; }));
+  var xmax = Math.max.apply(null, pts.map(function(p){ return p.x; }));
+  var ymin = Math.min.apply(null, pts.map(function(p){ return p.y; }));
+  var ymax = Math.max.apply(null, pts.map(function(p){ return p.y; }));
+  if (xmax - xmin < 1e-12){ xmin -= 1; xmax += 1; }
+  if (ymax - ymin < 1e-12){ ymin -= 1; ymax += 1; }
+  var xp = (xmax - xmin) * 0.08, yp = (ymax - ymin) * 0.16;
+  xmin -= xp; xmax += xp; ymin -= yp; ymax += yp;
+  function X(v){ return padL + (v - xmin) / (xmax - xmin) * (W - padL - padR); }
+  function Y(v){ return H - padB - (v - ymin) / (ymax - ymin) * (H - padT - padB); }
+  var xt = niceTicks(xmin, xmax, 6), yt = niceTicks(ymin, ymax, 6);
+  ctx.clearRect(0, 0, W, H);
+  ctx.font = '11px system-ui, sans-serif';
+  ctx.lineWidth = 1; ctx.strokeStyle = '#eef1f5';
+  xt.forEach(function(t){
+    var x = X(t);
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, H - padB); ctx.stroke();
+  });
+  yt.forEach(function(t){
+    var y = Y(t);
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+  });
+  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  xt.forEach(function(t){ ctx.fillText(tickFmt(t, xt[1] - xt[0]), X(t), H - padB + 6); });
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  yt.forEach(function(t){ ctx.fillText(tickFmt(t, yt[1] - yt[0]), padL - 6, Y(t)); });
+  ctx.strokeStyle = '#c6cdd8'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, H - padB); ctx.lineTo(W - padR, H - padB); ctx.stroke();
+  ctx.fillStyle = '#374151'; ctx.font = '12px system-ui, sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText(opts.xlab, padL + (W - padL - padR) / 2, H - 2);
+  ctx.save(); ctx.translate(13, padT + (H - padT - padB) / 2); ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center'; ctx.fillText(opts.ylab, 0, 0); ctx.restore();
+  if (pts.length >= 2){
+    var sp = catmull(pts.map(function(p){ return { x: X(p.x), y: Y(p.y) }; }));
+    ctx.strokeStyle = opts.color || '#2a78d6'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    sp.forEach(function(p, i){ i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y); });
+    ctx.stroke();
+  }
+  ctx.fillStyle = opts.color || '#2a78d6';
+  pts.forEach(function(p){ ctx.beginPath(); ctx.arc(X(p.x), Y(p.y), 3.2, 0, Math.PI * 2); ctx.fill(); });
+  if (cursor){
+    var cx = X(cursor.x), cy = Y(cursor.y);
+    ctx.strokeStyle = 'rgba(232,89,12,.75)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(cx, padT); ctx.lineTo(cx, H - padB); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(padL, cy); ctx.lineTo(W - padR, cy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#e8590c';
+    ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+  }
+  s.g = { X: X, Y: Y, xmin: xmin, xmax: xmax, ymin: ymin, ymax: ymax,
+          padL: padL, padR: padR, padT: padT, padB: padB, W: W, H: H };
+  return s;
+}
+function dataAt(g, px, py){
+  var x = g.xmin + (px - g.padL) / (g.W - g.padL - g.padR) * (g.xmax - g.xmin);
+  var y = g.ymin + (g.H - g.padB - py) / (g.H - g.padT - g.padB) * (g.ymax - g.ymin);
+  return { x: x, y: y };
+}
+function clearGraph(cvId){
+  var cv = $(cvId);
+  cv._geom = null;
+  var ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, cv.width || 300, cv.height || 300);
+  $(cvId + 'out').textContent = '';
+}
+/* 由第一部分数据在振幅 θ 处内插/外推 T0 */
+function interpT0(th){
+  var pts = S.t1;
+  if (pts.length < 1) return null;
+  if (th <= pts[0].th) return { T0: pts[0].T0, inside: false };
+  if (th >= pts[pts.length - 1].th) return { T0: pts[pts.length - 1].T0, inside: false };
+  for (var i = 0; i < pts.length - 1; i++){
+    if (th >= pts[i].th && th <= pts[i+1].th){
+      var a = pts[i], b = pts[i+1];
+      var t = (th - a.th) / (b.th - a.th);
+      return { T0: a.T0 + (b.T0 - a.T0) * t, inside: true };
+    }
+  }
+  return null;
+}
+
+/* ---------- 三张图的绘制与取点 ---------- */
+function sortedXY(arr){
+  return arr.slice().sort(function(a, b){ return a.x - b.x; });
+}
+function drawT0(){
+  var cv = $('cvT0');
+  if (S.t1.length < 2){ clearGraph('cvT0'); return; }
+  var pts = S.t1.map(function(p){ return { x: p.th, y: p.T0 }; });
+  var st = cv._pick || { cur: null, lock: null };
+  var s = drawGraph(cv, pts, { xlab: '振幅 θ / °', ylab: 'T₀ / s', padL: 52 }, st.cur || st.lock);
+  cv._geom = s.g;
+}
+function readT0(d){
+  var r = interpT0(d.x);
+  if (!r) return 'θ = ' + d.x.toFixed(1) + '°，暂无法查 T₀';
+  return 'θ = ' + d.x.toFixed(1) + '°，T₀ = ' + r.T0.toFixed(4) + ' s' + (r.inside ? '（内插）' : '（外推）');
+}
+function drawAmp(){
+  var cv = $('cvAmp');
+  if (S.t3.length < 2){ clearGraph('cvAmp'); return; }
+  var pts = sortedXY(S.t3.map(function(p){ return { x: p.rat, y: p.th }; }));
+  var st = cv._pick || { cur: null, lock: null };
+  var s = drawGraph(cv, pts, { xlab: 'ω/ω₀', ylab: '振幅 θ / °', padL: 50 }, st.cur || st.lock);
+  cv._geom = s.g;
+}
+function readAmp(d){ return 'ω/ω₀ = ' + d.x.toFixed(4) + '，θ = ' + d.y.toFixed(1) + '°'; }
+function drawPha(){
+  var cv = $('cvPha');
+  if (S.t3.length < 2){ clearGraph('cvPha'); return; }
+  var pts = sortedXY(S.t3.map(function(p){ return { x: p.rat, y: p.phi }; }));
+  var st = cv._pick || { cur: null, lock: null };
+  var s = drawGraph(cv, pts, { xlab: 'ω/ω₀', ylab: '相位差 φ / °', padL: 50 }, st.cur || st.lock);
+  cv._geom = s.g;
+}
+function readPha(d){ return 'ω/ω₀ = ' + d.x.toFixed(4) + '，φ = ' + d.y.toFixed(1) + '°'; }
+
+function drawAll(){ drawT0(); drawAmp(); drawPha(); }
+
+/* 绑定取点交互（移动实时读数，点击固定标记） */
+function attachPick(cvId, readFn){
+  var cv = $(cvId);
+  var st = { cur: null, lock: null };
+  cv._pick = st;
+  function pos(e){
+    var r = cv.getBoundingClientRect();
+    var cx = e.touches ? e.touches[0].clientX : e.clientX;
+    var cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return { px: cx - r.left, py: cy - r.top };
+  }
+  function inside(d, g){
+    return d.x >= g.xmin && d.x <= g.xmax && d.y >= g.ymin && d.y <= g.ymax;
+  }
+  function render(msg){
+    $(cvId + 'out').textContent = msg;
+    drawAll();
+  }
+  cv.addEventListener('mousemove', function(e){
+    var g = cv._geom; if (!g) return;
+    var d = dataAt(g, pos(e).px, pos(e).py);
+    st.cur = inside(d, g) ? d : null;
+    render(st.cur ? readFn(st.cur) : (st.lock ? '已取点：' + readFn(st.lock) : ''));
+  });
+  cv.addEventListener('touchmove', function(e){
+    var g = cv._geom; if (!g) return;
+    var d = dataAt(g, pos(e).px, pos(e).py);
+    st.cur = inside(d, g) ? d : null;
+    render(st.cur ? readFn(st.cur) : (st.lock ? '已取点：' + readFn(st.lock) : ''));
+  }, { passive: true });
+  cv.addEventListener('click', function(e){
+    var g = cv._geom; if (!g) return;
+    var d = dataAt(g, pos(e).px, pos(e).py);
+    if (!inside(d, g)) return;
+    st.lock = d;
+    st.cur = null;
+    render('已取点：' + readFn(d));
+  });
+  cv.addEventListener('mouseleave', function(){
+    st.cur = null;
+    render(st.lock ? '已取点：' + readFn(st.lock) : '');
+  });
+}
+
+/* ---------- 计算 ---------- */
+function recompute(){
+  /* 第一部分：振幅 θ 与固有周期 T₀ */
+  S.t1 = [];
+  for (var i = 1; i <= 8; i++){
+    var th = readV('A' + i, 1, 360);
+    var T0 = readV('B' + i, 1, 999);
+    if (th !== null && T0 !== null){
+      S.t1.push({ th: th, T0: T0, om0: omega0(T0) });
+      $('O' + i).innerHTML = fmtSig(omega0(T0), 5) + ' s⁻¹';
+    } else {
+      $('O' + i).innerHTML = '—';
+    }
+  }
+  S.t1.sort(function(a, b){ return a.th - b.th; });
+  if (S.t1.length >= 2){
+    $('wT0').classList.add('hidden');
+  } else {
+    $('wT0').classList.remove('hidden');
+    $('wT0').textContent = '至少输入两组振幅与周期数据后才能绘制 T₀-θ 曲线。';
+  }
+
+  /* 第二部分：阻尼系数 β */
+  var dT10 = readV('dT10', 1, 999);
+  var T = dT10 === null ? null : dT10 / 10;
+  $('rTdamp').innerHTML = T === null ? '—' : fmtSig(T, 5) + ' s';
+  var lnVals = [];
+  var allPairs = true;
+  for (var j = 0; j <= 4; j++){
+    var thA = readV('p' + j, 1, 360);
+    var thB = readV('p' + (j + 5), 1, 360);
+    if (thA !== null && thB !== null){
+      var v = lnRatio(thA, thB);
+      if (v === null){
+        $('bT' + j).innerHTML = '—';
+        allPairs = false;
+      } else {
+        lnVals.push(v);
+        $('bT' + j).innerHTML = fmtSig(v, 5);
+      }
+    } else {
+      $('bT' + j).innerHTML = '—';
+      allPairs = false;
+    }
+  }
+  var avg = lnVals.length ? lnVals.reduce(function(a, b){ return a + b; }, 0) / lnVals.length : null;
+  $('bAvg').innerHTML = avg === null ? '—' : fmtSig(avg, 5);
+  var beta = dampBeta(avg, T);
+  S.t2 = { T: T, avg: avg, beta: beta };
+  if (beta !== null){
+    $('rBeta').innerHTML = fmtSig(beta, 4) + ' s⁻¹';
+    $('rBetaSum').innerHTML = fmtSig(beta, 4) + ' s⁻¹';
+    $('rAvgSum').innerHTML = fmtSig(avg, 5);
+    $('wBeta').classList.add('hidden');
+  } else {
+    $('rBeta').innerHTML = '—';
+    $('rBetaSum').innerHTML = '—';
+    $('rAvgSum').innerHTML = '—';
+    $('wBeta').classList.remove('hidden');
+    $('wBeta').textContent = allPairs
+      ? '请补全阻尼振动的输入：10T 总时间与振幅，且 θᵢ 应大于 θᵢ₊₅。'
+      : '请补全阻尼振动的输入：10T 总时间与 10 个周期振幅，且 θᵢ 应大于 θᵢ₊₅（振幅递减）。';
+  }
+
+  /* 第三部分：幅频与相频 */
+  S.t3 = [];
+  var noT1 = S.t1.length < 2;
+  for (var k = 1; k <= 10; k++){
+    var mv = readV('M' + k, 1, 999);
+    var th3 = readV('C' + k, 1, 360);
+    var TT = readV('S' + k, 1, 999);
+    var phi = readV('P' + k, 1, 360);
+    var ok = mv !== null && th3 !== null && TT !== null && phi !== null;
+    if (ok && !noT1){
+      var q = interpT0(th3);
+      if (q){
+        var om = omega0(TT);
+        var omz = omega0(q.T0);
+        var rat = freqRatio(q.T0, TT);
+        S.t3.push({ mv: mv, th: th3, T: TT, phi: phi, T0q: q.T0, om: om, om0: omz, rat: rat });
+        $('Q' + k).innerHTML = fmtSig(q.T0, 6) + (q.inside ? '' : ' ※');
+        $('W' + k).innerHTML  = fmtSig(om, 6) + ' s⁻¹';
+        $('WO' + k).innerHTML = fmtSig(omz, 6) + ' s⁻¹';
+        $('R' + k).innerHTML  = fmtSig(rat, 5);
+      }
+    } else {
+      $('Q' + k).innerHTML = '—';
+      $('W' + k).innerHTML  = '—';
+      $('WO' + k).innerHTML = '—';
+      $('R' + k).innerHTML  = '—';
+    }
+  }
+  if (noT1){
+    $('wT3').classList.remove('hidden');
+  } else if (S.t3.length >= 1){
+    $('wT3').classList.add('hidden');
+  } else {
+    $('wT3').classList.remove('hidden');
+    $('wT3').textContent = '请填至少一组受迫振动数据（电机转速、振幅、周期、相位差）。';
+  }
+
+  /* 四、结果汇总：共振点 */
+  var maxP = null;
+  S.t3.forEach(function(p){ if (maxP === null || p.th > maxP.th) maxP = p; });
+  if (maxP){
+    $('rRes').innerHTML   = fmtSig(maxP.rat, 5);
+    $('rThmax').innerHTML = fmtSig(maxP.th, 4) + '°';
+  } else {
+    $('rRes').innerHTML   = '—';
+    $('rThmax').innerHTML = '—';
+  }
+
+  drawAll();
+}
+
+/* ---------- 事件绑定 ---------- */
+var INPUT_IDS = ['dT10', 'p0', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'];
+for (var i1 = 1; i1 <= 8; i1++) INPUT_IDS.push('A' + i1, 'B' + i1);
+for (var i2 = 1; i2 <= 10; i2++) INPUT_IDS.push('M' + i2, 'C' + i2, 'S' + i2, 'P' + i2);
+
+INPUT_IDS.forEach(function(id){
+  $(id).addEventListener('input', function(){
+    this.classList.remove('invalid');
+    recompute();
+  });
+});
+
+var DEMO = {
+  A1:'150', B1:'1.446', A2:'130', B2:'1.444', A3:'110', B3:'1.442', A4:'95', B4:'1.441',
+  A5:'80', B5:'1.440', A6:'65', B6:'1.439', A7:'50', B7:'1.438', A8:'40', B8:'1.437',
+  dT10:'14.40',
+  p0:'150', p1:'145', p2:'140', p3:'135', p4:'130',
+  p5:'75', p6:'72.5', p7:'70', p8:'67.5', p9:'65',
+  M1:'30.0', C1:'40',  S1:'1.694', P1:'3',
+  M2:'31.8', C2:'55',  S2:'1.600', P2:'8',
+  M3:'33.2', C3:'78',  S3:'1.532', P3:'20',
+  M4:'34.3', C4:'98',  S4:'1.485', P4:'45',
+  M5:'35.3', C5:'110', S5:'1.440', P5:'90',
+  M6:'36.4', C6:'104', S6:'1.398', P6:'135',
+  M7:'37.4', C7:'88',  S7:'1.358', P7:'160',
+  M8:'38.9', C8:'66',  S8:'1.309', P8:'170',
+  M9:'40.7', C9:'50',  S9:'1.252', P9:'174',
+  M10:'42.4', C10:'40', S10:'1.200', P10:'177'
+};
+
+$('btnDemo').addEventListener('click', function(){
+  INPUT_IDS.forEach(function(id){ $(id).value = DEMO[id]; });
+  recompute();
+  toast('已填入示例数据，可改为你自己的实测值');
+});
+$('btnClear').addEventListener('click', function(){
+  INPUT_IDS.forEach(function(id){ $(id).value = ''; });
+  recompute();
+  toast('已清空全部输入');
+});
+
+attachPick('cvT0', readT0);
+attachPick('cvAmp', readAmp);
+attachPick('cvPha', readPha);
+window.addEventListener('resize', function(){ drawAll(); });
+
+recompute();
+</script>
+
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>

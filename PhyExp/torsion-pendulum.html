@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="扭摆法测转动惯量：输入周期、质量与几何尺寸，自动标定扭转常数 K，计算各物体转动惯量的理论值、实验值与百分差。">
+<title>扭摆法测转动惯量 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --field-bg:#ffffff; --th-bg:#eef3fa; --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --blue-dark:#8fb8e8; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --field-bg:#0d1524; --th-bg:#1c2a44; --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,#104281,#2a78d6);color:#fff;padding:20px 16px 16px;text-align:center}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.75;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+main{max-width:780px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--blue-dark)}
+h2 small{font-weight:400;color:var(--muted);font-size:.78rem;margin-left:6px}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-dark)}
+.params{display:flex;flex-wrap:wrap;gap:12px}
+.params label{flex:1;min-width:180px;font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.params input{width:100%;height:40px;font-size:14px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 6px;background:var(--field-bg);color:var(--ink);font-family:inherit}
+.params input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.params input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.trio{display:flex;gap:6px;margin-top:4px}
+.trio input{flex:1;min-width:0;height:40px;font-size:14px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit}
+.trio input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.trio input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.trio .tmark{flex:0 0 auto;align-self:center;font-size:.72rem;color:var(--muted);width:26px;text-align:right}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.hidden{display:none!important}
+.reslist{margin:12px 0 0;border-top:1px dashed var(--line);padding-top:10px}
+.rline{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding:3px 0}
+.rlab{color:var(--muted)}
+.rval{font-family:"Cambria Math",Georgia,serif;color:var(--ink);text-align:right;white-space:nowrap}
+.rval.hl{color:var(--blue-dark);font-weight:700}
+.rwarn{color:var(--danger);font-size:.86rem;margin:10px 0 0}
+.twrap{overflow-x:auto}
+table.sum{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:10px;min-width:640px}
+.sum th,.sum td{border:1px solid var(--line);padding:7px 6px;text-align:center;line-height:1.45}
+.sum th{background:var(--th-bg);color:var(--blue-dark);font-weight:600}
+.sum .num{font-family:"Cambria Math",Georgia,serif;white-space:nowrap}
+.sum .cap{font-size:.8rem;color:var(--muted);margin:12px 0 0;text-align:center}
+.pahead{margin:16px 0 4px;font-size:.92rem;color:var(--blue-dark)}
+table.pa{min-width:820px}
+table.pa td{padding:5px 4px;white-space:nowrap}
+table.pa input{width:100%;height:36px;font-size:14px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit}
+table.pa input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+table.pa input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 右上角主题切换按钮（自动/浅色/深色，与主页一致） */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.theme-btn{display:none!important}}
+footer{max-width:780px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+footer details{border:0;padding-top:0}
+footer li{margin:11px 0;list-style:none}
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+@media print{
+  header{background:#104281!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --field-bg:#fff; --th-bg:#eef3fa; --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>扭摆法测转动惯量</h1>
+  <p class="en">Moment of Inertia by Torsion Pendulum</p>
+  <p>输入周期、质量与几何尺寸：自动标定扭转常数 K，计算转动惯量理论值、实验值与百分差</p>
+</header>
+
+<main>
+
+  <!-- ======== 一、标定 K ======== -->
+  <section class="card">
+    <h2>一、标定扭转常数 K</h2>
+    <div class="params">
+      <label><span>塑料圆柱质量 <i>m</i><sub>1</sub>（kg）</span><input type="text" id="m1" inputmode="decimal" autocomplete="off"></label>
+      <label><span>塑料圆柱直径 <i>D</i><sub>1</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="d1a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="d1b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="d1c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>载物盘 10T<sub>0</sub>（s，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="t0a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="t0b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="t0c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>载物盘 + 圆柱 10T<sub>1</sub>（s，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="t1a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="t1b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="t1c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+    </div>
+    <p class="hint">周期记数器设定为 10 次，故输入的是 10 个周期的总时间；页面自动取平均并除以 10 得单周期均值。</p>
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnCalc">计算</button>
+      <button type="button" class="btn" id="btnDemo">填入示例数据</button>
+      <button type="button" class="btn" id="btnClear">清空全部</button>
+    </div>
+    <p class="hint">结果随输入实时更新；点击“计算”按钮可手动刷新全部结果。</p>
+
+    <div class="reslist hidden" id="resCal">
+      <div class="rline"><span class="rlab">平均周期 T<sub>0</sub>、T<sub>1</sub></span><span class="rval"><span id="rT0">—</span>、<span id="rT1">—</span></span></div>
+      <div class="rline"><span class="rlab">圆柱直径均值 D<sub>1</sub></span><span class="rval" id="rD1">—</span></div>
+      <div class="rline"><span class="rlab">塑料圆柱理论值 <i>I</i><sub>1</sub>′ = (1/8)<i>m</i><sub>1</sub>D<sub>1</sub><sup>2</sup></span><span class="rval" id="rI1t">—</span></div>
+      <div class="rline"><span class="rlab">扭转常数 <i>K</i> = 4π²<i>I</i><sub>1</sub>′/(T<sub>1</sub><sup>2</sup> − T<sub>0</sub><sup>2</sup>)</span><span class="rval hl" id="rK">—</span></div>
+      <div class="rline"><span class="rlab">载物盘转动惯量 <i>I</i><sub>0</sub></span><span class="rval" id="rI0">—</span></div>
+      <div class="rline"><span class="rlab">塑料圆柱实验值 <i>I</i><sub>1</sub></span><span class="rval" id="rI1e">—</span></div>
+      <div class="rline"><span class="rlab">塑料圆柱百分差 <i>E</i><sub>1</sub></span><span class="rval hl" id="rE1">—</span></div>
+    </div>
+    <p class="rwarn hidden" id="wCal"></p>
+  </section>
+
+  <!-- ======== 二、金属圆筒 ======== -->
+  <section class="card">
+    <h2>二、金属圆筒</h2>
+    <div class="params">
+      <label><span>质量 <i>m</i><sub>2</sub>（kg）</span><input type="text" id="m2" inputmode="decimal" autocomplete="off"></label>
+      <label><span>外径 <i>D</i><sub>外</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="doa" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="dob" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="doc" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>内径 <i>D</i><sub>内</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="dia" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="dib" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="dic" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>摆动周期 10T<sub>2</sub>（s，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="t2a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="t2b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="t2c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+    </div>
+
+    <div class="reslist hidden" id="resTube">
+      <div class="rline"><span class="rlab">平均周期 T<sub>2</sub>、外径均值 D<sub>外</sub>、内径均值 D<sub>内</sub></span><span class="rval"><span id="rT2">—</span>、<span id="rDo">—</span>、<span id="rDi">—</span></span></div>
+      <div class="rline"><span class="rlab">理论值 <i>I</i><sub>2</sub>′ = (1/8)<i>m</i><sub>2</sub>(D<sub>外</sub><sup>2</sup> + D<sub>内</sub><sup>2</sup>)</span><span class="rval" id="rI2t">—</span></div>
+      <div class="rline"><span class="rlab">实验值 <i>I</i><sub>2</sub> = <i>K</i>T<sub>2</sub><sup>2</sup>/(4π²) − <i>I</i><sub>0</sub></span><span class="rval" id="rI2e">—</span></div>
+      <div class="rline"><span class="rlab">百分差 <i>E</i><sub>2</sub></span><span class="rval hl" id="rE2">—</span></div>
+    </div>
+    <p class="rwarn hidden" id="wTube"></p>
+  </section>
+
+  <!-- ======== 三、木球 ======== -->
+  <section class="card">
+    <h2>三、木球</h2>
+    <div class="params">
+      <label><span>质量 <i>m</i><sub>3</sub>（kg）</span><input type="text" id="m3" inputmode="decimal" autocomplete="off"></label>
+      <label><span>直径 <i>D</i><sub>直</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="dda" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="ddb" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="ddc" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>摆动周期 10T<sub>3</sub>（s，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="t3a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="t3b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="t3c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+    </div>
+
+    <div class="reslist hidden" id="resBall">
+      <div class="rline"><span class="rlab">平均周期 T<sub>3</sub>、直径均值 D<sub>直</sub></span><span class="rval"><span id="rT3">—</span>、<span id="rDd">—</span></span></div>
+      <div class="rline"><span class="rlab">理论值 <i>I</i><sub>3</sub>′ = (1/10)<i>m</i><sub>3</sub>D<sub>直</sub><sup>2</sup></span><span class="rval" id="rI3t">—</span></div>
+      <div class="rline"><span class="rlab">实验值 <i>I</i><sub>3</sub> = <i>K</i>T<sub>3</sub><sup>2</sup>/(4π²)</span><span class="rval" id="rI3e">—</span></div>
+      <div class="rline"><span class="rlab">百分差 <i>E</i><sub>3</sub></span><span class="rval hl" id="rE3">—</span></div>
+    </div>
+    <p class="rwarn hidden" id="wBall"></p>
+  </section>
+
+  <!-- ======== 四、金属细杆 ======== -->
+  <section class="card">
+    <h2>四、金属细杆</h2>
+    <div class="params">
+      <label><span>质量 <i>m</i><sub>4</sub>（kg）</span><input type="text" id="m4" inputmode="decimal" autocomplete="off"></label>
+      <label><span>杆长 <i>L</i>（mm，测 1 次）</span><input type="text" id="l4" inputmode="decimal" autocomplete="off"></label>
+      <label><span>摆动周期 10T<sub>4</sub>（s，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="t4a" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="t4b" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="t4c" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+    </div>
+
+    <div class="reslist hidden" id="resRod">
+      <div class="rline"><span class="rlab">平均周期 T<sub>4</sub>、杆长 <i>L</i></span><span class="rval"><span id="rT4">—</span>、<span id="rL4">—</span></span></div>
+      <div class="rline"><span class="rlab">理论值 <i>I</i><sub>4</sub>′ = (1/12)<i>m</i><sub>4</sub><i>L</i><sup>2</sup></span><span class="rval" id="rI4t">—</span></div>
+      <div class="rline"><span class="rlab">实验值 <i>I</i><sub>4</sub> = <i>K</i>T<sub>4</sub><sup>2</sup>/(4π²)</span><span class="rval" id="rI4e">—</span></div>
+      <div class="rline"><span class="rlab">百分差 <i>E</i><sub>4</sub></span><span class="rval hl" id="rE4">—</span></div>
+    </div>
+    <p class="rwarn hidden" id="wRod"></p>
+  </section>
+
+  <!-- ======== 五、验证平行轴定理 ======== -->
+  <section class="card">
+    <h2>五、验证平行轴定理</h2>
+    <div class="params">
+      <label><span>单个滑块质量 <i>m</i>（kg）</span><input type="text" id="ms" inputmode="decimal" autocomplete="off"></label>
+      <label><span>滑块外径 <i>D</i><sub>外</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="soa" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="sob" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="soc" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>滑块内径 <i>D</i><sub>内</sub>（mm，测 3 次）</span>
+        <div class="trio">
+          <span class="tmark">1</span><input type="text" id="sia" inputmode="decimal" autocomplete="off">
+          <span class="tmark">2</span><input type="text" id="sib" inputmode="decimal" autocomplete="off">
+          <span class="tmark">3</span><input type="text" id="sic" inputmode="decimal" autocomplete="off">
+        </div>
+      </label>
+      <label><span>滑块高度 <i>L</i><sub>1</sub>（mm，测 1 次）</span><input type="text" id="sl1" inputmode="decimal" autocomplete="off"></label>
+    </div>
+    <p class="hint">周期记数器设定为 10 次，故输入的是 10 个周期的总时间；每个位置需测量 3 次取平均。</p>
+    <div class="twrap">
+      <table class="sum pa" id="paTbl">
+        <thead>
+          <tr>
+            <th>位置 x / cm</th>
+            <th colspan="3">10 次摆动周期 10T / s</th>
+            <th>周期 T / s</th>
+            <th>实验值 I<sub>实</sub> / (kg·m²)</th>
+            <th>理论值 I<sub>理</sub> / (kg·m²)</th>
+            <th>百分差</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>5.00</td><td><input type="text" id="p1a" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p1b" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p1c" inputmode="decimal" autocomplete="off"></td><td class="num" id="paT1">—</td><td class="num" id="paIe1">—</td><td class="num" id="paIt1">—</td><td class="num" id="paE1">—</td></tr>
+          <tr><td>10.00</td><td><input type="text" id="p2a" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p2b" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p2c" inputmode="decimal" autocomplete="off"></td><td class="num" id="paT2">—</td><td class="num" id="paIe2">—</td><td class="num" id="paIt2">—</td><td class="num" id="paE2">—</td></tr>
+          <tr><td>15.00</td><td><input type="text" id="p3a" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p3b" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p3c" inputmode="decimal" autocomplete="off"></td><td class="num" id="paT3">—</td><td class="num" id="paIe3">—</td><td class="num" id="paIt3">—</td><td class="num" id="paE3">—</td></tr>
+          <tr><td>20.00</td><td><input type="text" id="p4a" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p4b" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p4c" inputmode="decimal" autocomplete="off"></td><td class="num" id="paT4">—</td><td class="num" id="paIe4">—</td><td class="num" id="paIt4">—</td><td class="num" id="paE4">—</td></tr>
+          <tr><td>25.00</td><td><input type="text" id="p5a" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p5b" inputmode="decimal" autocomplete="off"></td><td><input type="text" id="p5c" inputmode="decimal" autocomplete="off"></td><td class="num" id="paT5">—</td><td class="num" id="paIe5">—</td><td class="num" id="paIt5">—</td><td class="num" id="paE5">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reslist hidden" id="resPA">
+      <div class="rline"><span class="rlab">滑块自身转动惯量 <i>I</i><sub>5</sub>′</span><span class="rval hl" id="rI5">—</span></div>
+      <div class="rline"><span class="rlab">平行轴定理</span><span class="rval" id="rPAformula">I<sub>理</sub> = I<sub>4</sub>′ + 2<i>m</i>x² + I<sub>5</sub>′，各位置分别代入 x 计算</span></div>
+    </div>
+    <p class="rwarn hidden" id="wPA"></p>
+  </section>
+
+  <!-- ======== 六、结果汇总 ======== -->
+  <section class="card">
+    <h2>六、结果汇总</h2>
+    <div class="twrap">
+      <table class="sum" id="sumTbl">
+        <thead>
+          <tr>
+            <th>物体名称</th><th>质量 / kg</th><th>几何尺寸 / mm</th><th>T / s</th>
+            <th>理论值 / (kg·m²)</th><th>实验值 / (kg·m²)</th><th>百分差</th>
+          </tr>
+        </thead>
+        <tbody id="sumBody"></tbody>
+      </table>
+    </div>
+    <p class="cap">百分差保留两位有效数字，采用“四舍六入五凑偶”修约（凑偶：尾数恰为 5 且前一位为奇数时进位，为偶数时舍去）。</p>
+    <div class="btnrow noprint">
+      <button type="button" class="btn" onclick="window.print()">打印 / 存为 PDF</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">扭转常数：</span>
+        <div class="mathwrap"><math display="block"><mi>K</mi><mo>=</mo><mfrac><mrow><mn>4</mn><msup><mi>π</mi><mn>2</mn></msup><msub><mi>I</mi><mn>1</mn></msub><mo>′</mo></mrow><mrow><msubsup><mi>T</mi><mn>1</mn><mn>2</mn></msubsup><mo>−</mo><msubsup><mi>T</mi><mn>0</mn><mn>2</mn></msubsup></mrow></mfrac><mo>，</mo><msub><mi>I</mi><mn>0</mn></msub><mo>=</mo><msub><mi>I</mi><mn>1</mn></msub><mo>′</mo><mfrac><msubsup><mi>T</mi><mn>0</mn><mn>2</mn></msubsup><mrow><msubsup><mi>T</mi><mn>1</mn><mn>2</mn></msubsup><mo>−</mo><msubsup><mi>T</mi><mn>0</mn><mn>2</mn></msubsup></mrow></mfrac></math></div>
+      </li>
+      <li><span class="flabel">理论值：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>I</mi><mn>1</mn></msub><mo>′</mo><mo>=</mo><mfrac><mn>1</mn><mn>8</mn></mfrac><msub><mi>m</mi><mn>1</mn></msub><msubsup><mi>D</mi><mn>1</mn><mn>2</mn></msubsup><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>2</mn></msub><mo>′</mo><mo>=</mo><mfrac><mn>1</mn><mn>8</mn></mfrac><msub><mi>m</mi><mn>2</mn></msub><mrow><mo>(</mo><msubsup><mi>D</mi><mi>外</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>D</mi><mi>内</mi><mn>2</mn></msubsup><mo>)</mo></mrow><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>3</mn></msub><mo>′</mo><mo>=</mo><mfrac><mn>1</mn><mn>10</mn></mfrac><msub><mi>m</mi><mn>3</mn></msub><msubsup><mi>D</mi><mi>直</mi><mn>2</mn></msubsup><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>4</mn></msub><mo>′</mo><mo>=</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><msub><mi>m</mi><mn>4</mn></msub><msup><mi>L</mi><mn>2</mn></msup></math></div>
+      </li>
+      <li><span class="flabel">实验值：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>I</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mi>K</mi><msubsup><mi>T</mi><mn>1</mn><mn>2</mn></msubsup></mrow><mrow><mn>4</mn><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>2</mn></msub><mo>=</mo><mfrac><mrow><mi>K</mi><msubsup><mi>T</mi><mn>2</mn><mn>2</mn></msubsup></mrow><mrow><mn>4</mn><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac><mo>−</mo><msub><mi>I</mi><mn>0</mn></msub><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>3</mn></msub><mo>=</mo><mfrac><mrow><mi>K</mi><msubsup><mi>T</mi><mn>3</mn><mn>2</mn></msubsup></mrow><mrow><mn>4</mn><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac><mtext>，&#8195;</mtext><msub><mi>I</mi><mn>4</mn></msub><mo>=</mo><mfrac><mrow><mi>K</mi><msubsup><mi>T</mi><mn>4</mn><mn>2</mn></msubsup></mrow><mrow><mn>4</mn><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac></math></div>
+      </li>
+      <li><span class="flabel">平行轴定理：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>I</mi><mn>5</mn></msub><mo>′</mo><mo>=</mo><mn>2</mn><mrow><mo>(</mo><mfrac><mn>1</mn><mn>16</mn></mfrac><mi>m</mi><mrow><mo>(</mo><msubsup><mi>D</mi><mi>外</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>D</mi><mi>内</mi><mn>2</mn></msubsup><mo>)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mn>12</mn></mfrac><mi>m</mi><msubsup><mi>L</mi><mn>1</mn><mn>2</mn></msubsup><mo>)</mo></mrow><mtext>，&#8195;</mtext><msub><mi>I</mi><mi>理</mi></msub><mo>=</mo><msub><mi>I</mi><mn>4</mn></msub><mo>′</mo><mo>+</mo><mn>2</mn><mi>m</mi><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msub><mi>I</mi><mn>5</mn></msub><mo>′</mo></math></div>
+      </li>
+      <li><span class="flabel">百分差：</span>
+        <div class="mathwrap"><math display="block"><mi>E</mi><mo>=</mo><mfrac><mrow><mo>|</mo><msub><mi>I</mi><mi>实</mi></msub><mo>−</mo><msub><mi>I</mi><mi>理</mi></msub><mo>|</mo></mrow><msub><mi>I</mi><mi>理</mi></msub></mfrac><mo>×</mo><mn>100</mn><mo>%</mo></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>K = 4π²·I<sub>1</sub>′/(T<sub>1</sub>² − T<sub>0</sub>²)，　I<sub>0</sub> = I<sub>1</sub>′·T<sub>0</sub>²/(T<sub>1</sub>² − T<sub>0</sub>²)</li>
+      <li>理论值：I<sub>1</sub>′ = (1/8)m<sub>1</sub>D<sub>1</sub>²；I<sub>2</sub>′ = (1/8)m<sub>2</sub>(D<sub>外</sub>² + D<sub>内</sub>²)；I<sub>3</sub>′ = (1/10)m<sub>3</sub>D<sub>直</sub>²；I<sub>4</sub>′ = (1/12)m<sub>4</sub>L²</li>
+      <li>实验值：I<sub>1</sub> = K·T<sub>1</sub>²/(4π²) − I<sub>0</sub>；I<sub>2</sub> = K·T<sub>2</sub>²/(4π²) − I<sub>0</sub>；I<sub>3</sub> = K·T<sub>3</sub>²/(4π²)；I<sub>4</sub> = K·T<sub>4</sub>²/(4π²)</li>
+      <li>平行轴定理：I<sub>5</sub>′ = 2[(1/16)m(D<sub>外</sub>² + D<sub>内</sub>²) + (1/12)m·L<sub>1</sub>²]；I<sub>理</sub> = I<sub>4</sub>′ + 2m·x² + I<sub>5</sub>′</li>
+      <li>百分差 E = |I<sub>实</sub> − I<sub>理</sub>| / I<sub>理</sub> × 100%</li>
+    </ul>
+    <p>说明：圆筒与塑料圆柱是垂直装在载物盘上测量的，其实验值须扣除载物盘转动惯量 I<sub>0</sub>；木球、金属细杆是取下载物盘后直接装在转轴上，故不扣 I<sub>0</sub>。验证平行轴定理时，将两滑块对称置于金属细杆两边，滑块质心距转轴距离分别为 5.00、10.00、15.00、20.00、25.00 cm，各位置的理论值按平行轴定理计算。</p>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 纯计算部分 ===================== */
+
+// 严格数值输入：正整数/小数，至多 4 位小数；非法返回 null
+function parseNum(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1,3}(\.\d{1,4})?$/.test(str)) return null;
+  var v = parseFloat(str);
+  if (!Number.isFinite(v) || v <= 0) return null;
+  return v;
+}
+
+// 三个读数取平均
+function mean3(a, b, c){ return (a + b + c) / 3; }
+
+// 四舍六入五凑偶（银行家舍入）：保留 n 位有效数字
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return 0;
+  if (x === 0) return 0;
+  var s = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  x = Number(x.toPrecision(15));              // 消除二进制表示噪声
+  var e = Math.floor(Math.log10(x));
+  var dec = n - 1 - e;
+  var scale = Math.pow(10, dec);
+  var v = x * scale;
+  var f = Math.floor(v), d = v - f, r;
+  if (Math.abs(d - 0.5) < 1e-9) r = (f % 2 === 0) ? f : f + 1;   // 恰为 5：凑偶
+  else if (d > 0.5) r = f + 1;
+  else r = f;                                                     // 四舍六入
+  return s * r / scale;
+}
+
+// 固定位有效数字的字符串（去掉浮点残渣）
+function fmtSig(x, n){
+  if (!Number.isFinite(x)) return '—';
+  if (x === 0) return (0).toFixed(n - 1);
+  var e = Math.floor(Math.log10(Math.abs(x)));
+  var dec = Math.max(0, n - 1 - e);
+  return sigRound(x, n).toFixed(dec);
+}
+
+// 科学计数法 HTML（供较小的转动惯量显示，如 9.534×10⁻⁵）
+function fmtSci(x, n){
+  if (!Number.isFinite(x)) return '—';
+  if (x === 0) return '0';
+  var s = x < 0 ? '-' : '';
+  var ax = Math.abs(x);
+  var e = Math.floor(Math.log10(ax));
+  var mant = sigRound(ax, n) / Math.pow(10, e);
+  return s + fmtSig(mant, n) + '×10<sup>' + e + '</sup>';
+}
+
+// 转动惯量显示：≥1e-3 用普通计数，否则科学计数
+function fmtI(x, n){
+  if (!Number.isFinite(x)) return '—';
+  return (Math.abs(x) >= 1e-3) ? fmtSig(x, n) : fmtSci(x, n);
+}
+
+// 百分差（%），保留 2 位有效数字
+function pctDiff(iExp, iTheo){
+  if (!Number.isFinite(iExp) || !Number.isFinite(iTheo) || iTheo === 0) return null;
+  return Math.abs(iExp - iTheo) / iTheo * 100;
+}
+
+// 标定 K：塑料圆柱 m1（kg）、直径三次读数（mm）、盘 10T0（s）、盘+柱 10T1（s）
+// 返回 { T0, T1, Db(米), I1t, K, I0 }；T1 不大于 T0 时返回 null（物理上不可能）
+function calibrate(m1, d1, t0, t1){
+  var D1 = mean3(d1[0], d1[1], d1[2]) / 1000;   // mm → m
+  var T0 = mean3(t0[0], t0[1], t0[2]) / 10;     // 10T → 单周期
+  var T1 = mean3(t1[0], t1[1], t1[2]) / 10;
+  var I1t = m1 * D1 * D1 / 8;
+  var d = T1 * T1 - T0 * T0;
+  if (!(d > 0)) return null;
+  var K = 4 * Math.PI * Math.PI * I1t / d;
+  var I0 = I1t * T0 * T0 / d;
+  return { T0: T0, T1: T1, Db: D1, I1t: I1t, K: K, I0: I0 };
+}
+
+// 各物体理论值（m 单位 kg，长度单位均为 m）
+function theoryCylinder(m, D1){ return m * D1 * D1 / 8; }
+function theoryTube(m, Do, Di){ return m * (Do * Do + Di * Di) / 8; }
+function theoryBall(m, Dd){ return m * Dd * Dd / 10; }
+function theoryRod(m, L){ return m * L * L / 12; }
+
+// 实验值：带盘（需扣 I0）与不带盘（不扣）
+function expWithPlate(K, T, I0){ return K * T * T / (4 * Math.PI * Math.PI) - I0; }
+function expBare(K, T){ return K * T * T / (4 * Math.PI * Math.PI); }
+
+// 平行轴定理：两滑块各自绕过质心的转轴转动惯量（单个滑块质量 m、外/内径、高度）
+function theorySlider(m, Do, Di, L1){ return 2 * (m * (Do*Do + Di*Di) / 16 + m * L1 * L1 / 12); }
+
+// 平行轴定理理论值：I = I4′ + 2·m·x² + I5′（两滑块质心各距转轴 x）
+function theoryParallel(I4, m, x, I5){ return I4 + 2 * m * x * x + I5; }
+
+/*__CALC_END__*/
+
+/* ===================== DOM 交互 ===================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var toastEl = $('toast'), toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+}
+
+/* MathML 支持检测：不支持的浏览器显示纯文本公式 */
+(function(){
+  var ok = false;
+  try{
+    var probe = document.createElement('div');
+    var m  = document.createElementNS('http://www.w3.org/1998/Math/MathML','math');
+    var ms = document.createElementNS('http://www.w3.org/1998/Math/MathML','mspace');
+    ms.setAttribute('width','60px');
+    m.appendChild(ms); probe.appendChild(m);
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(probe);
+    ok = m.getBoundingClientRect().width > 40;
+    document.body.removeChild(probe);
+  }catch(e){ ok = false; }
+  document.documentElement.classList.add(ok ? 'has-mathml' : 'no-mathml');
+})();
+
+/* 读取并校验一个输入；非法时加红框并返回 null */
+function readV(id, min, max){
+  var inp = $(id);
+  var v = parseNum(inp.value);
+  if (v === null || v < min || v > max){ inp.classList.add('invalid'); return null; }
+  inp.classList.remove('invalid');
+  return v;
+}
+function readTriple(a, b, c, min, max){
+  var va = readV(a, min, max), vb = readV(b, min, max), vc = readV(c, min, max);
+  if (va === null || vb === null || vc === null) return null;
+  return [va, vb, vc];
+}
+
+/* 全局状态：本次计算的结果 */
+var S = { cal:null, tube:null, ball:null, rod:null };
+
+function showRes(cardId, resId, warnId, ok, warnText){
+  $(resId).classList.toggle('hidden', !ok);
+  var w = $(warnId);
+  w.classList.toggle('hidden', ok);
+  if (!ok) w.textContent = warnText;
+}
+
+function recompute(){
+  var m1 = readV('m1', 0, 10); S.m1 = m1;
+  var d1 = readTriple('d1a','d1b','d1c', 1, 999);
+  var t0 = readTriple('t0a','t0b','t0c', 1, 999);
+  var t1 = readTriple('t1a','t1b','t1c', 1, 999);
+
+  var cal = null, calErr = '请补全第一组的输入（质量、直径、周期各 3 次）。';
+  if (m1 !== null && d1 && t0 && t1){
+    cal = calibrate(m1, d1, t0, t1);
+    if (!cal) calErr = '载物盘 + 圆柱的周期必须大于载物盘单独周期（T₁ &gt; T₀），请检查周期读数。';
+  }
+  S.cal = cal;
+
+  if (cal){
+    $('rT0').innerHTML =  fmtSig(cal.T0, 4) + ' s';
+    $('rT1').innerHTML =  fmtSig(cal.T1, 4) + ' s';
+    $('rD1').innerHTML =  fmtSig(cal.Db * 1000, 5) + ' mm';
+    $('rI1t').innerHTML =  fmtI(cal.I1t, 4) + ' kg·m²';
+    $('rK').innerHTML = fmtSci(cal.K, 4) + ' kg·m²·s⁻²';
+    $('rI0').innerHTML =  fmtI(cal.I0, 4) + ' kg·m²';
+    var e1 = pctDiff(cal.I1t, cal.I1t);
+    $('rI1e').innerHTML =  fmtI(cal.I1t, 4) + ' kg·m²';
+    $('rE1').innerHTML = fmtSig(e1, 2) + '%';
+  }
+  showRes('cal', 'resCal', 'wCal', cal !== null, calErr);
+
+  /* 圆筒 */
+  var m2 = readV('m2', 0, 10); S.m2 = m2;
+  var doT = readTriple('doa','dob','doc', 1, 999);
+  var diT = readTriple('dia','dib','dic', 1, 999);
+  var t2  = readTriple('t2a','t2b','t2c', 1, 999);
+  var tube = null;
+  if (cal && m2 !== null && doT && diT && t2){
+    var Do = mean3(doT[0],doT[1],doT[2]) / 1000;
+    var Di = mean3(diT[0],diT[1],diT[2]) / 1000;
+    var T2 = mean3(t2[0],t2[1],t2[2]) / 10;
+    var I2t = theoryTube(m2, Do, Di);
+    var I2e = expWithPlate(cal.K, T2, cal.I0);
+    tube = { T2:T2, Do:Do, Di:Di, I2t:I2t, I2e:I2e, E:pctDiff(I2e, I2t) };
+    $('rT2').innerHTML =  fmtSig(T2, 4) + ' s';
+    $('rDo').innerHTML =  fmtSig(Do*1000, 5) + ' mm';
+    $('rDi').innerHTML =  fmtSig(Di*1000, 5) + ' mm';
+    $('rI2t').innerHTML =  fmtI(I2t, 4) + ' kg·m²';
+    $('rI2e').innerHTML =  fmtI(I2e, 4) + ' kg·m²';
+    $('rE2').innerHTML = fmtSig(tube.E, 2) + '%';
+  }
+  S.tube = tube;
+  showRes('tube', 'resTube', 'wTube', tube !== null,
+    cal ? '请补全圆筒的输入（质量、外径、内径、周期各 3 次）。' : '需先完成一、标定扭转常数 K。');
+
+  /* 木球 */
+  var m3 = readV('m3', 0, 10); S.m3 = m3;
+  var ddT = readTriple('dda','ddb','ddc', 1, 999);
+  var t3  = readTriple('t3a','t3b','t3c', 1, 999);
+  var ball = null;
+  if (cal && m3 !== null && ddT && t3){
+    var Dd = mean3(ddT[0],ddT[1],ddT[2]) / 1000;
+    var T3 = mean3(t3[0],t3[1],t3[2]) / 10;
+    var I3t = theoryBall(m3, Dd);
+    var I3e = expBare(cal.K, T3);
+    ball = { T3:T3, Dd:Dd, I3t:I3t, I3e:I3e, E:pctDiff(I3e, I3t) };
+    $('rT3').innerHTML =  fmtSig(T3, 4) + ' s';
+    $('rDd').innerHTML =  fmtSig(Dd*1000, 5) + ' mm';
+    $('rI3t').innerHTML =  fmtI(I3t, 4) + ' kg·m²';
+    $('rI3e').innerHTML =  fmtI(I3e, 4) + ' kg·m²';
+    $('rE3').innerHTML = fmtSig(ball.E, 2) + '%';
+  }
+  S.ball = ball;
+  showRes('ball', 'resBall', 'wBall', ball !== null,
+    cal ? '请补全木球的输入（质量、直径、周期各 3 次）。' : '需先完成一、标定扭转常数 K。');
+
+  /* 细杆 */
+  var m4 = readV('m4', 0, 10); S.m4 = m4;
+  var l4 = readV('l4', 1, 999);
+  var t4  = readTriple('t4a','t4b','t4c', 1, 999);
+  var rod = null;
+  if (cal && m4 !== null && l4 !== null && t4){
+    var L = l4 / 1000;
+    var T4 = mean3(t4[0],t4[1],t4[2]) / 10;
+    var I4t = theoryRod(m4, L);
+    var I4e = expBare(cal.K, T4);
+    rod = { T4:T4, L:l4, I4t:I4t, I4e:I4e, E:pctDiff(I4e, I4t) };
+    $('rT4').innerHTML =  fmtSig(T4, 4) + ' s';
+    $('rL4').innerHTML =  fmtSig(l4, 5) + ' mm';
+    $('rI4t').innerHTML =  fmtI(I4t, 4) + ' kg·m²';
+    $('rI4e').innerHTML =  fmtI(I4e, 4) + ' kg·m²';
+    $('rE4').innerHTML = fmtSig(rod.E, 2) + '%';
+  }
+  S.rod = rod;
+  showRes('rod', 'resRod', 'wRod', rod !== null,
+    cal ? '请补全金属细杆的输入（质量、杆长、周期各 3 次）。' : '需先完成一、标定扭转常数 K。');
+
+  /* 平行轴定理 */
+  var ms = readV('ms', 0, 10); S.ms = ms;
+  var soT = readTriple('soa','sob','soc', 1, 999);
+  var siT = readTriple('sia','sib','sic', 1, 999);
+  var sl1 = readV('sl1', 1, 999);
+  var pa = null, paWarn = '';
+  if (cal && rod){
+    if (ms === null || soT === null || siT === null || sl1 === null){
+      paWarn = '请补全滑块的输入（质量、外径、内径各 3 次，高度 1 次）。';
+    } else {
+      var So = mean3(soT[0],soT[1],soT[2]) / 1000;
+      var Si = mean3(siT[0],siT[1],siT[2]) / 1000;
+      var L1 = sl1 / 1000;
+      var I5 = theorySlider(ms, So, Si, L1);
+      S.I5 = I5;
+      S.paSo = So * 1000;  S.paSi = Si * 1000;   // mm，供汇总表显示
+      var POS = [5.00, 10.00, 15.00, 20.00, 25.00];   // cm
+      var TID = ['a','b','c'];
+      pa = { I5: I5, rows: [] };
+      var allRows = true;
+      for (var p = 0; p < POS.length; p++){
+        var xm = POS[p] / 100;                        // cm → m
+        var ts = [];
+        for (var k = 0; k < 3; k++){
+          var v = readV('p' + (p+1) + TID[k], 1, 999);
+          if (v === null){ allRows = false; }
+          ts.push(v);
+        }
+        var row = null;
+        if (ts[0] !== null && ts[1] !== null && ts[2] !== null){
+          var Tp = mean3(ts[0],ts[1],ts[2]) / 10;
+          var I4t = rod.I4t;
+          var Ith = theoryParallel(I4t, ms, xm, I5);
+          var Iex = expBare(cal.K, Tp);
+          row = { x: POS[p], T: Tp, Ith: Ith, Iex: Iex, E: pctDiff(Iex, Ith) };
+        }
+        pa.rows.push(row);
+        $('paT' + (p+1)).innerHTML  = row ? fmtSig(row.T, 4) : '—';
+        $('paIe' + (p+1)).innerHTML = row ? fmtI(row.Iex, 4) + ' kg·m²' : '—';
+        $('paIt' + (p+1)).innerHTML = row ? fmtI(row.Ith, 4) + ' kg·m²' : '—';
+        $('paE' + (p+1)).innerHTML  = row ? fmtSig(row.E, 2) + '%' : '—';
+      }
+      if (!allRows) paWarn = '请补全各位置的周期读数（每个位置 3 次）。';
+      $('rI5').innerHTML = fmtI(I5, 4) + ' kg·m²';
+    }
+  } else {
+    paWarn = '需先完成一、标定扭转常数 K 与四、金属细杆。';
+  }
+  S.pa = pa;
+  showRes('pa', 'resPA', 'wPA', pa !== null, paWarn);
+
+  renderSummary();
+}
+
+/* ---------- 结果汇总表 ---------- */
+function cellNum(v){ return v === null || v === undefined || v === '' ? '—' : v; }
+
+function renderSummary(){
+  var rows = [];
+  if (S.cal){
+    var c = S.cal;
+    rows.push([
+      '金属载物盘',
+      '—', '—', fmtSig(c.T0, 4),
+      '—', fmtI(c.I0, 4), '—'
+    ]);
+    rows.push([
+      '塑料圆柱',
+      fmtSig(S.m1, 4), fmtSig(c.Db*1000, 5),
+      fmtSig(c.T1, 4),
+      fmtI(c.I1t, 4), fmtI(c.I1t, 4), fmtSig(pctDiff(c.I1t, c.I1t), 2) + '%'
+    ]);
+  }
+  if (S.tube){
+    var u = S.tube;
+    rows.push(['金属圆筒', fmtSig(S.m2, 4),
+      fmtSig(u.Do*1000,5) + ' / ' + fmtSig(u.Di*1000,5),
+      fmtSig(u.T2,4), fmtI(u.I2t,4), fmtI(u.I2e,4), fmtSig(u.E,2) + '%']);
+  }
+  if (S.ball){
+    var b = S.ball;
+    rows.push(['木球', fmtSig(S.m3, 4), fmtSig(b.Dd*1000,5),
+      fmtSig(b.T3,4), fmtI(b.I3t,4), fmtI(b.I3e,4), fmtSig(b.E,2) + '%']);
+  }
+  if (S.rod){
+    var r = S.rod;
+    rows.push(['金属细杆', fmtSig(S.m4, 4), 'L = ' + fmtSig(r.L,5),
+      fmtSig(r.T4,4), fmtI(r.I4t,4), fmtI(r.I4e,4), fmtSig(r.E,2) + '%']);
+  }
+  if (S.pa && S.pa.rows){
+    var p = S.pa;
+    rows.push(['两滑块（自身）', fmtSig(S.ms, 4),
+      'D外 ' + fmtSig(S.paSo, 5) + ' / D内 ' + fmtSig(S.paSi, 5),
+      '—', fmtI(p.I5, 4), '—', '—']);
+    S.pa.rows.forEach(function(row, i){
+      rows.push(['滑块@x=' + fmtSig(row.x, 4) + ' cm',
+        fmtSig(S.ms, 4), '—', fmtSig(row.T, 4),
+        fmtI(row.Ith, 4), fmtI(row.Iex, 4), fmtSig(row.E, 2) + '%']);
+    });
+  }
+  var html = '';
+  rows.forEach(function(row){
+    html += '<tr>';
+    row.forEach(function(v){ html += '<td class="num">' + cellNum(v) + '</td>'; });
+    html += '</tr>';
+  });
+  if (!rows.length) html = '<tr><td colspan="7" style="color:var(--foot-ink)">请先输入数据，结果自动填入。</td></tr>';
+  $('sumBody').innerHTML = html;
+}
+
+/* ---------- 输入事件 ---------- */
+var INPUT_IDS = ['m1','d1a','d1b','d1c','t0a','t0b','t0c','t1a','t1b','t1c',
+                 'm2','doa','dob','doc','dia','dib','dic','t2a','t2b','t2c',
+                 'm3','dda','ddb','ddc','t3a','t3b','t3c',
+                 'm4','l4','t4a','t4b','t4c',
+                 'ms','soa','sob','soc','sia','sib','sic','sl1',
+                 'p1a','p1b','p1c','p2a','p2b','p2c','p3a','p3b','p3c',
+                 'p4a','p4b','p4c','p5a','p5b','p5c'];
+INPUT_IDS.forEach(function(id){
+  $(id).addEventListener('input', function(){ this.classList.remove('invalid'); recompute(); });
+});
+
+/* ---------- 示例数据 / 清空 ---------- */
+var DEMO = {
+  m1:'0.2120', d1a:'59.98', d1b:'59.96', d1c:'60.00',
+  t0a:'15.90', t0b:'15.92', t0c:'15.94',
+  t1a:'17.30', t1b:'17.32', t1c:'17.34',
+  m2:'0.6970', doa:'99.96', dob:'99.98', doc:'100.00',
+  dia:'93.94', dib:'93.96', dic:'93.92',
+  t2a:'32.44', t2b:'32.46', t2c:'32.48',
+  m3:'0.6210', dda:'133.98', ddb:'134.00', ddc:'134.02',
+  t3a:'23.32', t3b:'23.34', t3c:'23.36',
+  m4:'0.1210', l4:'240.0', t4a:'16.82', t4b:'16.84', t4c:'16.86',
+  ms:'0.0585', soa:'25.00', sob:'25.02', soc:'24.98',
+  sia:'12.00', sib:'12.00', sic:'12.00', sl1:'20.0',
+  p1a:'20.76', p1b:'20.74', p1c:'20.78',
+  p2a:'29.32', p2b:'29.30', p2c:'29.34',
+  p3a:'39.66', p3b:'39.64', p3c:'39.68',
+  p4a:'50.72', p4b:'50.70', p4c:'50.74',
+  p5a:'62.10', p5b:'62.08', p5c:'62.12'
+};
+$('btnCalc').addEventListener('click', function(){
+  recompute();
+  toast('已按当前输入重新计算');
+});
+$('btnDemo').addEventListener('click', function(){
+  INPUT_IDS.forEach(function(id){ $(id).value = DEMO[id]; });
+  recompute();
+  toast('已填入示例数据，可改为你自己的实测值');
+});
+$('btnClear').addEventListener('click', function(){
+  INPUT_IDS.forEach(function(id){ $(id).value = ''; });
+  recompute();
+  toast('已清空全部输入');
+});
+
+recompute();
+</script>
+
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>

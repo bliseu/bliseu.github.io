@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="牛顿环法测透镜曲率半径：黄色钠光背景下黑色牛顿环随读数显微镜镜筒移动，主尺＋鼓轮两部分读数（估读到 0.001 mm），逐差法与最小二乘法两种方法处理数据。">
+<title>牛顿环法测透镜曲率半径 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --field-bg:#ffffff; --row-line:#f1f3f6; --hl-bg:#f2f7ff; --ring-border:#c8ab52;
+  --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --blue-dark:#8fb8e8; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --field-bg:#0d1524; --row-line:#223047; --hl-bg:#16283f; --ring-border:#6b5a2c;
+  --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,#104281,#2a78d6);color:#fff;padding:20px 16px 16px;text-align:center}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.78;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+main{max-width:760px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--blue-dark)}
+.hint{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none;font-family:inherit}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{flex:1;min-height:46px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:1.02rem;font-weight:600;border-radius:10px}
+.btn.primary:hover{background:#2069bd;color:#fff}
+.btn.primary small{display:block;font-size:.72rem;font-weight:400;opacity:.85;margin-top:1px}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* 牛顿环视场与读数 */
+.ringwrap{position:relative;max-width:480px;margin:0 auto}
+#cvField{width:100%;aspect-ratio:1/1;display:block;border:1px solid var(--ring-border);border-radius:12px;background:#1c180e}
+.fieldbadge{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(28,22,6,.72);color:#ffe9a8;padding:4px 14px;border-radius:999px;font-size:.82rem;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.03em;pointer-events:none;white-space:nowrap}
+.ringcap{text-align:center;font-size:.78rem;color:var(--muted);margin:6px 0 2px}
+.readout{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 2px}
+.part{flex:1;min-width:110px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 6px;background:var(--card)}
+.part .lab{font-size:.72rem;color:var(--muted);margin-bottom:2px}
+.part .val{font-size:1.22rem;font-weight:700;font-variant-numeric:tabular-nums;color:var(--blue-dark);letter-spacing:.03em}
+.part .unit{font-size:.7rem;color:var(--muted)}
+.part.dpart{border-color:var(--blue);background:var(--hl-bg)}
+.part.dpart .val{color:var(--blue)}
+
+/* 读数鼓轮旋钮 */
+.knobarea{display:flex;flex-direction:column;align-items:center;margin:14px 0 8px}
+.knobtitle{font-size:.88rem;color:var(--blue-dark);font-weight:600;margin-bottom:8px}
+.knob{width:116px;height:116px;border-radius:50%;position:relative;cursor:grab;background:radial-gradient(circle at 35% 28%,#fdfdfd,#d8dee6 62%,#b6bec9);border:2px solid #98a2ae;box-shadow:0 4px 10px rgba(0,0,0,.18),inset 0 -3px 6px rgba(0,0,0,.10);touch-action:none;user-select:none;-webkit-user-select:none}
+.knob.dragging{cursor:grabbing}
+.knob .pointer{position:absolute;left:50%;top:50%;width:3px;height:44%;transform:translate(-50%,-100%) rotate(0deg);transform-origin:50% 100%;background:var(--accent);border-radius:2px;box-shadow:0 0 2px rgba(0,0,0,.3)}
+.knob .hub{position:absolute;left:50%;top:50%;width:26px;height:26px;transform:translate(-50%,-50%);border-radius:50%;background:#6b7280;box-shadow:inset 0 1px 3px rgba(0,0,0,.45)}
+.knobhint{font-size:.78rem;color:var(--muted);text-align:center;margin:10px 0 2px}
+
+/* 鼓轮步进按钮 */
+.drumBtns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+.drumBtns .btn{padding:7px 10px;font-size:.82rem;min-width:64px}
+.drumBtns .lbl{align-self:center;font-size:.8rem;color:var(--muted);margin:0 4px}
+
+/* 数据表 */
+table{width:100%;border-collapse:collapse}
+th{font-size:.78rem;color:var(--muted);font-weight:600;padding:6px 3px;border-bottom:1px solid var(--line);text-align:center;line-height:1.25}
+td{padding:5px 3px;text-align:center;border-bottom:1px solid var(--row-line);vertical-align:middle}
+td.labc,th.labc{text-align:left;font-size:.8rem;color:var(--muted);white-space:nowrap;padding-left:4px}
+tr.sep td,tr.sep th{border-top:2px solid var(--line)}
+td.dcell{font-variant-numeric:tabular-nums;color:var(--blue-dark);font-weight:600}
+.cell input{width:100%;height:40px;font-size:16px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+.cell input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.cell input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+
+/* 逐差组合小表 */
+.ptab{margin-top:12px}
+.ptab th{border-bottom:1px solid var(--line)}
+.ptab td{font-variant-numeric:tabular-nums;padding:6px 3px}
+.ptab tr.hl td{background:var(--hl-bg);font-weight:700;color:var(--blue-dark)}
+
+/* 结果 */
+.result{text-align:center}
+.result .big{font-size:1.9rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.result .lab{font-size:.85rem;color:var(--muted);margin-top:2px}
+.result .expr{font-size:.95rem;font-weight:600;color:var(--blue-dark);font-variant-numeric:tabular-nums;margin-top:4px}
+.result .row{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:12px}
+.result .item{text-align:center}
+.result .item .v{font-size:1.15rem;font-weight:700;color:var(--blue-dark);font-variant-numeric:tabular-nums}
+.result .item .lab{font-size:.75rem;color:var(--muted)}
+.hidden{display:none!important}
+
+/* 最小二乘拟合图 */
+.fitwrap{max-width:480px;margin:12px auto 4px}
+#cvFit{width:100%;aspect-ratio:3/2;display:block;border:1px solid var(--line);border-radius:10px;background:#fff}
+
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 右上角主题切换按钮（自动/浅色/深色，与主页一致） */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.theme-btn{display:none!important}}
+footer{max-width:760px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+footer details{border:0;padding-top:0}
+footer li{margin:4px 0}
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.mathlist li{margin:11px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+@media print{
+  header{background:#104281!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --field-bg:#fff; --row-line:#f1f3f6; --hl-bg:#f2f7ff; --ring-border:#c8ab52;
+    --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>牛顿环法测透镜曲率半径</h1>
+  <p class="en">Newton's Rings &middot; Radius of Curvature</p>
+  <p>黄色钠光下的黑色牛顿环随读数显微镜移动，主尺＋鼓轮读数，逐差法与最小二乘法求 R</p>
+</header>
+
+<noscript><p style="text-align:center;color:#dc2626">本工具需要在浏览器中启用 JavaScript 才能运行。</p></noscript>
+
+<main>
+  <!-- ======== 第一部分：牛顿环图样与读数 ======== -->
+  <section class="card">
+    <h2>一、牛顿环图样与读数</h2>
+    <p class="hint" style="margin-top:0">拖动下方“读数鼓轮”旋钮旋转（转一周 = 1 mm），或使用步进按钮左右移动镜筒：黄色钠光背景上的黑色同心圆环会随镜筒平移，十字叉丝固定在视场中央。将叉丝对准某级暗环的中心后按“记录当前读数”，读数会自动填入数据表。</p>
+    <div class="ringwrap noprint">
+      <canvas id="cvField" aria-label="钠黄光背景下的牛顿环干涉图样"></canvas>
+      <div class="fieldbadge" id="ringBadge">—</div>
+      <div class="ringcap">牛顿环（钠黄光 λ = 589.3 nm，反射光观察）</div>
+    </div>
+
+    <div class="readout">
+      <div class="part"><div class="lab">主尺读数 a</div><div class="val" id="rMain">—</div><div class="unit">mm（整数）</div></div>
+      <div class="part"><div class="lab">鼓轮读数</div><div class="val" id="rDrum">—</div><div class="unit">格（100 格 = 1 mm）</div></div>
+      <div class="part dpart"><div class="lab">显微镜读数 x = a＋鼓轮</div><div class="val" id="rD">—</div><div class="unit">mm（三位小数）</div></div>
+    </div>
+
+    <div class="knobarea noprint">
+      <div class="knobtitle">读数鼓轮</div>
+      <div class="knob" id="knob" role="slider" aria-label="读数鼓轮" tabindex="0">
+        <div class="pointer" id="knobPointer"></div>
+        <div class="hub"></div>
+      </div>
+      <p class="knobhint">拖动旋钮旋转：转一周 = 100 格 = 1 mm，每格 = 0.01 mm（估读到 0.001 mm）</p>
+    </div>
+
+    <div class="drumBtns noprint">
+      <span class="lbl">← 左移</span>
+      <button type="button" class="btn" id="btnC5M">−5 圈</button>
+      <button type="button" class="btn" id="btnC1M">−1 圈</button>
+      <button type="button" class="btn" id="btnG10M">−10 格</button>
+      <button type="button" class="btn" id="btnG1M">−1 格</button>
+      <span class="lbl">右移 →</span>
+    </div>
+    <div class="drumBtns noprint">
+      <button type="button" class="btn" id="btnG1P">+1 格</button>
+      <button type="button" class="btn" id="btnG10P">+10 格</button>
+      <button type="button" class="btn" id="btnC1P">+1 圈</button>
+      <button type="button" class="btn" id="btnC5P">+5 圈</button>
+    </div>
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnStart">回到起点</button>
+      <button type="button" class="btn primary" id="btnRecord">记录当前读数<small id="recNext">下一个：左 30 级</small></button>
+    </div>
+  </section>
+
+  <!-- ======== 第二部分：数据记录与逐差法 ======== -->
+  <section class="card">
+    <h2>二、数据记录与逐差法处理</h2>
+    <p class="hint" style="margin-top:0">从中心暗斑向左数到第 35 环，再倒回第 30 环开始记录；随后沿同一方向依次右移，先记左侧第 30、25、20、15、10、5 环的位置 x<sub>k</sub>，过环心后再记右侧第 5、10、15、20、25、30 环的位置 x′<sub>k</sub>。注意：鼓轮应始终沿一个方向转动，避免螺旋空程（回程差）带来的误差。</p>
+    <table>
+      <tbody>
+        <tr>
+          <th class="labc">环的级数（左）</th><th>30</th><th>25</th><th>20</th><th>15</th><th>10</th><th>5</th>
+        </tr>
+        <tr>
+          <td class="labc">环的位置 x<sub>k</sub> / mm</td>
+          <td class="cell"><input id="xL0" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第30环位置"></td>
+          <td class="cell"><input id="xL1" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第25环位置"></td>
+          <td class="cell"><input id="xL2" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第20环位置"></td>
+          <td class="cell"><input id="xL3" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第15环位置"></td>
+          <td class="cell"><input id="xL4" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第10环位置"></td>
+          <td class="cell"><input id="xL5" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="左侧第5环位置"></td>
+        </tr>
+        <tr>
+          <th class="labc">环的级数（右）</th><th>30</th><th>25</th><th>20</th><th>15</th><th>10</th><th>5</th>
+        </tr>
+        <tr>
+          <td class="labc">环的位置 x′<sub>k</sub> / mm</td>
+          <td class="cell"><input id="xR0" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第30环位置"></td>
+          <td class="cell"><input id="xR1" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第25环位置"></td>
+          <td class="cell"><input id="xR2" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第20环位置"></td>
+          <td class="cell"><input id="xR3" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第15环位置"></td>
+          <td class="cell"><input id="xR4" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第10环位置"></td>
+          <td class="cell"><input id="xR5" inputmode="decimal" autocomplete="off" maxlength="7" aria-label="右侧第5环位置"></td>
+        </tr>
+        <tr class="sep">
+          <td class="labc">直径 D<sub>k</sub> = |x<sub>k</sub> − x′<sub>k</sub>| / mm</td>
+          <td class="dcell" id="dD0">—</td><td class="dcell" id="dD1">—</td><td class="dcell" id="dD2">—</td><td class="dcell" id="dD3">—</td><td class="dcell" id="dD4">—</td><td class="dcell" id="dD5">—</td>
+        </tr>
+        <tr>
+          <td class="labc">D<sub>k</sub><sup>2</sup> / mm<sup>2</sup></td>
+          <td class="dcell" id="dQ0">—</td><td class="dcell" id="dQ1">—</td><td class="dcell" id="dQ2">—</td><td class="dcell" id="dQ3">—</td><td class="dcell" id="dQ4">—</td><td class="dcell" id="dQ5">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="ptab">
+      <thead>
+        <tr><th style="text-align:left">组合（m，n）</th><th>D<sub>m</sub><sup>2</sup> − D<sub>n</sub><sup>2</sup> / mm<sup>2</sup></th><th>R<sub>i</sub> = 差值 / (60λ) / mm</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="text-align:left">(30, 15)</td><td id="dq0">—</td><td id="ri0">—</td></tr>
+        <tr><td style="text-align:left">(25, 10)</td><td id="dq1">—</td><td id="ri1">—</td></tr>
+        <tr><td style="text-align:left">(20, 5)</td><td id="dq2">—</td><td id="ri2">—</td></tr>
+        <tr class="hl"><td style="text-align:left">平均（三组取平均）</td><td>—</td><td id="rAvg">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnDemo">填入示例数据</button>
+      <button type="button" class="btn" id="btnClear">清空数据</button>
+    </div>
+
+    <div class="result hidden" id="resDq">
+      <div class="big" id="rRDq">—</div>
+      <div class="lab">逐差法结果　R = 平均R ± u，即 R(u)（λ = 589.3 nm，m−n = 15）</div>
+      <div class="expr" id="exprDq">—</div>
+      <div class="row">
+        <div class="item"><div class="v" id="uADq">—</div><div class="lab">A 类不确定度 u</div></div>
+        <div class="item"><div class="v" id="relDq">—</div><div class="lab">相对不确定度 u/R</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== 第三部分：最小二乘法 ======== -->
+  <section class="card">
+    <h2>三、最小二乘法处理</h2>
+    <p class="hint" style="margin-top:0">D<sub>k</sub><sup>2</sup> 与级数 k 严格成线性关系（D<sub>k</sub><sup>2</sup> = 4Rλk），因此完全可以用最小二乘法处理：以 k 为自变量、D<sub>k</sub><sup>2</sup> 为因变量拟合直线 y = a + bk，则斜率 b = 4Rλ，即 R = b/(4λ)。这相当于把图解法定量化：不画图、不徒手描线，全部数据点都参与计算，并能给出斜率的不确定度。即使叉丝未严格扫过环心（测的是弦而不是直径），也只是使截距 a 偏离 0（a = −4h<sup>2</sup>），不影响斜率；而逐差法同样能消除这一系统影响，两者可互相印证。</p>
+    <div class="fitwrap noprint">
+      <canvas id="cvFit" aria-label="D 平方对 k 的最小二乘拟合图"></canvas>
+    </div>
+    <div class="result hidden" id="resLs">
+      <div class="big" id="rRLs">—</div>
+      <div class="lab">最小二乘结果　D<sub>k</sub><sup>2</sup> = a + b·k，R = b/(4λ)</div>
+      <div class="expr" id="exprLs">—</div>
+      <div class="row">
+        <div class="item"><div class="v" id="rSlope">—</div><div class="lab">斜率 b ± u(b)，即 b(u(b)) / (mm²/级)</div></div>
+        <div class="item"><div class="v" id="rIcept">—</div><div class="lab">截距 a / mm²</div></div>
+        <div class="item"><div class="v" id="rRcor">—</div><div class="lab">相关系数 r</div></div>
+        <div class="item"><div class="v" id="rCmp">—</div><div class="lab">与逐差法的偏差</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">显微镜读数：</span>
+        <div class="mathwrap"><math display="block"><mi>x</mi><mo>=</mo><mi>a</mi><mo>+</mo><mn>0.01</mn><mi>b</mi><mtext>（mm）</mtext></math></div>
+      </li>
+      <li><span class="flabel">暗环条件（反射光，有半波损失）：</span>
+        <div class="mathwrap"><math display="block"><msubsup><mi>r</mi><mi>k</mi><mn>2</mn></msubsup><mo>=</mo><mi>k</mi><mi>R</mi><mi>λ</mi><mo>,</mo><mspace width="0.4em"/><mi>k</mi><mo>=</mo><mn>0,1,2,…</mn><mspace width="0.4em"/><mtext>即</mtext><mspace width="0.4em"/><msubsup><mi>D</mi><mi>k</mi><mn>2</mn></msubsup><mo>=</mo><mn>4</mn><mi>R</mi><mi>λ</mi><mi>k</mi></math></div>
+      </li>
+      <li><span class="flabel">逐差法：</span>
+        <div class="mathwrap"><math display="block"><mi>R</mi><mo>=</mo><mfrac><mrow><msubsup><mi>D</mi><mi>m</mi><mn>2</mn></msubsup><mo>−</mo><msubsup><mi>D</mi><mi>n</mi><mn>2</mn></msubsup></mrow><mrow><mn>4</mn><mo fence="true">(</mo><mi>m</mi><mo>−</mo><mi>n</mi><mo fence="true">)</mo><mi>λ</mi></mrow></mfrac><mtext>，</mtext><mi>m</mi><mo>−</mo><mi>n</mi><mo>=</mo><mn>15</mn></math></div>
+      </li>
+      <li><span class="flabel">最小二乘法：</span>
+        <div class="mathwrap"><math display="block"><msubsup><mi>D</mi><mi>k</mi><mn>2</mn></msubsup><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>k</mi><mtext>，</mtext><mi>R</mi><mo>=</mo><mfrac><mi>b</mi><mrow><mn>4</mn><mi>λ</mi></mrow></mfrac></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>显微镜读数：x = a + 0.01·b（mm），a 为主尺整毫米数，b 为鼓轮格数（100 格 = 1 mm，估读到 0.001 mm）</li>
+      <li>暗环条件（反射光，有半波损失）：r² = kRλ，k = 0,1,2,…，即 D² = 4Rλk</li>
+      <li>逐差法：R = (D²m − D²n)/(4(m−n)λ)，本实验 m−n = 15，三组（30,15）（25,10）（20,5）取平均</li>
+      <li>最小二乘法：D² = a + b·k 对 k 拟合，由斜率 b = 4Rλ 得 R = b/(4λ)</li>
+    </ul>
+    <p>读数显微镜的主尺最小分度为 1 mm，读数鼓轮一周 100 格、每格 0.01 mm，估读到 0.001 mm，故读数共三位小数。钠黄光波长 λ = 589.3 nm。按教材要求，R 的不确定度只计 A 类分量：三组 R<sub>i</sub> 与平均值之差的标准偏差；实际测量中还应注意鼓轮单向转动以防回程差，并使叉丝对准条纹中心读数。不确定度至多保留两位有效数字（四舍六入五凑偶）。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 849.81 ± 0.16 记作 849.81(16)；U 不小于 1 时括号内原样保留。</p>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 常量与纯计算部分 ===================== */
+
+var LAMBDA_NM = 589.3;        // 钠黄光波长 / nm
+var LAMBDA = 0.0005893;       // 钠黄光波长 / mm
+var K_LIST = [30, 25, 20, 15, 10, 5];  // 待测暗环级数（左、右各测一次）
+var M_N = 15;                 // 逐差法组合的级次差 m-n
+var CENTER_MM = 30.000;       // 环心在标尺上的真实坐标 / mm（模拟内部值）
+var R_LENS = 850.0;           // 透镜真实曲率半径 / mm（模拟内部值）
+var VIEW_MM = 9.0;            // 圆形视场直径 / mm
+var START_M = 25800;          // 初始读数（单位 0.001 mm）
+var MAX_M = 50000;            // 标尺量程上限（50 mm）
+
+// 解析一个位置读数字符串（mm，最多三位小数）；非法或超量程返回 null
+function parsePos(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1,2}(\.\d{1,3})?$/.test(str)) return null;
+  var v = Math.round(parseFloat(str) * 1000);   // 以 0.001 mm 为单位的整数
+  if (v >= MAX_M) return null;
+  return v;
+}
+
+// 由左、右两组位置（0.001 mm 整数数组）计算直径、直径平方与逐差结果。
+// 任一数据缺失返回 null；否则返回 {D, Q, dq, Ri, avg, uA, relU}
+function computeAll(xL, xR){
+  var j;
+  for (j = 0; j < 6; j++) if (xL[j] === null || xR[j] === null) return null;
+  var D = [], Q = [];
+  for (j = 0; j < 6; j++){
+    var d = Math.abs(xR[j] - xL[j]) / 1000;     // 直径 / mm
+    D.push(d); Q.push(d * d);
+  }
+  var dq = [], Ri = [];
+  for (j = 0; j < 3; j++){
+    var q = Q[j] - Q[j + 3];                    // 第 j 与第 j+3 级组合（m-n = 15）
+    dq.push(q);
+    Ri.push(q / (4 * M_N * LAMBDA));
+  }
+  var avg = (Ri[0] + Ri[1] + Ri[2]) / 3;
+  var ss = 0, i;
+  for (i = 0; i < 3; i++){ var e = Ri[i] - avg; ss += e * e; }
+  var s = Math.sqrt(ss / 2);                    // 三次测量的标准偏差（贝塞尔）
+  var uA = s / Math.sqrt(3);                    // 平均值的 A 类不确定度
+  return { D: D, Q: Q, dq: dq, Ri: Ri, avg: avg, uA: uA, relU: uA / avg * 100 };
+}
+
+// 最小二乘直线拟合 y = a + b·x（一般拟合，含截距）。
+// 返回 {b, a, s, ub, r, Rls, uR}；数据退化返回 null
+function linFit(xs, ys){
+  var n = xs.length, Sx = 0, Sy = 0, Sxx = 0, Syy = 0, Sxy = 0, i;
+  for (i = 0; i < n; i++){
+    Sx += xs[i]; Sy += ys[i]; Sxx += xs[i] * xs[i]; Syy += ys[i] * ys[i]; Sxy += xs[i] * ys[i];
+  }
+  var den = n * Sxx - Sx * Sx;
+  if (den === 0) return null;
+  var b = (n * Sxy - Sx * Sy) / den;
+  var a = (Sxx * Sy - Sx * Sxy) / den;
+  var ss = 0;
+  for (i = 0; i < n; i++){ var e = ys[i] - (a + b * xs[i]); ss += e * e; }
+  var s = Math.sqrt(ss / (n - 2));              // 残差标准差
+  var ub = s * Math.sqrt(n / den);              // 斜率的标准不确定度
+  var denr = Math.sqrt(den * (n * Syy - Sy * Sy));
+  var r = denr === 0 ? NaN : (n * Sxy - Sx * Sy) / denr;
+  var Rls = b / (4 * LAMBDA);
+  var uR = ub / (4 * LAMBDA);
+  return { b: b, a: a, s: s, ub: ub, r: r, Rls: Rls, uR: uR };
+}
+
+// 四舍六入五凑偶（保留 n 位有效数字）
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return NaN;
+  if (x === 0) return 0;
+  var s = x.toPrecision(15);
+  var v = Number(s);
+  var f = Math.floor(Math.log(Math.abs(v)) / Math.LN10) - (n - 1);
+  var p = Math.pow(10, f);
+  var d = v / p;
+  var r = Math.round(d);
+  var diff = d - r;
+  if (Math.abs(Math.abs(diff) - 0.5) < 1e-9){   // 恰好 .5 → 凑偶
+    if (r % 2 !== 0) r += (diff > 0 ? 1 : -1);
+  }
+  return Number((r * p).toPrecision(15));
+}
+
+function fmtSig(x, n){
+  var v = sigRound(x, n);
+  if (!Number.isFinite(v)) return '—';
+  if (v === 0) return '0';
+  var abs = Math.abs(v);
+  if (abs >= 1e6 || abs < 1e-4) return v.toExponential(Math.max(0, n - 1));
+  return v.toPrecision(n).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 新标准记法 X(U)：U 小于 1 时去掉「0.」与其后的前导零，如 0.30 → 30、0.0006 → 6；
+// U 不小于 1 时原样保留，如 1.2 → 1.2
+function uStd(u){
+  var s = String(u);
+  if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
+  return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
+}
+
+// 不确定度保留至多 2 位有效数字（四舍六入五凑偶），且小数位数不超过 maxDp（与测量值末位对齐）；
+// 末尾多余的 0 略去。如 fmtU2(0.00136,5) = "0.0014"、fmtU2(0.047,2) = "0.05"
+function fmtU2(u, maxDp){
+  if (!Number.isFinite(u)) return '—';
+  if (u === 0) return '0';
+  var abs = Math.abs(u);
+  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
+  var e = Math.floor(Math.log10(abs));
+  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
+  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
+  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// Heckbert 美观刻度
+function niceNum(range, round){
+  if (!(range > 0)) return 1;
+  var exp = Math.floor(Math.log(range) / Math.LN10);
+  var f = range / Math.pow(10, exp);
+  var nf;
+  if (round) nf = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+  else       nf = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+  return nf * Math.pow(10, exp);
+}
+function ticks(lo, hi, want){
+  var step = niceNum((hi - lo) / (want - 1), true);
+  var out = [], v = Math.ceil(lo / step) * step;
+  for (; v <= hi + step * 1e-6; v += step) out.push(Math.round(v / step) * step === 0 ? 0 : v);
+  return out;
+}
+
+/*__CALC_END__*/
+
+/* ===================== DOM 交互部分 ===================== */
+
+var $ = function(id){ return document.getElementById(id); };
+var toastEl = $('toast'), toastTimer = null;
+var cvField = $('cvField'), cvFit = $('cvFit');
+
+var S = { m: START_M };        // 显微镜当前读数（单位 0.001 mm 的整数）
+var lastFit = null;            // 最近一次拟合结果，用于缩放重绘
+
+/* MathML 支持检测 */
+(function(){
+  var ok = false;
+  try{
+    var probe = document.createElement('div');
+    var m  = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'math');
+    var ms = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'mspace');
+    ms.setAttribute('width', '60px');
+    m.appendChild(ms); probe.appendChild(m);
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0';
+    document.body.appendChild(probe);
+    ok = m.getBoundingClientRect().width > 40;
+    document.body.removeChild(probe);
+  }catch(e){ ok = false; }
+  document.documentElement.classList.add(ok ? 'has-mathml' : 'no-mathml');
+})();
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+}
+
+/* ---------- 牛顿环视场绘制 ---------- */
+function setupCanvas(cv){
+  var dpr = Math.max(1, window.devicePixelRatio || 1);
+  var rect = cv.getBoundingClientRect();
+  var W = rect.width, H = rect.height;
+  if (W < 10) W = 480; if (H < 10) H = 360;
+  cv.width = Math.round(W * dpr);
+  cv.height = Math.round(H * dpr);
+  var ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx: ctx, W: W, H: H };
+}
+
+function drawField(){
+  var sc = setupCanvas(cvField), ctx = sc.ctx, W = sc.W, H = sc.H;
+  var px = W / VIEW_MM;                                  // 比例尺：像素 / mm
+  var ccx = W / 2, ccy = H / 2;
+  var Rv = Math.min(W, H) / 2 - 1;                       // 圆形视场（目镜光阑）半径
+  var cx = ccx + (CENTER_MM - S.m / 1000) * px;          // 环心的屏幕横坐标
+  var cy = ccy;
+  var RL = R_LENS * LAMBDA;                              // r² = k·RL
+  var dC = Math.hypot(cx - ccx, cy - ccy);               // 环心到视场中心的距离
+
+  var bgR = 24, bgG = 17, bgB = 4, pkR = 252, pkG = 222, pkB = 106;
+  // 目镜筒暗背景
+  ctx.fillStyle = 'rgb(28,24,14)';
+  ctx.fillRect(0, 0, W, H);
+  // 只在圆形视场内画牛顿环
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(ccx, ccy, Rv, 0, 6.2832);
+  ctx.clip();
+  ctx.fillStyle = 'rgb(' + bgR + ',' + bgG + ',' + bgB + ')';
+  ctx.fillRect(0, 0, W, H);
+  // 自外向内画同心圆：I = sin²(πr²/(Rλ))，中心为暗斑，明暗交替（受 dpr 变换影响，天然抗锯齿）
+  for (var rp = Math.floor(Rv + dC) + 2; rp >= 0; rp--){
+    if (dC - rp > Rv) continue;                          // 整圆在光阑之外，跳过
+    var rm = rp / px;
+    var f = Math.sin(Math.PI * rm * rm / RL); f *= f;
+    // 条纹太密（约 45 级以上）时对比度渐降，模拟显微镜分辨极限，避免高频锯齿
+    var k = rm * rm / RL;
+    var fade = (45 - k) / 12; if (fade < 0) fade = 0; if (fade > 1) fade = 1;
+    f = 0.5 + (f - 0.5) * fade;
+    var tn = Math.min(1, rm / (VIEW_MM / 2));
+    var vig = 1 - 0.15 * tn * tn;
+    ctx.fillStyle = 'rgb(' +
+      ((bgR + (pkR - bgR) * f * vig) | 0) + ',' +
+      ((bgG + (pkG - bgG) * f * vig) | 0) + ',' +
+      ((bgB + (pkB - bgB) * f * vig) | 0) + ')';
+    ctx.beginPath();
+    ctx.arc(cx, cy, rp, 0, 6.2832);
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // 十字叉丝：固定在视场中心（竖线为光阑内的整条弦，横线短刻），用于对准暗环
+  ctx.strokeStyle = 'rgba(38,30,12,0.9)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(ccx + 0.5, ccy - Rv); ctx.lineTo(ccx + 0.5, ccy + Rv);
+  ctx.moveTo(ccx - 16, ccy + 0.5); ctx.lineTo(ccx + 16, ccy + 0.5);
+  ctx.stroke();
+}
+
+/* ---------- 对准状态提示 ---------- */
+function alignInfo(){
+  var off = S.m / 1000 - CENTER_MM;       // 叉丝相对环心的偏移（右为正）
+  var ao = Math.abs(off);
+  if (ao < 0.02) return '叉丝位于环心附近';
+  var bestK = 1, bestD = 1e9, k;
+  for (k = 1; k <= 38; k++){
+    var d = Math.abs(Math.sqrt(k * R_LENS * LAMBDA) - ao);
+    if (d < bestD){ bestD = d; bestK = k; }
+  }
+  if (bestD < 0.045) return '已对准：第 ' + bestK + ' 级暗环 · ' + (off < 0 ? '左侧' : '右侧');
+  return '未对准（最近第 ' + bestK + ' 级，还差 ' + bestD.toFixed(3) + ' mm）';
+}
+
+/* ---------- 读数显示 ---------- */
+function updateReadout(){
+  var main = Math.floor(S.m / 1000);
+  var drum = S.m - main * 1000;                       // 0–999（0.001 mm）
+  $('rMain').textContent = main;
+  $('rDrum').textContent = Math.floor(drum / 10) + '.' + (drum % 10);
+  $('rD').textContent = (S.m / 1000).toFixed(3);
+  $('ringBadge').textContent = alignInfo();
+  drawField();
+}
+
+function changeM(dTh){                                // dTh：0.001 mm 的整数变化量
+  S.m += dTh;
+  if (S.m < 0) S.m = 0;
+  if (S.m > MAX_M) S.m = MAX_M;
+  updateReadout();
+}
+
+/* ---------- 读数鼓轮旋钮 ---------- */
+(function(){
+  var knob = $('knob'), pointer = $('knobPointer');
+  var DEG_PER_REV = 360;              // 鼓轮一周 = 1 mm = 1000 × 0.001 mm
+  var active = false, lastAngle = 0, totalDeg = 0, appliedTh = 0;
+  function angleOf(e){
+    var r = knob.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var x = e.clientX, y = e.clientY;
+    if (e.touches && e.touches.length){ x = e.touches[0].clientX; y = e.touches[0].clientY; }
+    return Math.atan2(y - cy, x - cx) * 180 / Math.PI;
+  }
+  function onDown(e){
+    active = true; lastAngle = angleOf(e);
+    knob.classList.add('dragging');
+    if (e.cancelable) e.preventDefault();
+  }
+  function onMove(e){
+    if (!active) return;
+    var a = angleOf(e);
+    var delta = a - lastAngle;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    lastAngle = a;
+    if (delta !== 0){
+      totalDeg += delta;
+      var wantTh = Math.round(totalDeg * 1000 / DEG_PER_REV);
+      var dTh = wantTh - appliedTh;
+      if (dTh !== 0){ appliedTh = wantTh; changeM(dTh); }
+      pointer.style.transform = 'translate(-50%,-100%) rotate(' + totalDeg + 'deg)';
+    }
+    if (e.cancelable) e.preventDefault();
+  }
+  function onUp(){ active = false; knob.classList.remove('dragging'); }
+  knob.addEventListener('pointerdown', onDown);
+  knob.addEventListener('touchstart', onDown, { passive: false });
+  window.addEventListener('pointermove', onMove);
+  window.addEventListener('touchmove', onMove, { passive: false });
+  window.addEventListener('pointerup', onUp);
+  window.addEventListener('touchend', onUp);
+  window.addEventListener('pointercancel', onUp);
+})();
+
+/* ---------- 步进按钮 ---------- */
+$('btnC5M').addEventListener('click', function(){ changeM(-5000); });
+$('btnC1M').addEventListener('click', function(){ changeM(-1000); });
+$('btnG10M').addEventListener('click', function(){ changeM(-100); });
+$('btnG1M').addEventListener('click', function(){ changeM(-10); });
+$('btnG1P').addEventListener('click', function(){ changeM(10); });
+$('btnG10P').addEventListener('click', function(){ changeM(100); });
+$('btnC1P').addEventListener('click', function(){ changeM(1000); });
+$('btnC5P').addEventListener('click', function(){ changeM(5000); });
+$('btnStart').addEventListener('click', function(){
+  S.m = START_M;
+  updateReadout();
+  toast('已回到起点（25.800 mm）');
+});
+
+/* ---------- 记录读数 ---------- */
+var REC_ORDER = ['xL0','xL1','xL2','xL3','xL4','xL5','xR5','xR4','xR3','xR2','xR1','xR0'];
+function recLabel(id){
+  var side = id.charAt(1) === 'L' ? '左' : '右';
+  return side + ' ' + K_LIST[id.charAt(2)] + ' 级';
+}
+function nextRecId(){
+  for (var i = 0; i < REC_ORDER.length; i++){
+    if ($(REC_ORDER[i]).value.trim() === '') return REC_ORDER[i];
+  }
+  return null;
+}
+function updateRecLabel(){
+  var nid = nextRecId();
+  $('recNext').textContent = nid ? '下一个：' + recLabel(nid) : '12 个读数已记满';
+}
+$('btnRecord').addEventListener('click', function(){
+  var nid = nextRecId();
+  if (!nid){ toast('12 个读数已记满，如需重记请先清空'); return; }
+  $(nid).value = (S.m / 1000).toFixed(3);
+  recompute();
+  toast('已记录到「' + recLabel(nid) + '」');
+});
+
+/* ---------- 数据表与两种方法处理 ---------- */
+function recompute(){
+  var xL = [], xR = [], complete = true, j;
+  for (j = 0; j < 6; j++){
+    var elL = $('xL' + j), elR = $('xR' + j);
+    var vl = parsePos(elL.value), vr = parsePos(elR.value);
+    elL.classList.toggle('invalid', elL.value.trim() !== '' && vl === null);
+    elR.classList.toggle('invalid', elR.value.trim() !== '' && vr === null);
+    xL.push(vl); xR.push(vr);
+    if (vl === null || vr === null) complete = false;
+  }
+
+  var res = complete ? computeAll(xL, xR) : null;
+  for (j = 0; j < 6; j++){
+    $('dD' + j).textContent = res ? res.D[j].toFixed(3) : '—';
+    $('dQ' + j).textContent = res ? res.Q[j].toFixed(3) : '—';
+  }
+
+  if (res){
+    for (var i = 0; i < 3; i++){
+      $('dq' + i).textContent = res.dq[i].toFixed(3);
+      $('ri' + i).textContent = res.Ri[i].toFixed(2);
+    }
+    $('rAvg').textContent = res.avg.toFixed(2);
+    $('rRDq').textContent = res.avg.toFixed(2) + ' mm';
+    var vDq = res.avg.toFixed(2), uDq = fmtU2(res.uA, 2);
+    $('exprDq').textContent = 'R = (' + vDq + ' ± ' + uDq + ') mm，即 ' + vDq + '(' + uStd(uDq) + ') mm';
+    $('uADq').textContent = res.uA.toFixed(2) + ' mm';
+    $('relDq').textContent = fmtSig(res.relU, 2) + '%';
+    $('resDq').classList.remove('hidden');
+
+    var fit = linFit(K_LIST, res.Q);
+    if (fit){
+      lastFit = { ks: K_LIST.slice(), qs: res.Q.slice(), a: fit.a, b: fit.b };
+      $('rRLs').textContent = fit.Rls.toFixed(2) + ' mm';
+      var vLs = fit.Rls.toFixed(2), uLs = fmtU2(fit.uR, 2);
+      $('exprLs').textContent = 'R = (' + vLs + ' ± ' + uLs + ') mm，即 ' + vLs + '(' + uStd(uLs) + ') mm';
+      var bS = fit.b.toFixed(4), ubS = fmtU2(fit.ub, 4);
+      $('rSlope').textContent = bS + ' ± ' + ubS + '，即 ' + bS + '(' + uStd(ubS) + ')';
+      $('rIcept').textContent = fit.a.toFixed(3);
+      $('rRcor').textContent = Math.abs(fit.r).toFixed(6);
+      var cmp = Math.abs(fit.Rls - res.avg) / res.avg * 100;
+      $('rCmp').textContent = fmtSig(cmp, 2) + '%';
+      $('resLs').classList.remove('hidden');
+    } else {
+      lastFit = null;
+      $('resLs').classList.add('hidden');
+    }
+  } else {
+    $('dq0').textContent = $('dq1').textContent = $('dq2').textContent = '—';
+    $('ri0').textContent = $('ri1').textContent = $('ri2').textContent = '—';
+    $('rAvg').textContent = '—';
+    $('resDq').classList.add('hidden');
+    $('resLs').classList.add('hidden');
+    lastFit = null;
+  }
+  updateRecLabel();
+  drawFit();
+}
+
+document.addEventListener('input', function(e){
+  if (e.target && e.target.tagName === 'INPUT') recompute();
+});
+
+$('btnClear').addEventListener('click', function(){
+  if (!confirm('确定清空所有数据吗？')) return;
+  for (var j = 0; j < 6; j++){
+    $('xL' + j).value = '';
+    $('xR' + j).value = '';
+  }
+  recompute();
+  toast('已清空');
+});
+
+/* 示例数据：与模拟装置自洽的一组理想读数（环心 30.000 mm，R 约 850 mm，读数按 0.001 mm 取整） */
+var DEMO = {
+  xL: ['26.124', '26.461', '26.835', '27.259', '27.762', '28.417'],
+  xR: ['33.876', '33.539', '33.165', '32.741', '32.238', '31.583']
+};
+$('btnDemo').addEventListener('click', function(){
+  for (var j = 0; j < 6; j++){
+    $('xL' + j).value = DEMO.xL[j];
+    $('xR' + j).value = DEMO.xR[j];
+  }
+  recompute();
+  toast('已填入示例数据');
+});
+
+/* ---------- D²-k 拟合图 ---------- */
+function drawFit(){
+  var sc = setupCanvas(cvFit), ctx = sc.ctx, W = sc.W, H = sc.H;
+  ctx.clearRect(0, 0, W, H);
+  ctx.font = '12px system-ui,sans-serif';
+  if (!lastFit){
+    ctx.fillStyle = '#9aa3af';
+    ctx.textAlign = 'center';
+    ctx.fillText('填完全部 12 个读数后，此处自动绘制 D²-k 拟合图', W / 2, H / 2);
+    return;
+  }
+  var mg = { l: 46, r: 14, t: 14, b: 34 };
+  var pw = W - mg.l - mg.r, ph = H - mg.t - mg.b;
+  var xmin = 0, xmax = 32;
+  var qmax = 0, i;
+  for (i = 0; i < lastFit.qs.length; i++) if (lastFit.qs[i] > qmax) qmax = lastFit.qs[i];
+  var yt = ticks(0, qmax * 1.08, 6);
+  var ymax = yt[yt.length - 1] || qmax;
+  function X(x){ return mg.l + (x - xmin) / (xmax - xmin) * pw; }
+  function Y(y){ return mg.t + (1 - (y - 0) / (ymax - 0)) * ph; }
+
+  // 网格与坐标轴
+  ctx.strokeStyle = '#eef1f5'; ctx.lineWidth = 1;
+  for (i = 0; i < yt.length; i++){
+    ctx.beginPath(); ctx.moveTo(mg.l, Y(yt[i])); ctx.lineTo(W - mg.r, Y(yt[i])); ctx.stroke();
+  }
+  var xt = [0, 5, 10, 15, 20, 25, 30];
+  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (i = 0; i < xt.length; i++){
+    ctx.fillText(String(xt[i]), X(xt[i]), H - mg.b + 6);
+  }
+  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (i = 0; i < yt.length; i++){
+    ctx.fillText(String(yt[i]), mg.l - 5, Y(yt[i]));
+  }
+  ctx.strokeStyle = '#9aa3af';
+  ctx.beginPath();
+  ctx.moveTo(mg.l, mg.t); ctx.lineTo(mg.l, H - mg.b); ctx.lineTo(W - mg.r, H - mg.b);
+  ctx.stroke();
+
+  // 轴标签
+  ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText('k（暗环级数）', mg.l + pw / 2, H - 4);
+  ctx.save();
+  ctx.translate(11, mg.t + ph / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText('D² / mm²', 0, 0);
+  ctx.restore();
+
+  // 拟合直线
+  ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 1.6;
+  ctx.beginPath();
+  ctx.moveTo(X(xmin), Y(lastFit.a + lastFit.b * xmin));
+  ctx.lineTo(X(xmax), Y(lastFit.a + lastFit.b * xmax));
+  ctx.stroke();
+
+  // 数据点（加号描点）
+  ctx.strokeStyle = '#2a78d6';
+  ctx.lineWidth = 1.7;
+  for (i = 0; i < lastFit.ks.length; i++){
+    var px = X(lastFit.ks[i]), py = Y(lastFit.qs[i]);
+    ctx.beginPath();
+    ctx.moveTo(px - 4, py); ctx.lineTo(px + 4, py);
+    ctx.moveTo(px, py - 4); ctx.lineTo(px, py + 4);
+    ctx.stroke();
+  }
+}
+
+/* ---------- 窗口缩放时重绘（防抖） ---------- */
+var resizeTimer = null;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){ drawField(); drawFit(); }, 150);
+});
+
+/* 初始化 */
+updateReadout();
+recompute();
+</script>
+
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>
