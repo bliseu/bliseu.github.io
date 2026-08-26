@@ -410,6 +410,13 @@ body.home .page__content .btn:hover {
   box-shadow: 0 14px 26px rgba(15, 23, 42, .16);
 }
 
+body.home .publication-total {
+  margin-left: .4em;
+  color: var(--home-muted);
+  font-size: .82rem;
+  white-space: nowrap;
+}
+
 .theme-toggle {
   display: inline-flex;
   width: 40px;
@@ -465,6 +472,16 @@ html[data-theme="dark"] .theme-toggle .theme-toggle-icon::before {
 
 .phyexp-module__copy ul {
   margin: .75rem 0 1rem;
+}
+
+.phyexp-module__copy .phyexp-en {
+  margin-top: .75rem;
+  color: var(--home-muted);
+}
+
+.phyexp-module__copy .phyexp-en-list {
+  margin-top: -.35rem;
+  color: var(--home-muted);
 }
 
 .phyexp-module__copy .btn {
