@@ -244,7 +244,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <!-- ======== 第二部分：双量程毫安表 ======== -->
   <section class="card">
     <h2>二、双量程毫安表的改装与校准</h2>
-    <p class="hint" style="margin-top:0">闭环分流（环形抽头）电路：表头 G 与串联的 R₂、R₁ 构成闭合环路，单刀双掷开关 K 选择抽头。合向触点 2 时分流电阻为 R₁＋R₂，量程 1 mA；合向触点 1 时 R₂ 串入表头支路、R₁ 单独分流，量程 10 mA。R₁、R₂ 理论值由实测 R<sub>g</sub> 计算；实验值按电阻箱 0.1 Ω 分度取整。</p>
+    <p class="hint" style="margin-top:0">闭环分流（环形抽头）电路：表头 G 与串联的 R₂、R₁ 构成闭合环路，单刀双掷开关 K 选择抽头。合向触点 2 时分流电阻为 R₁＋R₂，量程 1 mA；合向触点 1 时 R₂ 串入表头支路、R₁ 单独分流，量程 10 mA。R₁、R₂ 理论值由实测 R<sub>g</sub> 计算；实验值按电阻箱 0.1 Ω 分度取整。注意改装并不更换表头：三个电路中都是同一个 300 µA 表头 G，指针满偏仍对应表头电流 300 µA，改变的只是刻度所代表的量（1 mA 档满偏代表 1 mA，10 mA 档代表 10 mA）。</p>
 
     <h3>表二　分流电阻的计算与取值</h3>
     <p class="hint" style="margin:4px 0 6px">当前 R<sub>g</sub> = <b id="mA2Rg">—</b> Ω（来自表一，可回第一部分修改）</p>
@@ -264,6 +264,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <canvas id="cvW2" aria-label="双量程毫安表校准接线图"></canvas>
       <div class="simbadge" id="w2Badge">已连接 0 / 9 根导线</div>
     </div>
+    <div class="simcap">图中表头仍是同一个 300 µA 表头 G，盘面刻度按当前档位量程改绘</div>
     <ol class="wirelist" id="w2List">
       <li id="w2l0"><span class="wok">○</span>电源 E＋ → 电阻箱 R<sub>L</sub></li>
       <li id="w2l1"><span class="wok">○</span>电阻箱 R<sub>L</sub> → 标准毫安表「＋」</li>
@@ -340,7 +341,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <!-- ======== 第三部分：双量程电压表 ======== -->
   <section class="card">
     <h2>三、双量程电压表的改装与校准</h2>
-    <p class="hint" style="margin-top:0">先把表头扩为灵敏度 1000 Ω/V 的「1 mA 表」（即第二部分装好的毫安表，1 mA 档，内阻 R′ = R<sub>g</sub>(R₁＋R₂)/(R<sub>g</sub>＋R₁＋R₂)），再串联分压电阻：R<sub>m1</sub> 配 2.5 V 档，R<sub>m2</sub> 为 2.5 V → 10 V 档的追加电阻。校准回路用滑线变阻器接成<b>分压器</b>，标准数字电压表与被校电压表<b>并联</b>，比较同一电压。</p>
+    <p class="hint" style="margin-top:0">先把表头配成灵敏度 S = 1000 Ω/V 的「1 mA 表」：表头仍是同一个 300 µA 表头 G，与第二部分 1 mA 档的分流电阻并联（即第二部分装好的毫安表），内阻 R′ = R<sub>g</sub>(R₁＋R₂)/(R<sub>g</sub>＋R₁＋R₂)；再串联分压电阻：R<sub>m1</sub> 配 2.5 V 档，R<sub>m2</sub> 为 2.5 V → 10 V 档的追加电阻。改装后刻度改绘为代表电压（2.5 V 档满偏 300 µA 代表 2.5 V，10 V 档代表 10 V）。校准回路用滑线变阻器接成<b>分压器</b>，标准数字电压表与被校电压表<b>并联</b>，比较同一电压。</p>
 
     <h3>表四　分压电阻的计算与取值</h3>
     <p class="hint" style="margin:4px 0 6px">1 mA 表内阻 R′ = <b id="vRprime">—</b> Ω（由表一 R<sub>g</sub> 与表二实验值自动算出）</p>
@@ -359,6 +360,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <canvas id="cvW3" aria-label="双量程电压表校准接线图"></canvas>
       <div class="simbadge" id="w3Badge">已连接 0 / 11 根导线</div>
     </div>
+    <div class="simcap">图中表头仍是同一个 300 µA 表头 G，盘面刻度按当前量程（2.5 V / 10 V）改绘</div>
     <ol class="wirelist" id="w3List">
       <li id="w3l0"><span class="wok">○</span>电源 E＋ → 开关 K（刀）</li>
       <li id="w3l1"><span class="wok">○</span>K 触点 → 滑线变阻器 A（上端）</li>
@@ -368,8 +370,8 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li id="w3l5"><span class="wok">○</span>R<sub>m1</sub> 右端 → R<sub>m2</sub> 左端</li>
       <li id="w3l6"><span class="wok">○</span>R<sub>m1</sub> 右端 → K₂ 触点「2.5 V」</li>
       <li id="w3l7"><span class="wok">○</span>R<sub>m2</sub> 右端 → K₂ 触点「10 V」</li>
-      <li id="w3l8"><span class="wok">○</span>K₂ 刀 → 1 mA 表「A」端</li>
-      <li id="w3l9"><span class="wok">○</span>1 mA 表「B」端 → 标准电压表「−」</li>
+      <li id="w3l8"><span class="wok">○</span>K₂ 刀 → 改装毫安表「A」端</li>
+      <li id="w3l9"><span class="wok">○</span>改装毫安表「B」端 → 标准电压表「−」</li>
       <li id="w3l10"><span class="wok">○</span>标准电压表「−」→ 电源 E−</li>
     </ol>
     <div class="btnrow noprint">
@@ -672,8 +674,8 @@ function drawBox(ctx, x, y, w, h, title, sub){
 
 // 指针表头表盘（f：0—1 偏转比例；opt：{name, max, unit, div, clsTxt}）
 function drawGauge(ctx, cx, cy, r, f, opt){
-  var px = cx, py = cy + r * 0.62;          // 指针转轴
-  var a0 = -142 * Math.PI / 180, a1 = -38 * Math.PI / 180;   // 刻度弧角度范围
+  var px = cx, py = cy + r * 0.50;          // 指针转轴
+  var a0 = -138 * Math.PI / 180, a1 = -42 * Math.PI / 180;   // 刻度弧角度范围
   function angOf(fr){ return a0 + (a1 - a0) * fr; }
   ctx.save();
   // 表壳与表盘面
@@ -681,31 +683,31 @@ function drawGauge(ctx, cx, cy, r, f, opt){
   ctx.lineWidth = Math.max(4, r * 0.07); ctx.strokeStyle = '#39434f'; ctx.stroke();
   ctx.beginPath(); ctx.arc(cx, cy, r * 0.97, 0, 7);
   ctx.lineWidth = 1; ctx.strokeStyle = '#b9ad92'; ctx.stroke();
-  // 主刻度（每 opt.div 格一分度弧长均匀）
+  // 主刻度（每 opt.div 格一分度弧长均匀；数字只标每 10 格，避免互相遮盖）
   var div = opt.div || 50, i;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   for (i = 0; i <= div; i++){
     var fr = i / div, maj = (i % 5 === 0);
     var ang = angOf(fr);
-    var rO = r * 0.86, rI = rO - (maj ? r * 0.09 : r * 0.05);
+    var rO = r * 0.84, rI = rO - (maj ? r * 0.07 : r * 0.04);
     ctx.beginPath();
     ctx.moveTo(px + rO * Math.cos(ang), py + rO * Math.sin(ang));
     ctx.lineTo(px + rI * Math.cos(ang), py + rI * Math.sin(ang));
-    ctx.strokeStyle = '#332f26'; ctx.lineWidth = maj ? 1.6 : 0.9; ctx.stroke();
-    if (maj && opt.max != null){
+    ctx.strokeStyle = '#332f26'; ctx.lineWidth = maj ? 1.5 : 0.8; ctx.stroke();
+    if (i % 10 === 0 && opt.max != null){
       var val = opt.max * fr;
       var txt = (opt.stepInt ? String(Math.round(val)) : (Math.round(val * 100) / 100).toFixed(opt.dp || 1));
       ctx.fillStyle = '#332f26';
-      ctx.font = (r * 0.13) + 'px system-ui, sans-serif';
-      ctx.fillText(txt, px + (rO - r * 0.17) * Math.cos(ang), py + (rO - r * 0.17) * Math.sin(ang));
+      ctx.font = (r * 0.11) + 'px system-ui, sans-serif';
+      ctx.fillText(txt, px + (rO - r * 0.13) * Math.cos(ang), py + (rO - r * 0.13) * Math.sin(ang));
     }
   }
   // 单位与名称
   ctx.fillStyle = '#5c5442';
-  ctx.font = '600 ' + (r * 0.15) + 'px system-ui, sans-serif';
-  if (opt.unit) ctx.fillText(opt.unit, cx, cy - r * 0.18);
-  ctx.font = (r * 0.115) + 'px system-ui, sans-serif';
-  if (opt.name) ctx.fillText(opt.name, cx, py - r * 0.30);
+  ctx.font = '600 ' + (r * 0.14) + 'px system-ui, sans-serif';
+  if (opt.unit) ctx.fillText(opt.unit, cx, cy + r * 0.02);
+  ctx.font = (r * 0.11) + 'px system-ui, sans-serif';
+  if (opt.name) ctx.fillText(opt.name, cx, py - r * 0.34);
   if (opt.clsTxt){
     ctx.fillStyle = '#87795c';
     ctx.font = (r * 0.10) + 'px system-ui, sans-serif';
@@ -1559,7 +1561,7 @@ function w2Scene(ctx, W, H, L, S){
   var gr = Math.min(H * 0.21, W * 0.115);
   drawGauge(ctx, W * 0.80, H * 0.72, gr, Math.min(1, w2.divF / 50),
     { max: MA_FS[w2.sel], dp: w2.sel === 0 ? 1 : 0, stepInt: w2.sel === 1, div: 50,
-      unit: 'mA', name: '改装表', clsTxt: '待定' });
+      unit: 'mA', name: '改装表 G', clsTxt: '待定' });
 }
 function boxVal(id){
   var v = parseRes($(id).value);
@@ -1885,7 +1887,7 @@ function w3Layout(W, H){
     wm2l: { lb: '', lx: -18, ly: 10 }, wm2r: { lb: '', lx: 15, ly: 0 },
     wt25: { lb: '触点2.5V', lx: 44, ly: 6 }, wt10: { lb: '触点10V', lx: 30, ly: 6 },
     wkd: { lb: 'K₂刀', lx: -24, ly: -10 },
-    wga: { lb: 'A', lx: 14, ly: -4 }, wgb: { lb: 'B', lx: 14, ly: 4 },
+    wga: { lb: 'A', lx: 14, ly: -4 }, wgb: { lb: 'B', lx: 15, ly: 10 },
     wdvp: { lb: '标准＋', lx: 2, ly: -11 }, wdvm: { lb: '标准−', lx: 30, ly: -11 }
   };
   T.wep.x = W * 0.130; T.wep.y = H * 0.600;
@@ -1958,10 +1960,11 @@ function w3Scene(ctx, W, H, L, S){
   }
   ctx.stroke(); ctx.restore();
 
-  // 1 mA 表（改装表芯）
+  // 被校电压表表盘：仍是同一个 300 µA 表头 G，刻度按当前量程改绘为电压
   var gr = Math.min(H * 0.21, W * 0.105);
   drawGauge(ctx, W * 0.56, H * 0.80, gr, Math.min(1, w3.divF / 50),
-    { max: 1.0, dp: 1, stepInt: false, div: 50, unit: 'mA', name: '1 mA 表', clsTxt: '' });
+    { max: VT_FS[w3.sel], dp: w3.sel === 0 ? 1 : 0, stepInt: w3.sel === 1, div: 50,
+      unit: 'V', name: '改装表 G', clsTxt: '' });
 
   // 标准数字电压表面板
   rrPath(ctx, W * 0.72, H * 0.78, W * 0.24, H * 0.185, 8);
