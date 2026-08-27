@@ -1,5 +1,6 @@
 <span class='anchor' id='news'></span>
 # 🆕 News
+- *2026.08.28*: &nbsp;🎉🎉 "Emergent Magnetism, Heavy Electrons, and Pressure-Induced Reentrant Superconductivity in the Iron Substituted 4d Transition-Metal Sulfides" is now published online in [**Advanced Science**](https://doi.org/10.1002/advs.77431).
 - *2026.08.26*: &nbsp;🎉🎉 "Synthesis, physical properties, and metamagnetic transitions of the quasi-one-dimensional antiferromagnet Dy2Sb5” is now published online in [**Journal of Alloys and Compounds**](https://doi.org/10.1016/j.jallcom.2026.190521).
 - *2026.08.26*: &nbsp;🎉🎉 "Observation of Magnetic-Anisotropy Crossover and High-Temperature Skyrmions in the Dirac Magnet Fe3Ge with a Distorted Kagome Lattice" is now published online in [**Advanced Science**](https://doi.org/10.1002/advs.77344).
 - *2026.08.21*: &nbsp;🎉🎉 "Rational design of high-temperature superconductors from hydrides to boron clathrates" is now published online in [**Appl. Phys. Rev.**](https://doi.org/10.1063/5.0341243).
