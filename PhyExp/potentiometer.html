@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<!-- © 2026 南京邮电大学/理学院/李斌　保留所有权利 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="电位差计测量电动势：模拟十一线电位差计的接线过程、工作电流标准化（定标）与补偿法测量，多组校正系数测量干电池电动势并合成不确定度。">
+<title>电位差计测量电动势 · 实验数据处理</title>
+<script>
+(function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+  --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#f3f5f8;
+  --card:#ffffff; --danger:#dc2626;
+  --field-bg:#ffffff; --row-line:#f1f3f6; --hl-bg:#f2f7ff;
+  --invalid-bg:#fef2f2; --foot-ink:#9aa3af;
+}
+/* 深色主题：与主页（index.html）同一套配色风格；切换由页尾主题模块控制 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --blue:#5ea1ef; --blue-dark:#8fb8e8; --accent:#ff8a3d;
+  --ink:#dbe3f0; --muted:#96a5bc; --line:#2c3950; --bg:#10192b;
+  --card:#182236; --danger:#ff7069;
+  --field-bg:#0d1524; --row-line:#223047; --hl-bg:#16283f;
+  --invalid-bg:#3b2023; --foot-ink:#6f8098;
+}
+:root[data-theme="dark"] .card{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .btn.primary{background:#2f6cb8;border-color:#2f6cb8}
+:root[data-theme="dark"] .btn.primary:hover{background:#3b7ac9}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{position:relative;background:linear-gradient(135deg,#104281,#2a78d6);color:#fff;padding:20px 16px 16px;text-align:center}
+.home{position:absolute;left:10px;top:10px;color:#fff;opacity:.85;text-decoration:none;font-size:.82rem;border:1px solid rgba(255,255,255,.4);padding:4px 11px;border-radius:999px;-webkit-tap-highlight-color:transparent}
+.home:hover{opacity:1;background:rgba(255,255,255,.12)}
+header h1{margin:0;font-size:1.32rem;font-weight:700;letter-spacing:.02em}
+header .en{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:.85rem;margin:3px 0 0;opacity:.78;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:.85rem;opacity:.88}
+main{max-width:760px;margin:0 auto;padding:14px 12px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border-radius:12px;padding:16px 14px;box-shadow:0 1px 3px rgba(16,66,129,.09)}
+h2{font-size:1rem;margin:0 0 10px;color:var(--blue-dark)}
+.hint{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+.btn{border:1px solid var(--line);background:var(--field-bg);border-radius:8px;padding:9px 14px;font-size:.9rem;cursor:pointer;color:var(--ink);-webkit-appearance:none;font-family:inherit}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{flex:1;min-height:46px;background:var(--blue);border-color:var(--blue);color:#fff;font-size:1.02rem;font-weight:600;border-radius:10px}
+.btn.primary:hover{background:#2069bd;color:#fff}
+.btn.primary small,.btn small{display:block;font-size:.72rem;font-weight:400;opacity:.85;margin-top:1px}
+.btnrow{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* 接线图与十一线板画布（仪器外观，两主题一致） */
+.simwrap{position:relative;max-width:560px;margin:0 auto}
+#cvWire{width:100%;aspect-ratio:8/5;display:block;border:1px solid var(--line);border-radius:12px;background:#ece7db;touch-action:manipulation}
+#cvWire.hovterm{cursor:pointer}
+#cvBoard{width:100%;aspect-ratio:16/9;display:block;border:1px solid var(--line);border-radius:12px;background:#e9e2cf;touch-action:none}
+#cvBoard.hoverdial{cursor:ew-resize}
+#cvBoard.dragging{cursor:grabbing}
+.simbadge{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.88);border:1px solid var(--line);color:#374151;padding:3px 13px;border-radius:999px;font-size:.78rem;font-weight:600;pointer-events:none;white-space:nowrap;font-variant-numeric:tabular-nums}
+.simcap{text-align:center;font-size:.78rem;color:var(--muted);margin:6px 0 2px}
+
+/* 接线进度列表 */
+.wirelist{margin:10px 0 0;padding-left:1.35em;font-size:.86rem;color:var(--muted)}
+.wirelist li{margin:3px 0}
+.wirelist li.ok{color:var(--blue-dark)}
+.wirelist .wok{display:inline-block;width:1.25em;font-weight:700}
+
+/* 仪表面板（LCD 保持实物外观，两主题一致） */
+.lcds{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0 2px}
+.lcd{flex:1;min-width:170px;max-width:280px;border:2px solid #3a4652;border-radius:8px;background:#101a24;padding:8px 12px 9px;box-shadow:inset 0 2px 6px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.18)}
+.lcd .llab{font-family:Consolas,"Courier New",monospace;font-size:.68rem;color:#8fa3b8;letter-spacing:.06em;display:flex;justify-content:space-between}
+.lcd .lval{font-family:Consolas,"Courier New",monospace;font-size:1.95rem;font-weight:700;color:#7ee2a8;text-align:center;letter-spacing:.04em;font-variant-numeric:tabular-nums;line-height:1.3;text-shadow:0 0 6px rgba(126,226,168,.35)}
+.lcd.volt .lval{color:#ffcf8a;text-shadow:0 0 6px rgba(255,207,138,.3)}
+.lcd .lsub{font-family:Consolas,"Courier New",monospace;font-size:.66rem;color:#8fa3b8;text-align:right;letter-spacing:.04em}
+.lcd.gal .lval.ovf{color:#ff8d7a;text-shadow:0 0 6px rgba(255,141,122,.35)}
+
+/* 控制组 */
+.cgroup{border:1px solid var(--line);border-radius:10px;padding:9px 10px 10px;background:var(--card);margin:8px 0}
+.cgroup .glab{font-size:.76rem;color:var(--muted);margin-bottom:6px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--field-bg);padding:8px 11px;font-size:.82rem;cursor:pointer;color:var(--ink);-webkit-appearance:none;font-family:inherit;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--blue);color:#fff;font-weight:600}
+.seg button:hover:not(.on){color:var(--blue)}
+.plugrow{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.plugrow button{min-width:36px;padding:7px 4px;font-size:.86rem;border:1px solid var(--line);background:var(--field-bg);border-radius:8px;cursor:pointer;color:var(--ink);-webkit-appearance:none;font-family:inherit;font-variant-numeric:tabular-nums}
+.plugrow button:hover{border-color:var(--blue);color:var(--blue)}
+.plugrow button.on{background:var(--blue);color:#fff;font-weight:700}
+.drumBtns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:4px 0}
+.drumBtns .btn{padding:7px 10px;font-size:.82rem;min-width:68px;font-variant-numeric:tabular-nums}
+
+/* 数据表 */
+table{width:100%;border-collapse:collapse}
+th{font-size:.78rem;color:var(--muted);font-weight:600;padding:6px 3px;border-bottom:1px solid var(--line);text-align:center;line-height:1.25}
+td{padding:5px 3px;text-align:center;border-bottom:1px solid var(--row-line);vertical-align:middle}
+tr.sep td,tr.sep th{border-top:2px solid var(--line)}
+td.dcell{font-variant-numeric:tabular-nums;color:var(--blue-dark);font-weight:600}
+td.ccalc{font-variant-numeric:tabular-nums;color:var(--ink)}
+.cell input{width:100%;height:38px;font-size:15px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 2px;background:var(--field-bg);color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+.cell input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.cell input.invalid{border-color:var(--danger);background:var(--invalid-bg)}
+tr.avg td{font-weight:700;color:var(--blue-dark);font-variant-numeric:tabular-nums}
+
+/* 结果 */
+.result{text-align:center}
+.result .big{font-size:1.75rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.result .lab{font-size:.85rem;color:var(--muted);margin-top:2px}
+.result .expr{font-size:.95rem;font-weight:600;color:var(--blue-dark);font-variant-numeric:tabular-nums;margin-top:4px}
+.result .row{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:12px}
+.result .item{text-align:center}
+.result .item .v{font-size:1.08rem;font-weight:700;color:var(--blue-dark);font-variant-numeric:tabular-nums}
+.result .item .lab{font-size:.75rem;color:var(--muted)}
+.hidden{display:none!important}
+
+.toast{position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(20px);background:rgba(17,24,39,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .25s;z-index:99;max-width:86vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 右上角主题切换按钮（自动/浅色/深色，与主页一致） */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;line-height:1;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.12);transition:transform .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:translateY(-2px);border-color:var(--blue);color:var(--blue)}
+.theme-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media print{.theme-btn{display:none!important}}
+footer{max-width:760px;margin:0 auto;padding:0 14px 30px;font-size:.8rem;color:var(--muted)}
+.copyright{text-align:center;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.78rem;color:var(--foot-ink)}
+.foot-email{text-align:center;margin:4px 0 0;font-size:.78rem;color:transparent}
+.foot-email:hover{color:var(--foot-ink)}
+footer details{border:0;padding-top:0}
+footer li{margin:4px 0}
+.mathlist{list-style:none;padding-left:0;margin:8px 0}
+.mathlist li{margin:11px 0}
+.flabel{color:var(--muted);margin-right:.35em}
+.mathwrap{overflow-x:auto;max-width:100%}
+math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;font-size:1.05rem;color:var(--ink)}
+.plain-fallback{display:none}
+.no-mathml .mathwrap{display:none}
+.no-mathml .plain-fallback{display:block}
+@media print{
+  header{background:#104281!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .noprint{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid var(--line)}
+  /* 深色模式下打印仍按浅色输出，保证纸面可读 */
+  html[data-theme]{color-scheme:light;
+    --blue:#2a78d6; --blue-dark:#104281; --accent:#e8590c;
+    --ink:#1f2937; --muted:#6b7280; --line:#e2e6ec; --bg:#fff;
+    --card:#fff; --danger:#dc2626;
+    --field-bg:#fff; --row-line:#f1f3f6; --hl-bg:#f2f7ff;
+    --invalid-bg:#fef2f2; --foot-ink:#9aa3af}
+}
+</style>
+</head>
+<body>
+
+<button id="themeBtn" class="theme-btn" type="button" aria-label="切换颜色模式" title="切换：自动 / 浅色 / 深色"><span id="themeIcon" aria-hidden="true">◐</span></button>
+
+<header>
+  <a class="home noprint" href="index.html">⌂ 首页</a>
+  <h1>电位差计测量电动势</h1>
+  <p class="en">Potentiometer &middot; Compensation Method</p>
+  <p>十一线电位差计：模拟接线 → 工作电流标准化（定标）→ 补偿法测干电池电动势，A 类＋B 类不确定度合成</p>
+</header>
+
+<noscript><p style="text-align:center;color:#dc2626">本工具需要在浏览器中启用 JavaScript 才能运行。</p></noscript>
+
+<main>
+  <!-- ======== 第一部分：连接电路 ======== -->
+  <section class="card">
+    <h2>一、连接电路（模拟接线）</h2>
+    <p class="hint" style="margin-top:0">按原理图把电位差计实验仪（左）与十一线电位差计板（右）连接起来：先点击一个接线柱，再点击另一个接线柱，即可连出一根导线。共 6 根：工作电流回路 2 根、补偿回路 2 根（C 插孔线与 D 刻度盘线）、待测干电池 2 根。接错的组合不会被接受，可按任意顺序连接。</p>
+    <div class="simwrap noprint">
+      <canvas id="cvWire" aria-label="电位差计接线图"></canvas>
+      <div class="simbadge" id="wireBadge">已连接 0 / 6 根导线</div>
+    </div>
+    <ol class="wirelist" id="wireList">
+      <li id="wl0"><span class="wok">○</span>工作电源 E＋ → 电阻丝 A 端（工作电流回路）</li>
+      <li id="wl1"><span class="wok">○</span>工作电源 E− → 电阻丝 B 端（工作电流回路）</li>
+      <li id="wl2"><span class="wok">○</span>C 插孔引线 → 接线柱 C（补偿回路，经机内保护电阻 S₃ 与检流计）</li>
+      <li id="wl3"><span class="wok">○</span>D 刻度盘引线 → 接线柱 D（补偿回路，经机内选择开关 S₂ 接 En 或 Ex）</li>
+      <li id="wl4"><span class="wok">○</span>接线柱 Ex＋ → 干电池「＋」（待测电动势）</li>
+      <li id="wl5"><span class="wok">○</span>接线柱 Ex− → 干电池「−」（待测电动势）</li>
+    </ol>
+    <div class="btnrow noprint">
+      <button type="button" class="btn" id="btnWireAuto">自动接线（演示）</button>
+      <button type="button" class="btn" id="btnWireReset">重新接线</button>
+    </div>
+    <p class="hint hidden" id="wireDone" style="color:var(--blue-dark);font-weight:600">接线完成 ✓　通电前检查：① S₂ 拨到中间位置（断开补偿回路）；② S₃ 断开（检流计串入 10 kΩ 保护电阻）；③ 检流计档位置「断开」，调节调零旋钮使示值为零；④ 使用机内检流计与标准电势源（S₅、S₆ 向下合）。确认无误后合上电源总开关，到第二部分定标与测量。</p>
+  </section>
+
+  <!-- ======== 第二部分：定标与测量模拟 ======== -->
+  <section class="card">
+    <h2>二、工作电流标准化（定标）与测量</h2>
+    <p class="hint" style="margin-top:0">定标：选定校正系数 u₀，按 Ls = En/u₀ 把 C 插入相应插孔、刻度盘转到相应读数；S₂ 拨向 En，把电源电压 E₀ 预置到 11·u₀ 附近；由粗到细调节 E₀（配合逐步提高检流计灵敏度档位），直到 10⁻⁸ A 档示零，按「记录定标」。测量：估计 Lx = E估/u₀，重设插孔与刻度盘；S₂ 拨向 Ex，细调刻度盘到 10⁻⁸ A 档示零，按「记录测量」。每组测 5 次（电池电动势的微小变化会使示数再次偏离，需重新细调平衡）。</p>
+
+    <div class="simwrap noprint">
+      <canvas id="cvBoard" aria-label="十一线电位差计板"></canvas>
+      <div class="simbadge" id="boardBadge">L = 0 ＋ 0.000 = 0.000 m</div>
+    </div>
+    <div class="simcap">十一线电位差计板：C 插孔（整数米）＋ D 刻度盘（0—0.999 m，分辨率 0.001 m）。可在图中左右拖动刻度盘调节 D。</div>
+
+    <div class="lcds noprint">
+      <div class="lcd volt"><div class="llab"><span>E₀</span><span>V</span></div><div class="lval" id="pmVal">0.00</div><div class="lsub">工作电源（粗调 0.1 V · 细调 0.01 V）</div></div>
+      <div class="lcd gal"><div class="llab"><span>G</span><span>数字式检流计</span></div><div class="lval" id="galVal">----</div><div class="lsub" id="galSub">档位：断开</div></div>
+    </div>
+
+    <div class="cgroup noprint"><div class="glab">校正系数 u₀ / (V/m)（换组后需重新定标）</div>
+      <div class="seg" id="segU0"><button type="button" id="btnU00" class="on">0.2000</button><button type="button" id="btnU01">0.2500</button><button type="button" id="btnU02">0.3000</button></div>
+    </div>
+    <div class="cgroup noprint"><div class="glab">电源总开关 S₁ · 选择开关 S₂ · 保护电阻开关 S₃</div>
+      <div class="seg" id="segPow"><button type="button" id="btnPowOff" class="on">S₁ 关</button><button type="button" id="btnPowOn">S₁ 开</button></div>
+      <div style="height:6px"></div>
+      <div class="seg" id="segS2"><button type="button" id="btnS2En">S₂→En 定标</button><button type="button" id="btnS2Mid" class="on">S₂ 中间断开</button><button type="button" id="btnS2Ex">S₂→Ex 测量</button></div>
+      <div style="height:6px"></div>
+      <div class="seg" id="segS3"><button type="button" id="btnS3Off" class="on">S₃ 断开（串 10 kΩ）</button><button type="button" id="btnS3On">S₃ 闭合（细调）</button></div>
+    </div>
+    <div class="cgroup noprint"><div class="glab">检流计灵敏度档位</div>
+      <div class="seg" id="segG"><button type="button" id="btnG0" class="on">断开</button><button type="button" id="btnG1">10⁻⁵ A</button><button type="button" id="btnG2">10⁻⁶ A</button><button type="button" id="btnG3">10⁻⁷ A</button><button type="button" id="btnG4">10⁻⁸ A</button></div>
+      <div class="btnrow" style="margin-top:8px"><button type="button" class="btn" id="btnZero">检流计调零<small>档位置「断开」后调零</small></button></div>
+    </div>
+    <div class="cgroup noprint"><div class="glab">C 插孔（插孔 n 表示从 A 端起 n 米）</div>
+      <div class="plugrow" id="plugRow">
+        <button type="button" id="btnPlug0">0</button><button type="button" id="btnPlug1">1</button><button type="button" id="btnPlug2">2</button><button type="button" id="btnPlug3">3</button><button type="button" id="btnPlug4">4</button><button type="button" id="btnPlug5">5</button><button type="button" id="btnPlug6">6</button><button type="button" id="btnPlug7">7</button><button type="button" id="btnPlug8">8</button><button type="button" id="btnPlug9">9</button><button type="button" id="btnPlug10">10</button>
+      </div>
+    </div>
+    <div class="cgroup noprint"><div class="glab">刻度盘 D（0—0.999 m，分辨率 0.001 m）</div>
+      <div class="drumBtns">
+        <button type="button" class="btn" id="btnDm100">−0.100</button>
+        <button type="button" class="btn" id="btnDm10">−0.010</button>
+        <button type="button" class="btn" id="btnDm1">−0.001</button>
+        <button type="button" class="btn" id="btnDp1">+0.001</button>
+        <button type="button" class="btn" id="btnDp10">+0.010</button>
+        <button type="button" class="btn" id="btnDp100">+0.100</button>
+      </div>
+    </div>
+    <div class="cgroup noprint"><div class="glab">工作电源电压 E₀ / V（定标时应调到 11·u₀ 附近：0.2000→2.20、0.2500→2.75、0.3000→3.30）</div>
+      <div class="drumBtns">
+        <button type="button" class="btn" id="btnEm10">−0.10</button>
+        <button type="button" class="btn" id="btnEm1">−0.01</button>
+        <button type="button" class="btn" id="btnEp1">+0.01</button>
+        <button type="button" class="btn" id="btnEp10">+0.10</button>
+      </div>
+    </div>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnRecStd">记录定标（E₀、Ls）<small id="recNextStd">当前组：u₀ = 0.2000 V/m，未定标</small></button>
+      <button type="button" class="btn primary" id="btnRecLx">记录测量 Lx<small id="recNextLx">下一个：第 1 次（u₀ = 0.2000）</small></button>
+      <button type="button" class="btn" id="btnUndoSim">撤销</button>
+    </div>
+  </section>
+
+  <!-- ======== 第三部分：数据记录与处理 ======== -->
+  <section class="card">
+    <h2>三、数据记录与处理</h2>
+    <p class="hint" style="margin-top:0">每种校正系数各测 5 次。E = u₀·Lx 自动计算；定标长度应满足 Ls = En/u₀（En = 1.0186 V）。每组给出平均值与不确定度，最后给出全部 15 次测量合成的总结果。表格可直接输入自己实验记录的数据。</p>
+    <table>
+      <thead>
+        <tr><th style="width:13%">校正系数<br>u₀ / (V/m)</th><th style="width:9%">次数</th><th style="width:16%">电源电压<br>E₀ / V</th><th style="width:17%">定标长度<br>Ls / m</th><th style="width:17%">测量长度<br>Lx / m</th><th style="width:17%">待测电动势<br>E / V</th><th style="width:11%">平均值<br>Ē / V</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dcell" rowspan="5">0.2000</td>
+          <td class="dcell">1</td>
+          <td class="cell"><input id="g0E0_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g0Ls_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g0Lx_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="g0Ec_0">—</td>
+          <td class="dcell" rowspan="5" id="g0Avg">—</td>
+        </tr>
+        <tr><td class="dcell">2</td><td class="cell"><input id="g0E0_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Ls_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Lx_1" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g0Ec_1">—</td></tr>
+        <tr><td class="dcell">3</td><td class="cell"><input id="g0E0_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Ls_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Lx_2" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g0Ec_2">—</td></tr>
+        <tr><td class="dcell">4</td><td class="cell"><input id="g0E0_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Ls_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Lx_3" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g0Ec_3">—</td></tr>
+        <tr><td class="dcell">5</td><td class="cell"><input id="g0E0_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Ls_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g0Lx_4" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g0Ec_4">—</td></tr>
+        <tr class="sep">
+          <td class="dcell" rowspan="5">0.2500</td>
+          <td class="dcell">1</td>
+          <td class="cell"><input id="g1E0_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g1Ls_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g1Lx_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="g1Ec_0">—</td>
+          <td class="dcell" rowspan="5" id="g1Avg">—</td>
+        </tr>
+        <tr><td class="dcell">2</td><td class="cell"><input id="g1E0_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Ls_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Lx_1" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g1Ec_1">—</td></tr>
+        <tr><td class="dcell">3</td><td class="cell"><input id="g1E0_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Ls_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Lx_2" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g1Ec_2">—</td></tr>
+        <tr><td class="dcell">4</td><td class="cell"><input id="g1E0_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Ls_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Lx_3" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g1Ec_3">—</td></tr>
+        <tr><td class="dcell">5</td><td class="cell"><input id="g1E0_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Ls_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g1Lx_4" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g1Ec_4">—</td></tr>
+        <tr class="sep">
+          <td class="dcell" rowspan="5">0.3000</td>
+          <td class="dcell">1</td>
+          <td class="cell"><input id="g2E0_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g2Ls_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="cell"><input id="g2Lx_0" type="text" inputmode="decimal" placeholder="—"></td>
+          <td class="ccalc" id="g2Ec_0">—</td>
+          <td class="dcell" rowspan="5" id="g2Avg">—</td>
+        </tr>
+        <tr><td class="dcell">2</td><td class="cell"><input id="g2E0_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Ls_1" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Lx_1" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g2Ec_1">—</td></tr>
+        <tr><td class="dcell">3</td><td class="cell"><input id="g2E0_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Ls_2" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Lx_2" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g2Ec_2">—</td></tr>
+        <tr><td class="dcell">4</td><td class="cell"><input id="g2E0_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Ls_3" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Lx_3" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g2Ec_3">—</td></tr>
+        <tr><td class="dcell">5</td><td class="cell"><input id="g2E0_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Ls_4" type="text" inputmode="decimal" placeholder="—"></td><td class="cell"><input id="g2Lx_4" type="text" inputmode="decimal" placeholder="—"></td><td class="ccalc" id="g2Ec_4">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="result hidden" id="resAll" style="margin-top:14px">
+      <div class="big" id="bigAll">—</div>
+      <div class="lab">干电池电动势（全部测量合成，A 类＋B 类）</div>
+      <div class="expr" id="exprAll">—</div>
+      <div class="row">
+        <div class="item"><div class="v" id="rN">—</div><div class="lab">测量次数 n</div></div>
+        <div class="item"><div class="v" id="rUa">—</div><div class="lab">u_A / V</div></div>
+        <div class="item"><div class="v" id="rUb">—</div><div class="lab">u_B / V</div></div>
+      </div>
+      <p class="hint">分组结果：</p>
+      <div class="expr" id="exprG0">u₀ = 0.2000 V/m：—</div>
+      <div class="expr" id="exprG1">u₀ = 0.2500 V/m：—</div>
+      <div class="expr" id="exprG2">u₀ = 0.3000 V/m：—</div>
+      <p class="hint">B 类不确定度来自刻度盘分辨率 ΔL = 0.001 m（Lx 与 Ls 各一项）；校正系数越小（电阻丝用得越长），u_B 与 U 越小，测量越精密。</p>
+    </div>
+
+    <div class="btnrow noprint">
+      <button type="button" class="btn primary" id="btnDemoAll">填入示例数据</button>
+      <button type="button" class="btn" id="btnClearAll">清空表格</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <details>
+    <summary>计算公式说明</summary>
+    <ul class="mathlist">
+      <li><span class="flabel">补偿条件与工作电流标准化（定标，En = 1.0186 V）：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>u</mi><mn>0</mn></msub><mo>·</mo><msub><mi>L</mi><mi>s</mi></msub><mo>=</mo><msub><mi>E</mi><mi>n</mi></msub><mo>,</mo><mspace width="0.4em"/><msub><mi>u</mi><mn>0</mn></msub><mo>=</mo><mfrac><msub><mi>E</mi><mi>n</mi></msub><msub><mi>L</mi><mi>s</mi></msub></mfrac><mo>=</mo><mfrac><msub><mi>E</mi><mn>0</mn></msub><mi>L</mi></mfrac><mspace width="0.3em"/><mo fence="true">(</mo><mi>L</mi><mo>=</mo><mn>11</mn><mspace width="0.15em"/><mi>m</mi><mo fence="true">)</mo></math></div>
+      </li>
+      <li><span class="flabel">测量（保持工作电流不变）：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>E</mi><mi>x</mi></msub><mo>=</mo><msub><mi>u</mi><mn>0</mn></msub><mo>·</mo><msub><mi>L</mi><mi>x</mi></msub><mo>,</mo><mspace width="0.4em"/><msub><mi>L</mi><mi>x</mi></msub><mo>=</mo><mi>n</mi><mo fence="true">(</mo><mi>C</mi><mspace width="0.15em"/><mi>插孔</mi><mo fence="true">)</mo><mo>+</mo><mi>D</mi><mspace width="0.15em"/><mi>刻度盘读数</mi></math></div>
+      </li>
+      <li><span class="flabel">平均值：</span>
+        <div class="mathwrap"><math display="block"><mover accent="true"><mi>E</mi><mo>¯</mo></mover><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>E</mi><mi>i</mi></msub></math></div>
+      </li>
+      <li><span class="flabel">A 类不确定度：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>u</mi><mi>A</mi></msub><mo>=</mo><mfrac><mi>s</mi><msqrt><mi>n</mi></msqrt></mfrac><mo>,</mo><mspace width="0.4em"/><mi>s</mi><mo>=</mo><msqrt><mfrac><mn>1</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo fence="true">(</mo><msub><mi>E</mi><mi>i</mi></msub><mo>−</mo><mover accent="true"><mi>E</mi><mo>¯</mo></mover><mo fence="true">)</mo></mrow><mn>2</mn></msup></msqrt></math></div>
+      </li>
+      <li><span class="flabel">B 类不确定度（刻度盘分辨率 ΔL = 0.001 m）：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>u</mi><mi>B</mi></msub><mo>=</mo><msub><mi>E</mi><mi>x</mi></msub><msqrt><msup><mrow><mo fence="true">(</mo><mfrac><mi>Δ</mi><mi>L</mi></mfrac><mrow><mo>/</mo><msqrt><mn>3</mn></msqrt><mspace width="0.15em"/><msub><mi>L</mi><mi>x</mi></msub></mrow><mo fence="true">)</mo></msup><mo>+</mo><msup><mrow><mo fence="true">(</mo><mfrac><mi>Δ</mi><mi>L</mi></mfrac><mrow><mo>/</mo><msqrt><mn>3</mn></msqrt><mspace width="0.15em"/><msub><mi>L</mi><mi>s</mi></msub></mrow><mo fence="true">)</mo></msup></msqrt></math></div>
+      </li>
+      <li><span class="flabel">合成不确定度与结果表达式：</span>
+        <div class="mathwrap"><math display="block"><mi>U</mi><mo>=</mo><msqrt><msubsup><mi>u</mi><mi>A</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>u</mi><mi>B</mi><mn>2</mn></msubsup></msqrt><mo>,</mo><mspace width="0.5em"/><mi>E</mi><mo>=</mo><mover accent="true"><mi>E</mi><mo>¯</mo></mover><mo>±</mo><mi>U</mi><mo>,</mo><mspace width="0.3em"/><mi>即</mi><mspace width="0.3em"/><mover accent="true"><mi>E</mi><mo>¯</mo></mover><mo fence="true">(</mo><mi>U</mi><mo fence="true">)</mo></math></div>
+      </li>
+    </ul>
+    <ul class="mathlist plain-fallback">
+      <li>定标（补偿条件）：u₀·Ls = En，u₀ = En/Ls = E₀/L（L = 11 m，Ls = En/u₀，如 u₀ = 0.2000 V/m 时 Ls = 5.093 m）。</li>
+      <li>测量：Ex = u₀·Lx，Lx = C 插孔读数（整数米）＋ D 刻度盘读数（0—0.999 m）。</li>
+      <li>平均值：Ē = (1/n)ΣEᵢ。</li>
+      <li>A 类不确定度：u_A = s/√n，s = √[Σ(Eᵢ−Ē)²/(n−1)]。</li>
+      <li>B 类不确定度：u_B = Ex·√[(ΔL/(√3·Lx))² ＋ (ΔL/(√3·Ls))²]，ΔL = 0.001 m。</li>
+      <li>合成：U = √(u_A²＋u_B²)；结果 E = Ē ± U，即 Ē(U)。</li>
+    </ul>
+    <p>补偿法的要点：检流计示零时测量回路电流为零，被测电动势不受测量装置分流影响。定标与测量之间必须保持工作电流不变（电源电压 E₀ 不动、电阻丝回路不断开）。B 类不确定度取刻度盘分辨率 ΔL = 0.001 m 按均匀分布处理；标准电池的影响远小于此项，已忽略。不确定度至多保留两位有效数字（四舍六入五凑偶），结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 1.5020 ± 0.0003 记作 1.5020(3)。</p>
+  </details>
+  <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+'use strict';
+/*__CALC_BEGIN__*/
+/* ===================== 常量与纯计算部分 ===================== */
+
+var EN = 1.0186;                     // 标准电势源电动势 / V
+var U0S = [0.2000, 0.2500, 0.3000];  // 校正系数 / (V/m)
+var WIRE_LEN = 11;                   // 电阻丝总长 / m
+var EX_TRUE = 1.5020;                // 待测干电池真实电动势 / V（模拟内部值）
+var DL = 0.001;                      // 刻度盘分辨率 / m
+
+// 示例数据（自洽：E = u₀·Lx ≈ 1.502 V）
+var DEMO = [
+  { e0: '2.20', ls: '5.093', lx: ['7.510', '7.508', '7.511', '7.509', '7.512'] },
+  { e0: '2.75', ls: '4.074', lx: ['6.008', '6.006', '6.009', '6.010', '6.007'] },
+  { e0: '3.30', ls: '3.395', lx: ['5.007', '5.005', '5.008', '5.006', '5.009'] }
+];
+
+// 解析电源电压（V，两位小数，0.10—4.50），非法返回 null
+function parseVolt(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1}(\.\d{1,2})?$/.test(str)) return null;
+  var v = parseFloat(str);
+  if (!(v >= 0.10 && v <= 4.50)) return null;
+  return v;
+}
+// 解析电阻丝长度（m，三位小数，0.100—10.999），非法返回 null
+function parseLen(str){
+  if (typeof str !== 'string') return null;
+  str = str.trim();
+  if (!/^\d{1,2}(\.\d{1,3})?$/.test(str)) return null;
+  var v = parseFloat(str);
+  if (!(v >= 0.100 && v <= 10.999)) return null;
+  return v;
+}
+
+// 四舍六入五凑偶（保留 n 位有效数字）
+function sigRound(x, n){
+  if (!Number.isFinite(x)) return NaN;
+  if (x === 0) return 0;
+  var v = Number(x.toPrecision(15));
+  var f = Math.floor(Math.log(Math.abs(v)) / Math.LN10) - (n - 1);
+  var p = Math.pow(10, f);
+  var d = v / p;
+  var r = Math.round(d);
+  var diff = d - r;
+  if (Math.abs(Math.abs(diff) - 0.5) < 1e-9){   // 恰好 .5 → 凑偶
+    if (r % 2 !== 0) r += (diff > 0 ? 1 : -1);
+  }
+  return Number((r * p).toPrecision(15));
+}
+function fmtSig(x, n){
+  var v = sigRound(x, n);
+  if (!Number.isFinite(v)) return '—';
+  if (v === 0) return '0';
+  var abs = Math.abs(v);
+  if (abs >= 1e6 || abs < 1e-4) return v.toExponential(Math.max(0, n - 1));
+  return v.toPrecision(n).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+// 新标准记法 X(U)：U 小于 1 时去掉「0.」与其后的前导零，如 0.0003 → 3；
+// U 不小于 1 时原样保留，如 1.2 → 1.2
+function uStd(u){
+  var s = String(u);
+  if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
+  return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
+}
+// 不确定度格式化：至多两位有效数字（凑偶），小数位数不超过 maxDp
+function fmtU2(u, maxDp){
+  if (!Number.isFinite(u)) return '—';
+  if (u === 0) return '0';
+  var abs = Math.abs(u);
+  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
+  var e = Math.floor(Math.log10(abs));
+  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
+  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
+  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 算术平均与标准差
+function meanSd(a){
+  var n = a.length, i, m = 0, s = NaN;
+  for (i = 0; i < n; i++) m += a[i];
+  m /= n;
+  if (n >= 2){
+    var ss = 0;
+    for (i = 0; i < n; i++){ var d = a[i] - m; ss += d * d; }
+    s = Math.sqrt(ss / (n - 1));
+  }
+  return { n: n, m: m, s: s };
+}
+// 单行 B 类不确定度：u_B = E·(ΔL/√3)·√(1/Lx²＋1/Ls²)，E = u₀·Lx
+function uBrow(u0, ls, lx){
+  return u0 * lx * (DL / Math.sqrt(3)) * Math.sqrt(1 / (lx * lx) + 1 / (ls * ls));
+}
+// 一组（或全部）测量的统计：rows = [{u0, e0, ls, lx}]
+// 返回 {n, ebar, s, uA, uB, U}；n = 0 返回 null
+function statsOf(rows){
+  var n = rows.length;
+  if (n === 0) return null;
+  var es = [], i;
+  for (i = 0; i < n; i++) es.push(rows[i].u0 * rows[i].lx);
+  var ms = meanSd(es);
+  var uA = (n >= 2) ? ms.s / Math.sqrt(n) : 0;
+  var sb = 0;
+  for (i = 0; i < n; i++){ var ub = uBrow(rows[i].u0, rows[i].ls, rows[i].lx); sb += ub * ub; }
+  var uB = Math.sqrt(sb / n);
+  var U = Math.sqrt(uA * uA + uB * uB);
+  return { n: n, ebar: ms.m, s: ms.s, uA: uA, uB: uB, U: U };
+}
+// 结果表达式「E = Ē ± U，即 Ē(U) V」（末位对齐；U 用 maxDp = 4）
+function buildExpr(ebar, U){
+  if (!Number.isFinite(ebar)) return '—';
+  var us = fmtU2(U, 4);
+  var dp;
+  if (us === '—' || us === '0'){ dp = 4; us = (us === '0') ? '0.0000' : '—'; }
+  else dp = (us.indexOf('.') < 0) ? 0 : us.length - us.indexOf('.') - 1;
+  var ev = ebar.toFixed(dp);
+  return 'E = ' + ev + ' ± ' + us + '，即 ' + ev + '(' + uStd(us) + ') V';
+}
+/*__CALC_END__*/
+</script>
+<script>
+/* ===================== 通用工具 ===================== */
+function $(id){ return document.getElementById(id); }
+
+var toastTimer = null;
+function toast(msg, ok){
+  var t = $('toast');
+  t.textContent = msg;
+  t.style.background = ok ? 'rgba(21,94,54,.95)' : 'rgba(17,24,39,.92)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+}
+function setupCanvas(cv){
+  var r = cv.getBoundingClientRect();
+  var dpr = window.devicePixelRatio || 1;
+  cv.width = Math.round(r.width * dpr);
+  cv.height = Math.round(r.height * dpr);
+  var ctx = cv.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx: ctx, W: r.width, H: r.height };
+}
+function evPt(cv, e){
+  var r = cv.getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+/* ===================== 第一部分：连接电路 ===================== */
+var cvWire = $('cvWire');
+var WIRE = { done: [], sel: null, anim: false };
+var WIRE_DEFS = [
+  { a: 'Ep', b: 'A',  col: '#c0392b', name: 'E＋ → A（工作电流回路）' },
+  { a: 'Em', b: 'B',  col: '#2d3436', name: 'E− → B（工作电流回路）' },
+  { a: 'Cp', b: 'Ct', col: '#2a78d6', name: 'C 插孔线 → C（补偿回路）' },
+  { a: 'Dp', b: 'Dt', col: '#e8590c', name: 'D 刻度盘线 → D（补偿回路）' },
+  { a: 'Xp', b: 'Bp', col: '#c0392b', name: 'Ex＋ → 电池＋（待测电动势）' },
+  { a: 'Xm', b: 'Bm', col: '#2d3436', name: 'Ex− → 电池−（待测电动势）' }
+];
+var TERMS = null;
+
+function wireLayout(W, H){
+  var xL = W * 0.42, xR = W * 0.58;
+  return {
+    Ep: { x: xL, y: H * 0.16, lab: 'E＋', side: 'L', col: '#c0392b' },
+    Em: { x: xL, y: H * 0.25, lab: 'E−', side: 'L', col: '#2d3436' },
+    Ct: { x: xL, y: H * 0.46, lab: 'C',  side: 'L', col: '#2a78d6' },
+    Dt: { x: xL, y: H * 0.55, lab: 'D',  side: 'L', col: '#e8590c' },
+    Xp: { x: xL, y: H * 0.76, lab: 'Ex＋', side: 'L', col: '#c0392b' },
+    Xm: { x: xL, y: H * 0.85, lab: 'Ex−', side: 'L', col: '#2d3436' },
+    A:  { x: xR, y: H * 0.16, lab: 'A',  side: 'R', col: '#c0392b' },
+    B:  { x: xR, y: H * 0.25, lab: 'B',  side: 'R', col: '#2d3436' },
+    Cp: { x: xR, y: H * 0.46, lab: 'C 插孔', side: 'R', col: '#2a78d6' },
+    Dp: { x: xR, y: H * 0.55, lab: 'D 刻度盘', side: 'R', col: '#e8590c' },
+    Bp: { x: W * 0.455, y: H * 0.755, lab: '＋', side: 'BT', col: '#c0392b' },
+    Bm: { x: W * 0.545, y: H * 0.755, lab: '−', side: 'BT', col: '#2d3436' }
+  };
+}
+function hitTerm(T, p){
+  if (!T) return null;
+  for (var k in T){
+    var t = T[k];
+    if ((p.x - t.x) * (p.x - t.x) + (p.y - t.y) * (p.y - t.y) <= 18 * 18) return k;
+  }
+  return null;
+}
+function panelText(ctx, txt, x, y, col, size, bold, align){
+  ctx.fillStyle = col;
+  ctx.font = (bold ? '600 ' : '') + (size || 11) + 'px system-ui,"PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = align || 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(txt, x, y);
+}
+function lcdBox(ctx, x, y, w, h, txt, col){
+  ctx.fillStyle = '#101a24';
+  ctx.strokeStyle = '#3a4652';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, 4) : ctx.rect(x, y, w, h); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = col || '#7ee2a8';
+  ctx.font = '600 13px Consolas,"Courier New",monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(txt, x + w / 2, y + h / 2 + 1);
+}
+function knob(ctx, x, y, r, lab){
+  ctx.fillStyle = '#c8cfd8'; ctx.strokeStyle = '#6b7280'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - r + 2.5); ctx.stroke();
+  panelText(ctx, lab, x, y + r + 8, '#4b5563', 9.5, false, 'center');
+}
+function drawPanel22(ctx, W, H){
+  var x0 = 6, y0 = H * 0.05, x1 = W * 0.42, y1 = H * 0.95;
+  ctx.fillStyle = '#dde2e9'; ctx.strokeStyle = '#8b95a3'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y0, x1 - x0, y1 - y0, 10) : ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#c3cad4';
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y0, x1 - x0, 22, [10, 10, 0, 0]) : ctx.rect(x0, y0, x1 - x0, 22); ctx.fill();
+  panelText(ctx, 'FB322 电位差计实验仪', (x0 + x1) / 2, y0 + 11, '#1f2937', 11.5, true, 'center');
+  var wx = x0 + 10, wy = y0 + 34;
+  lcdBox(ctx, wx, wy, 74, 26, '0.00 V', '#ffcf8a');
+  panelText(ctx, '工作电源 E₀', wx + 37, wy + 36, '#4b5563', 9.5, false, 'center');
+  knob(ctx, wx + 104, wy + 13, 10, '粗调');
+  knob(ctx, wx + 140, wy + 13, 10, '细调');
+  lcdBox(ctx, wx, wy + 58, 74, 26, ' ---- ', '#7ee2a8');
+  panelText(ctx, '数字式检流计 G', wx + 37, wy + 94, '#4b5563', 9.5, false, 'center');
+  knob(ctx, wx + 104, wy + 71, 10, '调零');
+  panelText(ctx, '灵敏度', wx + 140, wy + 60, '#4b5563', 9.5, false, 'center');
+  panelText(ctx, '10⁻⁵→10⁻⁸', wx + 140, wy + 74, '#6b7280', 8, false, 'center');
+  panelText(ctx, 'S₁ 电源   S₂ En/断/Ex   S₃ 保护电阻   S₅ S₆ 机内/外接', (x0 + x1) / 2, y1 - 16, '#6b7280', 9, false, 'center');
+}
+function drawPanel25(ctx, W, H){
+  var x0 = W * 0.58, y0 = H * 0.05, x1 = W - 6, y1 = H * 0.95;
+  ctx.fillStyle = '#e9e2cf'; ctx.strokeStyle = '#a89a76'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y0, x1 - x0, y1 - y0, 10) : ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#d9d0b8';
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y0, x1 - x0, 22, [10, 10, 0, 0]) : ctx.rect(x0, y0, x1 - x0, 22); ctx.fill();
+  panelText(ctx, 'FB325 十一线电位差计', (x0 + x1) / 2, y0 + 11, '#3f3a28', 11.5, true, 'center');
+  // 电阻丝与插孔（示意）
+  var wy = y0 + 52, xa = x0 + 18, xb = x1 - 58;
+  ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(xa, wy); ctx.lineTo(xb, wy); ctx.stroke();
+  ctx.strokeStyle = '#3f3a28'; ctx.lineWidth = 1.2;
+  panelText(ctx, 'A', xa - 9, wy, '#3f3a28', 10, true, 'center');
+  panelText(ctx, 'B', xb + 8, wy, '#3f3a28', 10, true, 'center');
+  for (var i = 0; i <= 10; i++){
+    var sx = xa + i * (xb - xa) / 10;
+    ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(sx, wy + 14, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    if (i % 2 === 0) panelText(ctx, String(i), sx, wy + 30, '#6b6450', 8, false, 'center');
+  }
+  // 刻度盘（示意）
+  var dx = x1 - 32, dy = y0 + 56;
+  ctx.fillStyle = '#f5efe0'; ctx.strokeStyle = '#a89a76'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(dx, dy, 20, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.moveTo(dx, dy); ctx.lineTo(dx, dy - 14); ctx.stroke();
+  panelText(ctx, 'D 刻度盘', dx, dy + 28, '#6b6450', 8.5, false, 'center');
+  panelText(ctx, '电阻丝总长 11 m：C 插孔（整数米）＋ D 刻度盘（0—0.999 m）', (x0 + x1) / 2, y1 - 16, '#6b6450', 9, false, 'center');
+}
+function drawBattery(ctx, W, H){
+  var x0 = W * 0.44, y0 = H * 0.78, x1 = W * 0.56, y1 = H * 0.95;
+  ctx.fillStyle = '#3f6b54'; ctx.strokeStyle = '#2b4a39'; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y0, x1 - x0, y1 - y0, 6) : ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#d9b13b';
+  ctx.fillRect(x0 + 6, y0 - 5, 12, 5); ctx.fillRect(x1 - 18, y0 - 5, 12, 5);
+  panelText(ctx, '干电池', (x0 + x1) / 2, y0 + 12, '#f3f7f4', 10.5, true, 'center');
+  panelText(ctx, 'Ex 待测', (x0 + x1) / 2, y0 + 26, '#cfe0d6', 9.5, false, 'center');
+}
+function drawTerm(ctx, t, sel){
+  ctx.fillStyle = '#c3cad4'; ctx.strokeStyle = '#5b6472'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(t.x, t.y, 7, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = t.col;
+  ctx.beginPath(); ctx.arc(t.x, t.y, 3.2, 0, Math.PI * 2); ctx.fill();
+  if (sel){
+    ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(t.x, t.y, 11.5, 0, Math.PI * 2); ctx.stroke();
+  }
+  var lx = t.side === 'L' ? t.x - 12 : (t.side === 'R' ? t.x + 12 : t.x);
+  panelText(ctx, t.lab, lx, t.y, '#1f2937', 10, true, t.side === 'L' ? 'right' : 'center');
+}
+function drawWirePath(ctx, T, w, H){
+  var a = T[w.a], b = T[w.b];
+  var dx = b.x - a.x, dy = b.y - a.y;
+  var dist = Math.sqrt(dx * dx + dy * dy);
+  var sag = Math.min(H * 0.10 + 8, dist * 0.55);
+  ctx.strokeStyle = w.col; ctx.lineWidth = 3.4; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(a.x, a.y);
+  ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 + sag, b.x, b.y);
+  ctx.stroke();
+}
+function drawWireCanvas(){
+  var o = setupCanvas(cvWire), ctx = o.ctx, W = o.W, H = o.H;
+  var T = wireLayout(W, H);
+  TERMS = T;
+  ctx.clearRect(0, 0, W, H);
+  drawPanel22(ctx, W, H);
+  drawPanel25(ctx, W, H);
+  drawBattery(ctx, W, H);
+  for (var i = 0; i < WIRE.done.length; i++) drawWirePath(ctx, T, WIRE_DEFS[WIRE.done[i]], H);
+  for (var k in T) drawTerm(ctx, T[k], k === WIRE.sel);
+}
+function updateWireUI(){
+  $('wireBadge').textContent = WIRE.done.length >= 6 ? '接线完成 ✓' : ('已连接 ' + WIRE.done.length + ' / 6 根导线');
+  for (var i = 0; i < 6; i++){
+    var li = $('wl' + i), ok = WIRE.done.indexOf(i) >= 0;
+    li.classList.toggle('ok', ok);
+    li.firstChild.textContent = ok ? '✓' : '○';
+  }
+  $('wireDone').classList.toggle('hidden', WIRE.done.length < 6);
+}
+cvWire.addEventListener('pointerdown', function(e){
+  if (WIRE.anim) return;
+  var id = hitTerm(TERMS, evPt(cvWire, e));
+  if (!id){ if (WIRE.sel){ WIRE.sel = null; drawWireCanvas(); } return; }
+  if (WIRE.sel === id){ WIRE.sel = null; drawWireCanvas(); return; }
+  if (!WIRE.sel){ WIRE.sel = id; drawWireCanvas(); return; }
+  var a = WIRE.sel, b = id, idx = -1, i;
+  for (i = 0; i < WIRE_DEFS.length; i++){
+    var w = WIRE_DEFS[i];
+    if ((w.a === a && w.b === b) || (w.a === b && w.b === a)){ idx = i; break; }
+  }
+  if (idx >= 0 && WIRE.done.indexOf(idx) < 0){
+    WIRE.done.push(idx);
+    WIRE.sel = null;
+    toast('已连接：' + WIRE_DEFS[idx].name, true);
+    updateWireUI();
+    drawWireCanvas();
+    if (WIRE.done.length >= 6) toast('接线完成 ✓ 请按提示做通电前检查', true);
+  } else {
+    toast('这两个接线柱不需要相连（红圈内是当前选中的接线柱）');
+    WIRE.sel = id;
+    drawWireCanvas();
+  }
+});
+cvWire.addEventListener('mousemove', function(e){
+  var id = hitTerm(TERMS, evPt(cvWire, e));
+  cvWire.classList.toggle('hovterm', !!id);
+});
+$('btnWireReset').addEventListener('click', function(){
+  if (WIRE.anim) return;
+  WIRE.done = []; WIRE.sel = null;
+  updateWireUI(); drawWireCanvas();
+  toast('已清空全部导线，重新开始接线');
+});
+$('btnWireAuto').addEventListener('click', function(){
+  if (WIRE.anim) return;
+  WIRE.anim = true;
+  var step = function(){
+    var i;
+    for (i = 0; i < WIRE_DEFS.length; i++){
+      if (WIRE.done.indexOf(i) < 0){
+        WIRE.done.push(i);
+        toast('已连接：' + WIRE_DEFS[i].name, true);
+        updateWireUI(); drawWireCanvas();
+        setTimeout(step, 480);
+        return;
+      }
+    }
+    WIRE.anim = false;
+    if (WIRE.done.length >= 6) toast('接线完成 ✓ 请按提示做通电前检查', true);
+  };
+  step();
+});
+</script>
+<script>
+/* ===================== 第二部分：定标与测量模拟 ===================== */
+var cvBoard = $('cvBoard');
+var SIM = {
+  u0: 0,          // 校正系数组号 0/1/2
+  pow: false,     // S₁ 电源
+  s2: 0,          // 0 中间断开 / 1 En / 2 Ex
+  s3: false,      // true = S₃ 闭合（细调）
+  gear: 0,        // 检流计档位 0 断开 / 1—4 = 10⁻⁵—10⁻⁸ A
+  zeroed: false,
+  plug: 0,        // C 插孔 0—10
+  dialM: 0,       // D 刻度盘（整数，0.001 m）
+  e0c: 0,         // 工作电源电压（整数，0.01 V）
+  meas: [0, 0, 0],        // 每组已记录的测量次数
+  std: [null, null, null] // 每组定标记录 {e0, ls}
+};
+var ACTS = [];    // 记录动作栈（撤销用）
+var GEAR_FS = [0, 2e-5, 2e-6, 2e-7, 2e-8];         // 检流计量程 ±2×10⁻⁵…10⁻⁸ A
+var GEAR_LAB = ['断开', '10⁻⁵ A', '10⁻⁶ A', '10⁻⁷ A', '10⁻⁸ A'];
+var I_OK = 1.6e-8;                                   // 认为已平衡的电流阈值（10⁻⁸ 档）
+
+// 待测电动势的微小变化（确定性函数：随组号与测量序号变化）
+function wob(g, i){
+  return 0.00045 * Math.sin(1.9 * (g + 1) + 1.31 * (i + 1)) + 0.00025 * Math.cos(0.9 * (i + 1) - 0.7 * g);
+}
+function exNow(){ return EX_TRUE + wob(SIM.u0, SIM.meas[SIM.u0]); }
+function simL(){ return SIM.plug + SIM.dialM / 1000; }
+function simE0(){ return SIM.e0c / 100; }
+
+// 检流计电流（A）；回路断开返回 null
+function igRaw(){
+  if (!SIM.pow || SIM.s2 === 0) return null;
+  var u0 = simE0() / WIRE_LEN;
+  var eref = SIM.s2 === 1 ? EN : exNow();
+  var R = SIM.s3 ? 180 : 10180;
+  return (u0 * simL() - eref) / R;
+}
+function galText(){
+  if (SIM.gear === 0) return { txt: ' ---- ', sub: '档位：断开（调零）', ovf: false };
+  var raw = igRaw();
+  var cnt = GEAR_FS[SIM.gear] / 2000;
+  var i = 0;
+  if (raw !== null) i = raw + (SIM.zeroed ? 0 : cnt * (29 + 17 * SIM.gear));
+  if (raw !== null && Math.abs(i) > GEAR_FS[SIM.gear]){
+    return { txt: '超量程', sub: '档位：' + GEAR_LAB[SIM.gear] + '（|I| 超量程）', ovf: true };
+  }
+  if (raw !== null && Math.abs(i) < cnt / 2) i = 0;
+  var sg = i >= 0 ? '+' : '−', a = Math.abs(i), txt;
+  if (SIM.gear === 1) txt = sg + (a * 1e6).toFixed(2) + ' µA';
+  else if (SIM.gear === 2) txt = sg + (a * 1e6).toFixed(3) + ' µA';
+  else if (SIM.gear === 3) txt = sg + (a * 1e9).toFixed(1) + ' nA';
+  else txt = sg + (a * 1e9).toFixed(2) + ' nA';
+  var fsTxt = SIM.gear <= 2 ? '±' + (GEAR_FS[SIM.gear] * 1e6) + ' µA' : '±' + (GEAR_FS[SIM.gear] * 1e9) + ' nA';
+  return { txt: txt, sub: '档位：' + GEAR_LAB[SIM.gear] + '（量程 ' + fsTxt + '）', ovf: false };
+}
+function updateLCDs(){
+  $('pmVal').textContent = simE0().toFixed(2);
+  var g = galText();
+  var el = $('galVal');
+  el.textContent = g.txt;
+  el.classList.toggle('ovf', g.ovf);
+  $('galSub').textContent = g.sub;
+}
+
+/* ---------- 十一线板画布 ---------- */
+var BDIAL = null;
+function rrect(ctx, x, y, w, h, r){
+  if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+  else { ctx.beginPath(); ctx.rect(x, y, w, h); }
+}
+function drawBoard(){
+  var o = setupCanvas(cvBoard), ctx = o.ctx, W = o.W, H = o.H;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#e9e2cf'; ctx.strokeStyle = '#a89a76'; ctx.lineWidth = 1.6;
+  rrect(ctx, 2, 2, W - 4, H - 4, 10); ctx.fill(); ctx.stroke();
+  panelText(ctx, 'FB325 十一线电位差计（电阻丝总长 11 m）', W / 2, H * 0.10, '#3f3a28', 11.5, true, 'center');
+  var wy = H * 0.58, xA = W * 0.05, pxm = (W * 0.55) / 11, xB = xA + 11 * pxm;
+  // 电阻丝与米刻度、插孔
+  ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 3.2; ctx.lineCap = 'butt';
+  ctx.beginPath(); ctx.moveTo(xA, wy); ctx.lineTo(xB, wy); ctx.stroke();
+  ctx.lineWidth = 1.1; ctx.strokeStyle = '#6b6450';
+  for (var k = 0; k <= 10; k++){
+    var sx = xA + k * pxm;
+    ctx.beginPath(); ctx.moveTo(sx, wy - 5); ctx.lineTo(sx, wy + 5); ctx.stroke();
+    ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(sx, wy, 4.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    panelText(ctx, String(k), sx, wy + 17, '#6b6450', 8.5, false, 'center');
+  }
+  // A、B 端子
+  ctx.fillStyle = '#c0392b'; ctx.strokeStyle = '#7a2420'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(xA - 13, wy, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#2d3436';
+  ctx.beginPath(); ctx.arc(xB + 13, wy, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  panelText(ctx, 'A', xA - 13, wy - 13, '#3f3a28', 10, true, 'center');
+  panelText(ctx, 'B', xB + 13, wy - 13, '#3f3a28', 10, true, 'center');
+  // C 插孔与 D 触点
+  var xC = xA + SIM.plug * pxm;
+  var xD = xA + simL() * pxm;
+  if (SIM.dialM > 0){
+    ctx.strokeStyle = 'rgba(232,89,12,.85)'; ctx.lineWidth = 4.5; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(xC, wy + 8); ctx.lineTo(xD, wy + 8); ctx.stroke();
+  }
+  ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2.2;
+  ctx.beginPath(); ctx.arc(xC, wy, 4.6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#e8590c';
+  ctx.fillRect(xC - 2.6, wy - 26, 5.2, 26);
+  ctx.strokeStyle = '#a04107'; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(xC, wy - 29, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  panelText(ctx, 'C', xC, wy - 42, '#a04107', 10.5, true, 'center');
+  ctx.fillStyle = '#2a78d6';
+  ctx.beginPath();
+  ctx.moveTo(xD, wy - 3); ctx.lineTo(xD - 6.5, wy - 15); ctx.lineTo(xD + 6.5, wy - 15);
+  ctx.closePath(); ctx.fill();
+  panelText(ctx, 'D', xD, wy - 24, '#1d5cab', 10.5, true, 'center');
+  panelText(ctx, 'L = C 插孔 ＋ D 刻度盘（橙色为补偿段 CD）', W * 0.33, H * 0.90, '#6b6450', 9.5, false, 'center');
+  // D 刻度盘（旋转刻度环：整圈 = 1 m，当前值对准顶部指标）
+  var dr = Math.min(H * 0.30, W * 0.088), dx = W * 0.815, dy = H * 0.47;
+  BDIAL = { x: dx, y: dy, r: dr + 12 };
+  ctx.fillStyle = '#f5efe0'; ctx.strokeStyle = '#a89a76'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(dx, dy, dr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  var val = SIM.dialM / 1000, j, ang, r1, r2;
+  for (j = 0; j < 100; j++){
+    ang = -Math.PI / 2 - 2 * Math.PI * (j / 100 - val);
+    var major = j % 10 === 0;
+    r1 = major ? dr - 10 : dr - 6;
+    r2 = dr - 2.5;
+    ctx.strokeStyle = major ? '#5a5340' : '#a89c82';
+    ctx.lineWidth = major ? 1.5 : 1;
+    ctx.beginPath();
+    ctx.moveTo(dx + r1 * Math.cos(ang), dy + r1 * Math.sin(ang));
+    ctx.lineTo(dx + r2 * Math.cos(ang), dy + r2 * Math.sin(ang));
+    ctx.stroke();
+    if (major){
+      var rl = dr - 19;
+      ctx.save();
+      ctx.translate(dx + rl * Math.cos(ang), dy + rl * Math.sin(ang));
+      ctx.rotate(ang + Math.PI / 2);
+      panelText(ctx, String(j / 10), 0, 0, '#5a5340', 8.5, true, 'center');
+      ctx.restore();
+    }
+  }
+  ctx.fillStyle = '#e8590c';
+  ctx.beginPath();
+  ctx.moveTo(dx, dy - dr + 1); ctx.lineTo(dx - 4.5, dy - dr - 7); ctx.lineTo(dx + 4.5, dy - dr - 7);
+  ctx.closePath(); ctx.fill();
+  panelText(ctx, val.toFixed(3) + ' m', dx, dy + 2, '#3f3a28', 12.5, true, 'center');
+  panelText(ctx, '刻度盘 D', dx, dy + 16, '#6b6450', 8.5, false, 'center');
+  $('boardBadge').textContent = 'L = ' + SIM.plug + ' ＋ ' + val.toFixed(3) + ' = ' + simL().toFixed(3) + ' m';
+}
+function changeDial(dm){
+  var v = SIM.dialM + dm;
+  if (v < 0) v = 0;
+  if (v > 999) v = 999;
+  SIM.dialM = v;
+  drawBoard(); updateLCDs();
+}
+function changeE0(dc){
+  var v = SIM.e0c + dc;
+  if (v < 0) v = 0;
+  if (v > 450) v = 450;
+  SIM.e0c = v;
+  updateLCDs();
+}
+</script>
+<script>
+/* ===================== 面板控制与记录 ===================== */
+function setVal(id, v){ var el = $(id); if (el) el.value = v; }
+function onCls(id, v){ $(id).classList.toggle('on', !!v); }
+function updateSimUI(){
+  onCls('btnU00', SIM.u0 === 0); onCls('btnU01', SIM.u0 === 1); onCls('btnU02', SIM.u0 === 2);
+  onCls('btnPowOff', !SIM.pow); onCls('btnPowOn', SIM.pow);
+  onCls('btnS2En', SIM.s2 === 1); onCls('btnS2Mid', SIM.s2 === 0); onCls('btnS2Ex', SIM.s2 === 2);
+  onCls('btnS3Off', !SIM.s3); onCls('btnS3On', SIM.s3);
+  for (var g = 0; g <= 4; g++) onCls('btnG' + g, SIM.gear === g);
+  for (var p = 0; p <= 10; p++) onCls('btnPlug' + p, SIM.plug === p);
+  var u0 = U0S[SIM.u0], st = SIM.std[SIM.u0], m = SIM.meas[SIM.u0];
+  $('recNextStd').textContent = '当前组：u₀ = ' + u0.toFixed(4) + ' V/m，' +
+    (st ? '已定标 E₀ = ' + st.e0.toFixed(2) + ' V、Ls = ' + st.ls.toFixed(3) + ' m' : '未定标');
+  $('recNextLx').textContent = m < 5
+    ? '下一个：第 ' + (m + 1) + ' 次（u₀ = ' + u0.toFixed(4) + '）'
+    : '本组已完成（u₀ = ' + u0.toFixed(4) + '，请换组重新定标）';
+  updateLCDs();
+}
+var U0BTN = ['btnU00', 'btnU01', 'btnU02'], i;
+for (i = 0; i < 3; i++){
+  (function(k){
+    $(U0BTN[k]).addEventListener('click', function(){
+      if (SIM.u0 === k) return;
+      SIM.u0 = k;
+      updateSimUI();
+      toast('已切换到 u₀ = ' + U0S[k].toFixed(4) + ' V/m：请按 Ls = En/u₀ 重新定标');
+    });
+  })(i);
+}
+$('btnPowOff').addEventListener('click', function(){ SIM.pow = false; updateSimUI(); });
+$('btnPowOn').addEventListener('click', function(){ SIM.pow = true; updateSimUI(); });
+$('btnS2En').addEventListener('click', function(){ SIM.s2 = 1; updateSimUI(); });
+$('btnS2Mid').addEventListener('click', function(){ SIM.s2 = 0; updateSimUI(); });
+$('btnS2Ex').addEventListener('click', function(){ SIM.s2 = 2; updateSimUI(); });
+$('btnS3Off').addEventListener('click', function(){ SIM.s3 = false; updateSimUI(); });
+$('btnS3On').addEventListener('click', function(){ SIM.s3 = true; updateSimUI(); });
+for (i = 0; i <= 4; i++){
+  (function(k){
+    $('btnG' + k).addEventListener('click', function(){ SIM.gear = k; updateSimUI(); });
+  })(i);
+}
+for (i = 0; i <= 10; i++){
+  (function(k){
+    $('btnPlug' + k).addEventListener('click', function(){
+      SIM.plug = k;
+      drawBoard(); updateSimUI();
+    });
+  })(i);
+}
+$('btnDm100').addEventListener('click', function(){ changeDial(-100); });
+$('btnDm10').addEventListener('click', function(){ changeDial(-10); });
+$('btnDm1').addEventListener('click', function(){ changeDial(-1); });
+$('btnDp1').addEventListener('click', function(){ changeDial(1); });
+$('btnDp10').addEventListener('click', function(){ changeDial(10); });
+$('btnDp100').addEventListener('click', function(){ changeDial(100); });
+$('btnEm10').addEventListener('click', function(){ changeE0(-10); });
+$('btnEm1').addEventListener('click', function(){ changeE0(-1); });
+$('btnEp1').addEventListener('click', function(){ changeE0(1); });
+$('btnEp10').addEventListener('click', function(){ changeE0(10); });
+$('btnZero').addEventListener('click', function(){
+  SIM.zeroed = true;
+  toast('检流计已调零（示值中的固定偏移已消除）', true);
+  updateLCDs();
+});
+
+/* 刻度盘拖动 */
+var bdDrag = false, bdLastX = 0;
+function bdDist(e){
+  var p = evPt(cvBoard, e);
+  return { p: p, inside: BDIAL && ((p.x - BDIAL.x) * (p.x - BDIAL.x) + (p.y - BDIAL.y) * (p.y - BDIAL.y) <= BDIAL.r * BDIAL.r) };
+}
+cvBoard.addEventListener('pointerdown', function(e){
+  var d = bdDist(e);
+  if (d.inside){
+    bdDrag = true; bdLastX = d.p.x;
+    cvBoard.classList.add('dragging');
+    try { cvBoard.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+});
+cvBoard.addEventListener('pointermove', function(e){
+  var d = bdDist(e);
+  if (bdDrag){
+    var dx = d.p.x - bdLastX;
+    bdLastX = d.p.x;
+    if (dx) changeDial(Math.round(dx / 3));
+  } else {
+    cvBoard.classList.toggle('hoverdial', !!d.inside);
+  }
+});
+function bdEnd(){ bdDrag = false; cvBoard.classList.remove('dragging'); }
+cvBoard.addEventListener('pointerup', bdEnd);
+cvBoard.addEventListener('pointercancel', bdEnd);
+
+/* 记录：定标与测量 */
+$('btnRecStd').addEventListener('click', function(){
+  var g = SIM.u0, u0 = U0S[g];
+  if (!SIM.pow){ toast('请先合上电源总开关 S₁'); return; }
+  if (SIM.s2 !== 1){ toast('记录定标前请把 S₂ 拨向 En'); return; }
+  if (SIM.gear !== 4){ toast('请在 10⁻⁸ A 档位使检流计示零后再记录'); return; }
+  if (!SIM.zeroed){ toast('请先按「检流计调零」'); return; }
+  var ig = igRaw();
+  if (ig === null || Math.abs(ig) > I_OK){ toast('检流计未示零：请细调电源电压 E₀ 与刻度盘'); return; }
+  var L = simL();
+  if (Math.abs(L - EN / u0) > 0.0008){
+    toast('定标长度不符：应满足 Ls = En/u₀ = ' + (EN / u0).toFixed(3) + ' m（请核对插孔、刻度盘与 E₀）');
+    return;
+  }
+  var overwrite = !!SIM.std[g], i2;
+  if (overwrite){
+    for (i2 = 0; i2 < 5; i2++) setVal('g' + g + 'Lx_' + i2, '');
+    SIM.meas[g] = 0;
+    ACTS = ACTS.filter(function(a){ return a.g !== g; });
+  }
+  SIM.std[g] = { e0: simE0(), ls: L };
+  for (i2 = 0; i2 < 5; i2++){
+    setVal('g' + g + 'E0_' + i2, simE0().toFixed(2));
+    setVal('g' + g + 'Ls_' + i2, L.toFixed(3));
+  }
+  ACTS.push({ t: 'std', g: g });
+  recomputeTables(); updateSimUI();
+  toast('已记录定标：E₀ = ' + simE0().toFixed(2) + ' V，Ls = ' + L.toFixed(3) + ' m' +
+        (overwrite ? '（本组旧的测量记录已清除）' : ''), true);
+});
+$('btnRecLx').addEventListener('click', function(){
+  var g = SIM.u0, u0 = U0S[g];
+  if (!SIM.pow){ toast('请先合上电源总开关 S₁'); return; }
+  if (SIM.s2 !== 2){ toast('记录测量前请把 S₂ 拨向 Ex'); return; }
+  if (SIM.gear !== 4){ toast('请在 10⁻⁸ A 档位使检流计示零后再记录'); return; }
+  if (!SIM.zeroed){ toast('请先按「检流计调零」'); return; }
+  if (!SIM.std[g]){ toast('请先按「记录定标」，再测量'); return; }
+  var ig = igRaw();
+  if (ig === null || Math.abs(ig) > I_OK){ toast('检流计未示零：请细调刻度盘（示零后再记录）'); return; }
+  if (SIM.meas[g] >= 5){ toast('本组 5 次测量已完成：请换校正系数 u₀ 并重新定标'); return; }
+  var L = simL(), idx = SIM.meas[g];
+  setVal('g' + g + 'Lx_' + idx, L.toFixed(3));
+  setVal('g' + g + 'E0_' + idx, SIM.std[g].e0.toFixed(2));
+  setVal('g' + g + 'Ls_' + idx, SIM.std[g].ls.toFixed(3));
+  SIM.meas[g]++;
+  ACTS.push({ t: 'lx', g: g, i: idx });
+  recomputeTables(); updateSimUI();
+  toast('第 ' + (idx + 1) + ' 次记录：Lx = ' + L.toFixed(3) + ' m，E = u₀·Lx = ' + (u0 * L).toFixed(4) + ' V', true);
+  if (SIM.meas[g] >= 5) toast('u₀ = ' + u0.toFixed(4) + ' V/m 组 5 次测量完成：请换校正系数并重新定标', true);
+});
+$('btnUndoSim').addEventListener('click', function(){
+  if (!ACTS.length){ toast('没有可撤销的记录'); return; }
+  var a = ACTS[ACTS.length - 1], i2;
+  if (a.t === 'lx'){
+    setVal('g' + a.g + 'Lx_' + a.i, '');
+    SIM.meas[a.g]--;
+    ACTS.pop();
+    toast('已撤销本组第 ' + (a.i + 1) + ' 次测量记录');
+  } else {
+    if (SIM.meas[a.g] > 0){ toast('请先撤销本组的测量记录'); return; }
+    for (i2 = 0; i2 < 5; i2++){
+      setVal('g' + a.g + 'E0_' + i2, '');
+      setVal('g' + a.g + 'Ls_' + i2, '');
+    }
+    SIM.std[a.g] = null;
+    ACTS.pop();
+    toast('已撤销定标记录');
+  }
+  recomputeTables(); updateSimUI();
+});
+
+/* ===================== 第三部分：数据表 ===================== */
+function readRow(g, i){
+  return {
+    e0: parseVolt($('g' + g + 'E0_' + i).value),
+    ls: parseLen($('g' + g + 'Ls_' + i).value),
+    lx: parseLen($('g' + g + 'Lx_' + i).value)
+  };
+}
+function recomputeTables(){
+  var allRows = [], g, i;
+  for (g = 0; g < 3; g++){
+    var u0 = U0S[g], rows = [];
+    for (i = 0; i < 5; i++){
+      var r = readRow(g, i);
+      var e0El = $('g' + g + 'E0_' + i), lsEl = $('g' + g + 'Ls_' + i), lxEl = $('g' + g + 'Lx_' + i);
+      e0El.classList.toggle('invalid', e0El.value.trim() !== '' && r.e0 === null);
+      lsEl.classList.toggle('invalid', lsEl.value.trim() !== '' && r.ls === null);
+      lxEl.classList.toggle('invalid', lxEl.value.trim() !== '' && r.lx === null);
+      $('g' + g + 'Ec_' + i).textContent = r.lx === null ? '—' : (u0 * r.lx).toFixed(4);
+      if (r.e0 !== null && r.ls !== null && r.lx !== null) rows.push({ u0: u0, e0: r.e0, ls: r.ls, lx: r.lx });
+    }
+    var st = statsOf(rows);
+    $('g' + g + 'Avg').textContent = st ? st.ebar.toFixed(4) : '—';
+    $('exprG' + g).textContent = 'u₀ = ' + u0.toFixed(4) + ' V/m：' +
+      (st ? buildExpr(st.ebar, st.U) + '（n = ' + st.n + '）' : '—');
+    if (st) for (i = 0; i < rows.length; i++) allRows.push(rows[i]);
+  }
+  var all = statsOf(allRows);
+  if (all && all.n >= 1){
+    $('resAll').classList.remove('hidden');
+    $('bigAll').textContent = all.ebar.toFixed(4) + ' V';
+    $('exprAll').textContent = buildExpr(all.ebar, all.U);
+    $('rN').textContent = all.n;
+    $('rUa').textContent = all.n >= 2 ? all.uA.toFixed(4) : '—';
+    $('rUb').textContent = all.uB.toFixed(4);
+  } else {
+    $('resAll').classList.add('hidden');
+  }
+}
+var TIDS = [];
+for (var g = 0; g < 3; g++) for (i = 0; i < 5; i++) TIDS.push('g' + g + 'E0_' + i, 'g' + g + 'Ls_' + i, 'g' + g + 'Lx_' + i);
+for (i = 0; i < TIDS.length; i++) $(TIDS[i]).addEventListener('input', recomputeTables);
+
+$('btnDemoAll').addEventListener('click', function(){
+  for (var g = 0; g < 3; g++){
+    var d = DEMO[g];
+    for (var i2 = 0; i2 < 5; i2++){
+      setVal('g' + g + 'E0_' + i2, d.e0);
+      setVal('g' + g + 'Ls_' + i2, d.ls);
+      setVal('g' + g + 'Lx_' + i2, d.lx[i2]);
+    }
+  }
+  recomputeTables();
+  toast('已填入示例数据（三组 E 均约 1.502 V）', true);
+});
+$('btnClearAll').addEventListener('click', function(){
+  for (var k = 0; k < TIDS.length; k++) setVal(TIDS[k], '');
+  recomputeTables();
+  toast('已清空表格');
+});
+
+/* ===================== 初始化 ===================== */
+updateWireUI();
+drawWireCanvas();
+updateSimUI();
+drawBoard();
+recomputeTables();
+window.addEventListener('resize', function(){
+  drawWireCanvas();
+  drawBoard();
+});
+</script>
+<script>
+/* ---------- 深浅色自适应（自动 / 浅色 / 深色，与主页共用 phyexp-theme 设置） ---------- */
+(function(){
+  var root = document.documentElement, KEY = 'phyexp-theme';
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var pref = null;
+  try { pref = localStorage.getItem(KEY) || 'auto'; } catch(e){ pref = 'auto'; }
+  function resolve(p){ return p === 'light' || p === 'dark' ? p : (mq.matches ? 'dark' : 'light'); }
+  function iconFor(p){ return p === 'light' ? '☀' : p === 'dark' ? '☾' : '◐'; }
+  function apply(p){
+    root.setAttribute('data-theme', resolve(p));
+    var ic = document.getElementById('themeIcon');
+    if (ic) ic.textContent = iconFor(p);
+    try { window.dispatchEvent(new Event('themechange')); } catch(e){}
+  }
+  apply(pref);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.addEventListener('click', function(){
+    pref = pref === 'auto' ? 'light' : pref === 'dark' ? 'auto' : 'dark';
+    try { localStorage.setItem(KEY, pref); } catch(e){}
+    apply(pref);
+  });
+  // 老浏览器（Safari≤13 等）MediaQueryList 只有 addListener，需回退
+  var onScheme = function(){ if (pref === 'auto') apply('auto'); };
+  if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
+  else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
+})();
+</script>
+</body>
+</html>
