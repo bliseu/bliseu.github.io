@@ -3,7 +3,7 @@
 
 <div class="phyexp-module">
   <div class="phyexp-module__copy">
-    <p>大学物理实验工具集（PhyExp）面向大学物理实验课程，已收录 9 个实验模块：最小二乘法直线拟合、李萨如图形、扭摆法测转动惯量、受迫振动、迈克耳孙干涉仪、牛顿环、声速测量、分光计和介电常数测量。</p>
+    <p>大学物理实验工具集（PhyExp）面向大学物理实验课程，已收录数个实验模块：最小二乘法直线拟合、李萨如图形、扭摆法测转动惯量、受迫振动、迈克耳孙干涉仪、牛顿环、声速测量、分光计、介电常数测量、电位差计和电表改装等。</p>
     <p class="phyexp-en" lang="en">PhyExp is a collection of browser-based tools for college physics experiments. It currently includes nine modules: least-squares fitting, Lissajous figures, torsion pendulum, forced vibration, Michelson interferometer, Newton's rings, speed of sound, spectrometer, and dielectric constant measurement.</p>
     <ul>
       <li>扫码即用，免安装</li>
