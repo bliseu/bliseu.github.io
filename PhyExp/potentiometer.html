@@ -604,7 +604,7 @@ function drawPanel25(ctx, W, H){
   ctx.beginPath(); ctx.moveTo(xa, wy); ctx.lineTo(xb, wy); ctx.stroke();
   ctx.strokeStyle = '#3f3a28'; ctx.lineWidth = 1.2;
   panelText(ctx, 'A', xa - 9, wy, '#3f3a28', 10, true, 'center');
-  panelText(ctx, 'B', xb + 8, wy, '#3f3a28', 10, true, 'center');
+  panelText(ctx, 'B', xb, wy, '#3f3a28', 10, true, 'center');
   for (var i = 0; i <= 10; i++){
     var sx = xa + i * (xb - xa) / 10;
     ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 1.2;
@@ -618,7 +618,7 @@ function drawPanel25(ctx, W, H){
   ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 1.6;
   ctx.beginPath(); ctx.moveTo(dx, dy); ctx.lineTo(dx, dy - 14); ctx.stroke();
   panelText(ctx, 'D 刻度盘', dx, dy + 28, '#6b6450', 8.5, false, 'center');
-  panelText(ctx, '电阻丝总长 11 m：C 插孔（整数米）＋ D 刻度盘（0—0.999 m）', (x0 + x1) / 2, y1 - 16, '#6b6450', 9, false, 'center');
+  panelText(ctx, 'C 插孔（整数米）＋ D 刻度盘（0—0.999 m）', (x0 + x1) / 2, y1 - 16, '#6b6450', 9, false, 'center');
 }
 function drawBattery(ctx, W, H){
   var x0 = W * 0.44, y0 = H * 0.78, x1 = W * 0.56, y1 = H * 0.95;
@@ -638,8 +638,10 @@ function drawTerm(ctx, t, sel){
     ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.arc(t.x, t.y, 11.5, 0, Math.PI * 2); ctx.stroke();
   }
-  var lx = t.side === 'L' ? t.x - 12 : (t.side === 'R' ? t.x + 12 : t.x);
-  panelText(ctx, t.lab, lx, t.y, '#1f2937', 10, true, t.side === 'L' ? 'right' : 'center');
+  var wide = t.lab.length > 2;   // 'C 插孔'、'D 刻度盘' 等较宽标签避免压住端子圆点
+  var lx = t.side === 'L' ? t.x - 12 : (t.side === 'R' ? t.x + (wide ? 14 : 12) : t.x);
+  var al = t.side === 'L' ? 'right' : (t.side === 'R' ? (wide ? 'left' : 'center') : 'center');
+  panelText(ctx, t.lab, lx, t.y, '#1f2937', 10, true, al);
 }
 function drawWirePath(ctx, T, w, H){
   var a = T[w.a], b = T[w.b];
@@ -800,7 +802,7 @@ function drawBoard(){
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = '#e9e2cf'; ctx.strokeStyle = '#a89a76'; ctx.lineWidth = 1.6;
   rrect(ctx, 2, 2, W - 4, H - 4, 10); ctx.fill(); ctx.stroke();
-  panelText(ctx, 'FB325 十一线电位差计（电阻丝总长 11 m）', W / 2, H * 0.10, '#3f3a28', 11.5, true, 'center');
+  panelText(ctx, 'FB325 十一线电位差计（电阻丝总长 11 m）', W / 2, Math.max(H * 0.15, 46), '#3f3a28', 11.5, true, 'center');
   var wy = H * 0.58, xA = W * 0.05, pxm = (W * 0.55) / 11, xB = xA + 11 * pxm;
   // 电阻丝与米刻度、插孔
   ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 3.2; ctx.lineCap = 'butt';
@@ -830,15 +832,15 @@ function drawBoard(){
   ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#e8590c'; ctx.lineWidth = 2.2;
   ctx.beginPath(); ctx.arc(xC, wy, 4.6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
   ctx.fillStyle = '#e8590c';
-  ctx.fillRect(xC - 2.6, wy - 26, 5.2, 26);
+  ctx.fillRect(xC - 2.6, wy - 30, 5.2, 30);
   ctx.strokeStyle = '#a04107'; ctx.lineWidth = 1.4;
-  ctx.beginPath(); ctx.arc(xC, wy - 29, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-  panelText(ctx, 'C', xC, wy - 42, '#a04107', 10.5, true, 'center');
+  ctx.beginPath(); ctx.arc(xC, wy - 33, 5.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  panelText(ctx, 'C', xC, wy - 46, '#a04107', 10.5, true, 'center');
   ctx.fillStyle = '#2a78d6';
   ctx.beginPath();
   ctx.moveTo(xD, wy - 3); ctx.lineTo(xD - 6.5, wy - 15); ctx.lineTo(xD + 6.5, wy - 15);
   ctx.closePath(); ctx.fill();
-  panelText(ctx, 'D', xD, wy - 24, '#1d5cab', 10.5, true, 'center');
+  panelText(ctx, 'D', xD, wy - 21, '#1d5cab', 10.5, true, 'center');
   panelText(ctx, 'L = C 插孔 ＋ D 刻度盘（橙色为补偿段 CD）', W * 0.33, H * 0.90, '#6b6450', 9.5, false, 'center');
   // D 刻度盘（旋转刻度环：整圈 = 1 m，当前值对准顶部指标）
   var dr = Math.min(H * 0.30, W * 0.088), dx = W * 0.815, dy = H * 0.47;

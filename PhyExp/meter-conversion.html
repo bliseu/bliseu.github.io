@@ -170,7 +170,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <!-- ======== 第一部分：表头内阻测量 ======== -->
   <section class="card">
     <h2>一、微安表头内阻的测量（半偏法）</h2>
-    <p class="hint" style="margin-top:0">待改装表头：量程 I<sub>g</sub> = 300 µA，级别 1.5 级，内阻 R<sub>g</sub> 约几百欧（标称值仅供估算，改装计算须用实测值）。半偏法：① 按图接线后闭合 K（K₂ 先断开），调节串联电阻箱 R₀ 使表头恰好<b>满偏</b>（300.0 µA）；② 闭合 K₂ 把分路电阻箱 R<sub>p</sub> 并到表头两端，调节 R<sub>p</sub> 使表头<b>半偏</b>（150.0 µA）；③ 此时 R<sub>p</sub> ≈ R<sub>g</sub>。方法要求 R₀ ≫ R<sub>g</sub>（本电路 E = 18.00 V，R₀ 约 6 万欧，约为 R<sub>g</sub> 的百倍），否则测得的内阻偏小，偏差约 R<sub>g</sub>/R₀。</p>
+    <p class="hint" style="margin-top:0">待改装表头：量程 I<sub>g</sub> = 300 µA，级别 1.5 级，内阻 R<sub>g</sub> ≈ 250 Ω（标称值仅供估算，改装计算须用实测值）。半偏法：① 按图接线后闭合 K（K₂ 先断开），调节串联电阻箱 R₀ 使表头恰好<b>满偏</b>（300.0 µA）；② 闭合 K₂ 把分路电阻箱 R<sub>p</sub> 并到表头两端，调节 R<sub>p</sub> 使表头<b>半偏</b>（150.0 µA）；③ 此时 R<sub>p</sub> ≈ R<sub>g</sub>。方法要求 R₀ ≫ R<sub>g</sub>（本电路 E = 18.00 V，R₀ 约 6 万欧，约为 R<sub>g</sub> 的 240 倍），否则测得的内阻偏小，偏差约 R<sub>g</sub>/R₀。</p>
     <div class="simwrap noprint">
       <canvas id="cvW1" aria-label="半偏法测表头内阻接线图"></canvas>
       <div class="simbadge" id="w1Badge">已连接 0 / 7 根导线</div>
@@ -208,7 +208,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <div style="height:6px"></div>
       <div class="seg"><button type="button" id="w1K2off" class="on">K₂ 断开</button><button type="button" id="w1K2on">K₂ 闭合（接入 R<sub>p</sub>）</button></div>
     </div>
-    <div class="cgroup noprint"><div class="glab">电阻箱 R<sub>p</sub>（表头分路）：当前 <b id="w1Rpv">620.0</b> Ω</div>
+    <div class="cgroup noprint"><div class="glab">电阻箱 R<sub>p</sub>（表头分路）：当前 <b id="w1Rpv">250.0</b> Ω</div>
       <div class="drumBtns">
         <button type="button" class="btn" id="w1Rpm1000">−1000</button>
         <button type="button" class="btn" id="w1Rpm100">−100</button>
@@ -484,7 +484,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
 var IG_NOM = 0.3;        // 表头满偏电流（标称）/ mA
 var IGUA_FS = 300;       // 表头满偏 / µA（卡片一显示用）
 var HEAD_CLASS = 1.5;    // 表头原级别
-var RG_TRUE = 620.5;     // 表头真实内阻 / Ω（模拟内部值）
+var RG_TRUE = 250.0;     // 表头真实内阻 / Ω（模拟内部值，标称约 250 Ω）
 var KG = 0.0022;         // 表头灵敏度系统偏差（指针偏转略偏大的比例）
 var E1 = 18.00;          // 卡片一电源 / V
 var E2 = 1.500;          // 毫安表校准电源 / V
@@ -717,13 +717,14 @@ function drawGauge(ctx, cx, cy, r, f, opt){
   ctx.beginPath();
   ctx.arc(px, py, r * 0.90, a0, a1);
   ctx.strokeStyle = '#c9c2ae'; ctx.lineWidth = r * 0.05; ctx.stroke();
-  // 指针
+  // 指针：转轴（圆心）位于表盘下方小圆的中心，指针自小圆上缘指向刻度，不再与转轴分离
   var fa = angOf(Math.max(0, Math.min(1, f)));
+  var hubR = r * 0.08;
   ctx.beginPath();
-  ctx.moveTo(px + (r * 0.18) * Math.cos(fa + Math.PI / 2), py + (r * 0.18) * Math.sin(fa + Math.PI / 2));
+  ctx.moveTo(px + hubR * Math.cos(fa), py + hubR * Math.sin(fa));
   ctx.lineTo(px + (r * 0.82) * Math.cos(fa), py + (r * 0.82) * Math.sin(fa));
   ctx.strokeStyle = '#c2321e'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.stroke();
-  ctx.beginPath(); ctx.arc(px, py, r * 0.08, 0, 7);
+  ctx.beginPath(); ctx.arc(px, py, hubR, 0, 7);
   ctx.fillStyle = '#39434f'; ctx.fill();
   ctx.restore();
 }
@@ -948,7 +949,7 @@ function drawCalibChart(cv, sLo, sHi, loName, hiName, clsPct){
 /*__APP1_BEGIN__*/
 /* ===================== 第一部分：半偏法测表头内阻 ===================== */
 
-var w1 = { R0: 60000.0, Rp: 620.0, K: false, K2: false, fNeedle: 0, dispU: 0.0, fullSeen: false };
+var w1 = { R0: 60000.0, Rp: 250.0, K: false, K2: false, fNeedle: 0, dispU: 0.0, fullSeen: false };
 var eng1 = null;
 
 // 表头电流（A）：K 通、K₂ 断为串联回路；K₂ 合上后 Rp 与表头分压
