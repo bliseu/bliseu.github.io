@@ -104,6 +104,7 @@ h1{
 .tool.soon p{min-height:auto}
 footer{margin-top:auto;padding-top:46px;text-align:center;font-size:.78rem;color:var(--footer)}
 footer p{margin:0}
+.foot-stat{margin-top:8px;font-size:.7rem;opacity:.85;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .foot-email{margin-top:6px;color:transparent;transition:color .2s}
 .foot-email:hover{color:var(--email-hover)}
 @media (prefers-reduced-motion: reduce){
@@ -125,7 +126,7 @@ footer p{margin:0}
     <p class="overline">Physics Lab Toolkit</p>
     <h1>大学物理实验工具集</h1>
     <p class="en">Tools for Physics Experiments</p>
-    <p class="sub">扫码即用 · 免安装 · 所有计算均在本地浏览器完成，不联网、不上传数据</p>
+    <p class="sub">扫码即用 · 免安装 · 所有计算均在本地浏览器完成，实验数据不出本机（页脚仅统计访问量）</p>
     <div class="pills" aria-hidden="true">
       <span class="pill">手机 / 平板 / 电脑</span>
       <span class="pill">离线可用</span>
@@ -138,6 +139,12 @@ footer p{margin:0}
 
   <footer>
     <p>© 2026 南京邮电大学　保留所有权利</p>
+    <!-- 免费访问统计（不蒜子 busuanzi）：联网时显示本站访问量与访客数，离线/失败时自动隐藏。
+         计数按域名 libinlab.cn 累计（即 /PhyExp 各页共用）；如需停用，删除本块与 </body> 前的统计脚本即可。 -->
+    <p class="foot-stat">
+      <span id="busuanzi_container_site_pv" style="display:none">本站访问 <span id="busuanzi_value_site_pv"></span> 次</span>
+      <span id="busuanzi_container_site_uv" style="display:none"> · 访客 <span id="busuanzi_value_site_uv"></span> 人</span>
+    </p>
     <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
   </footer>
 </div>
@@ -332,5 +339,6 @@ var TOOLS = [
   }
 })();
 </script>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
