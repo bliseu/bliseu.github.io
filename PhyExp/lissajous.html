@@ -160,6 +160,9 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
     </ul>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
+  <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
+       未取到有效数字（断网/服务异常/本地调试）时整行自动隐藏，保持页脚清爽。 -->
+  <p class="foot-stat" id="bszLine" style="text-align:center;margin:8px 0 0">本站访问 <span id="busuanzi_site_pv">…</span> 次 · 访客 <span id="busuanzi_site_uv">…</span> 人</p>
   <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
 </footer>
 
@@ -457,6 +460,16 @@ drawCurve(1);
   if (typeof mq.addEventListener === 'function') mq.addEventListener('change', onScheme);
   else if (typeof mq.addListener === 'function') mq.addListener(onScheme);
 })();
+</script>
+<script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+<script>
+// busuanzi.cc：5 秒内未取到有效数字（断网/服务异常/本地调试），整行隐藏
+setTimeout(function(){
+  var pv = document.getElementById('busuanzi_site_pv');
+  if (pv && /[0-9]/.test(pv.textContent)) return;
+  var l = document.getElementById('bszLine');
+  if (l) l.style.display = 'none';
+}, 5000);
 </script>
 </body>
 </html>

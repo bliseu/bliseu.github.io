@@ -105,6 +105,7 @@ h1{
 footer{margin-top:auto;padding-top:46px;text-align:center;font-size:.78rem;color:var(--footer)}
 footer p{margin:0}
 .foot-stat{margin-top:8px;font-size:.7rem;opacity:.85;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.foot-stat img{vertical-align:middle}
 .foot-email{margin-top:6px;color:transparent;transition:color .2s}
 .foot-email:hover{color:var(--email-hover)}
 @media (prefers-reduced-motion: reduce){
@@ -139,11 +140,10 @@ footer p{margin:0}
 
   <footer>
     <p>© 2026 南京邮电大学　保留所有权利</p>
-    <!-- 免费访问统计（不蒜子 busuanzi）：联网时显示本站访问量与访客数，离线/失败时自动隐藏。
-         计数按域名 libinlab.cn 累计（即 /PhyExp 各页共用）；如需停用，删除本块与 </body> 前的统计脚本即可。 -->
-    <p class="foot-stat">
-      <span id="busuanzi_container_site_pv" style="display:none">本站访问 <span id="busuanzi_value_site_pv"></span> 次</span>
-      <span id="busuanzi_container_site_uv" style="display:none"> · 访客 <span id="busuanzi_value_site_uv"></span> 人</span>
+    <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
+         未取到有效数字（断网/服务异常/本地调试）时整行自动隐藏，保持页脚清爽。 -->
+    <p class="foot-stat" id="bszLine">
+      本站访问 <span id="busuanzi_site_pv">…</span> 次 · 访客 <span id="busuanzi_site_uv">…</span> 人
     </p>
     <p class="foot-email">E-mail: libin A~T njupt.edu.cn</p>
   </footer>
@@ -339,6 +339,15 @@ var TOOLS = [
   }
 })();
 </script>
-<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+<script>
+// busuanzi.cc：5 秒内未取到有效数字（断网/服务异常/本地调试），整行隐藏
+setTimeout(function(){
+  var pv = document.getElementById('busuanzi_site_pv');
+  if (pv && /[0-9]/.test(pv.textContent)) return;
+  var l = document.getElementById('bszLine');
+  if (l) l.style.display = 'none';
+}, 5000);
+</script>
 </body>
 </html>
