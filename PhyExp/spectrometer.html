@@ -241,14 +241,16 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <!-- ======== 光栅数据表 ======== -->
   <section class="card hidden" id="cardGr">
     <h2>三、汞灯定标：最小二乘法求光栅常数 d</h2>
-    <p class="hint" style="margin-top:0">汞灯各已知谱线，转动望远镜分别对准 +1 级与 −1 级谱线记录读数，衍射角 φ = |θ₊₁ − θ₋₁| / 2。以 sinφ 对 λ 作过原点直线拟合（sinφ = λ/d，斜率 b = 1/d），由斜率求光栅常数 d = 1/b。</p>
+    <p class="hint" style="margin-top:0">汞灯各已知谱线，转动望远镜分别对准 +1 级与 −1 级谱线，每条谱线各在左、右游标上读 4 个数（与顶角测量相同）：+1 级记 θ左、θ右，−1 级记 θ′左、θ′右。衍射角 φ = ¼(|θ′左 − θ左| + |θ′右 − θ右|)。以 sinφ 对 λ 作过原点直线拟合（sinφ = λ/d，斜率 b = 1/d），由斜率求光栅常数 d = 1/b。</p>
     <table>
       <thead>
         <tr>
           <th>谱线 λ / nm</th>
           <th>颜色</th>
-          <th>θ₊₁（右转一级）</th>
-          <th>θ₋₁（左转一级）</th>
+          <th>θ左</th>
+          <th>θ右</th>
+          <th>θ′左</th>
+          <th>θ′右</th>
           <th>φ（衍射角）</th>
           <th>sin φ</th>
         </tr>
@@ -269,13 +271,15 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
 
   <section class="card hidden" id="cardHe">
     <h2>四、氦灯谱线波长测定</h2>
-    <p class="hint" style="margin-top:0">用上一步求出的光栅常数 d，测定氦灯各分立谱线的衍射角，由 λ = d·sinφ 计算波长，并与附表 6 参考值比较。</p>
+    <p class="hint" style="margin-top:0">用上一步求出的光栅常数 d，测定氦灯各分立谱线：每条谱线同样在 +1 级记 θ左、θ右、−1 级记 θ′左、θ′右（每色 4 个读数），衍射角 φ = ¼(|θ′左 − θ左| + |θ′右 − θ右|)，由 λ = d·sinφ 计算波长，并与附表 6 参考值比较。</p>
     <table>
       <thead>
         <tr>
           <th>颜色</th>
-          <th>θ₊₁（右转一级）</th>
-          <th>θ₋₁（左转一级）</th>
+          <th>θ左</th>
+          <th>θ右</th>
+          <th>θ′左</th>
+          <th>θ′右</th>
           <th>φ（衍射角）</th>
           <th>λ测 / nm</th>
           <th>λ参考 / nm</th>
@@ -302,8 +306,8 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li><span class="flabel">光栅方程：</span>
         <div class="mathwrap"><math display="block"><mi>d</mi><mo>sin</mo><mi>θ</mi><mo>=</mo><mi>k</mi><mi>λ</mi><mo>，</mo><mi>k</mi><mo>=</mo><mn>0</mn><mo>,</mo><mo>±</mo><mn>1</mn><mo>,</mo><mo>±</mo><mn>2</mn><mo>,</mo><mo>…</mo></math></div>
       </li>
-      <li><span class="flabel">衍射角（消除零级位置偏差）：</span>
-        <div class="mathwrap"><math display="block"><mi>φ</mi><mo>=</mo><mfrac><mrow><mo>|</mo><msub><mi>θ</mi><mrow><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><msub><mi>θ</mi><mrow><mo>−</mo><mn>1</mn></mrow></msub><mo>|</mo></mrow><mn>2</mn></mfrac></math></div>
+      <li><span class="flabel">衍射角（±1 级、双游标平均，消除零级位置与偏心差）：</span>
+        <div class="mathwrap"><math display="block"><mi>φ</mi><mo>=</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mrow><mo>[</mo><mo>|</mo><msubsup><mi>θ</mi><mn>左</mn><mo>′</mo></msubsup><mo>−</mo><msub><mi>θ</mi><mn>左</mn></msub><mo>|</mo><mo>+</mo><mo>|</mo><msubsup><mi>θ</mi><mn>右</mn><mo>′</mo></msubsup><mo>−</mo><msub><mi>θ</mi><mn>右</mn></msub><mo>|</mo><mo>]</mo></mrow></math></div>
       </li>
       <li><span class="flabel">定标最小二乘：</span>
         <div class="mathwrap"><math display="block"><mo>sin</mo><mi>φ</mi><mo>=</mo><mfrac><mi>λ</mi><mi>d</mi></mfrac><mo>，</mo><mi>b</mi><mo>=</mo><mfrac><mn>1</mn><mi>d</mi></mfrac><mo>，</mo><mi>d</mi><mo>=</mo><mfrac><mn>1</mn><mi>b</mi></mfrac></math></div>
@@ -315,11 +319,11 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
     <ul class="mathlist plain-fallback">
       <li>反射法测顶角：A = ¼[(θ′左 − θ左) + (θ′右 − θ右)]</li>
       <li>光栅方程：d·sinθ = k·λ，k = 0, ±1, ±2, …</li>
-      <li>衍射角（消除零级位置偏差）：φ = |θ₊₁ − θ₋₁| / 2</li>
+      <li>衍射角（±1 级、双游标平均）：φ = ¼(|θ′左 − θ左| + |θ′右 − θ右|)</li>
       <li>定标最小二乘：sinφ = λ/d，斜率 b = 1/d，d = 1/b</li>
       <li>氦灯波长：λ = d·sinφ</li>
     </ul>
-    <p>角游标分度值 1′，读数以「度°分′」记录（如 60°30′）。反射法测顶角时，平行光从顶角方向同时入射两个反射面，两面反射像对称分立，望远镜在两侧转过的角度为 2A，故 A = φ/2。光栅光谱中，同一波长 ±1 级衍射分立于零级两侧，取两侧读数差的一半作衍射角 φ 可消除零级位置与光栅法线不严格垂直于光轴引起的系统偏差。顶角结果同时给出「A = (60°00′ ± 0′)」与新标准记法「60°00′(0′)」两种形式，括号内为不确定度（角分）。</p>
+    <p>角游标分度值 1′，读数以「度°分′」记录（如 60°30′）。反射法测顶角时，平行光从顶角方向同时入射两个反射面，两面反射像对称分立，望远镜在两侧转过的角度为 2A，故 A = φ/2。光栅光谱中，同一波长 ±1 级衍射分立于零级两侧，每条谱线在 +1 级（θ左、θ右）与 −1 级（θ′左、θ′右）分别读数，衍射角 φ = ¼(|θ′左−θ左|+|θ′右−θ右|)，取两侧读数与左右游标平均可消除零级位置、光栅法线倾斜及刻度盘偏心引起的系统偏差。顶角结果同时给出「A = (60°00′ ± 0′)」与新标准记法「60°00′(0′)」两种形式，括号内为不确定度（角分）。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -429,14 +433,21 @@ function computeApex(trials){
   return { As: As, avg: avg, uA: uA };
 }
 
-// 汞灯定标：由各谱线 ±1 级读数，过原点拟合 sinφ = b·λ，求光栅常数 d = 1/b（nm）
+// 由 ±1 级在左右游标的 4 个读数求衍射角 φ（与顶角 A 同构）：
+// φ = ¼(|θ′左 − θ左| + |θ′右 − θ右|)
+function diffAngle4(o){
+  return (circDiffMin(o.tpL, o.tL) + circDiffMin(o.tpR, o.tR)) / 4;
+}
+
+// 汞灯定标：由各谱线 ±1 级、双游标的 4 读数，过原点拟合 sinφ = b·λ，求光栅常数 d = 1/b（nm）
 function computeGrating(lines){
   var valid = [];
-  for (var i = 0; i < lines.length; i++) if (lines[i].tp !== null && lines[i].tm !== null) valid.push(lines[i]);
+  for (var i = 0; i < lines.length; i++)
+    if (lines[i].tL !== null && lines[i].tR !== null && lines[i].tpL !== null && lines[i].tpR !== null) valid.push(lines[i]);
   if (valid.length < 2) return null;
   var pts = [], Sxy = 0, Sxx = 0, smean = 0;
   for (var k = 0; k < valid.length; k++){
-    var phi = circDiffMin(valid[k].tp, valid[k].tm) / 2;
+    var phi = diffAngle4(valid[k]);
     var s = Math.sin(phi * RAD_MIN);
     pts.push({ nm: valid[k].nm, s: s, phi: phi });
     Sxy += valid[k].nm * s; Sxx += valid[k].nm * valid[k].nm; smean += s;
@@ -465,8 +476,8 @@ function computeHelium(d, lines){
   var out = [];
   for (var i = 0; i < lines.length; i++){
     var l = lines[i];
-    if (l.tp === null || l.tm === null){ out.push(null); continue; }
-    var phi = circDiffMin(l.tp, l.tm) / 2;
+    if (l.tL === null || l.tR === null || l.tpL === null || l.tpR === null){ out.push(null); continue; }
+    var phi = diffAngle4(l);
     out.push({ phi: phi, lam: d * Math.sin(phi * RAD_MIN) });
   }
   return out;
@@ -834,7 +845,8 @@ function updateTarget(){
     var L = (S.src === 'hg') ? HG : HE, s = (S.src === 'hg') ? S.recHg : S.recHe;
     if (s >= L.length * 2){ el.textContent = '本光源谱线已记录完毕。'; return; }
     var li = L[Math.floor(s / 2)], ord = s % 2;
-    el.textContent = '当前目标：' + (S.src === 'hg' ? '汞灯' : '氦灯') + ' ' + li.nm + ' nm ' + li.name + '（第' + (ord === 0 ? '+1' : '−1') + '级），对准后记录';
+    el.textContent = '当前目标：' + (S.src === 'hg' ? '汞灯' : '氦灯') + ' ' + li.nm + ' nm ' + li.name +
+      '（第' + (ord === 0 ? '+1' : '−1') + '级），对准后记录 ' + (ord === 0 ? 'θ左、θ右' : 'θ′左、θ′右');
   }
 }
 
@@ -855,16 +867,20 @@ function buildTables(){
   var hbHtml = '';
   for (var j = 0; j < HG.length; j++){
     hbHtml += '<tr><td class="idx">' + HG[j].nm + '</td><td class="linecolor">' + HG[j].name + '</td>' +
-      '<td class="cell"><input id="hL' + j + '" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' 右转一级"></td>' +
-      '<td class="cell"><input id="hR' + j + '" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' 左转一级"></td>' +
+      '<td class="cell"><input id="h' + j + 'L" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' nm θ左(+1级)"></td>' +
+      '<td class="cell"><input id="h' + j + 'R" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' nm θ右(+1级)"></td>' +
+      '<td class="cell"><input id="h' + j + 'pL" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' nm θ撇左(−1级)"></td>' +
+      '<td class="cell"><input id="h' + j + 'pR" autocomplete="off" maxlength="8" aria-label="汞灯 ' + HG[j].nm + ' nm θ撇右(−1级)"></td>' +
       '<td class="dcell" id="hphi' + j + '">—</td><td class="dcell" id="hsin' + j + '">—</td></tr>';
   }
   hb.innerHTML = hbHtml;
   var ebHtml = '';
   for (var k = 0; k < HE.length; k++){
     ebHtml += '<tr><td class="linecolor">' + HE[k].name + '</td>' +
-      '<td class="cell"><input id="eL' + k + '" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' 右转一级"></td>' +
-      '<td class="cell"><input id="eR' + k + '" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' 左转一级"></td>' +
+      '<td class="cell"><input id="e' + k + 'L" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' nm θ左(+1级)"></td>' +
+      '<td class="cell"><input id="e' + k + 'R" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' nm θ右(+1级)"></td>' +
+      '<td class="cell"><input id="e' + k + 'pL" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' nm θ撇左(−1级)"></td>' +
+      '<td class="cell"><input id="e' + k + 'pR" autocomplete="off" maxlength="8" aria-label="氦灯 ' + HE[k].nm + ' nm θ撇右(−1级)"></td>' +
       '<td class="dcell" id="ephi' + k + '">—</td><td class="dcell" id="elam' + k + '">—</td>' +
       '<td class="idx">' + HE[k].nm + '</td><td class="dcell" id="erel' + k + '">—</td></tr>';
   }
@@ -898,11 +914,14 @@ function fmtU(u){ return (u < 1) ? (Math.round(u * 10) / 10) + '′' : Math.roun
 function recomputeHg(){
   var lines = [];
   for (var i = 0; i < HG.length; i++){
-    var p = parseAngle($('hL' + i).value), m = parseAngle($('hR' + i).value);
-    toggleInvalid('hL' + i, p); toggleInvalid('hR' + i, m);
-    lines.push({ nm: HG[i].nm, tp: p, tm: m });
-    if (p !== null && m !== null){
-      var phi = circDiffMin(p, m) / 2;
+    var L = parseAngle($('h' + i + 'L').value), R = parseAngle($('h' + i + 'R').value),
+        pL = parseAngle($('h' + i + 'pL').value), pR = parseAngle($('h' + i + 'pR').value);
+    toggleInvalid('h' + i + 'L', L); toggleInvalid('h' + i + 'R', R);
+    toggleInvalid('h' + i + 'pL', pL); toggleInvalid('h' + i + 'pR', pR);
+    var rec = (L !== null && R !== null && pL !== null && pR !== null) ? { tL: L, tR: R, tpL: pL, tpR: pR } : null;
+    lines.push({ nm: HG[i].nm, tL: L, tR: R, tpL: pL, tpR: pR });
+    if (rec){
+      var phi = diffAngle4(rec);
       $('hphi' + i).textContent = fmtAngle(phi);
       $('hsin' + i).textContent = Math.sin(phi * RAD_MIN).toFixed(5);
     } else { $('hphi' + i).textContent = '—'; $('hsin' + i).textContent = '—'; }
@@ -926,10 +945,13 @@ function recomputeHg(){
 function recomputeHe(){
   var d = S.dComputed;
   for (var i = 0; i < HE.length; i++){
-    var p = parseAngle($('eL' + i).value), m = parseAngle($('eR' + i).value);
-    toggleInvalid('eL' + i, p); toggleInvalid('eR' + i, m);
-    if (p !== null && m !== null){
-      var phi = circDiffMin(p, m) / 2;
+    var L = parseAngle($('e' + i + 'L').value), R = parseAngle($('e' + i + 'R').value),
+        pL = parseAngle($('e' + i + 'pL').value), pR = parseAngle($('e' + i + 'pR').value);
+    toggleInvalid('e' + i + 'L', L); toggleInvalid('e' + i + 'R', R);
+    toggleInvalid('e' + i + 'pL', pL); toggleInvalid('e' + i + 'pR', pR);
+    var rec = (L !== null && R !== null && pL !== null && pR !== null) ? { tL: L, tR: R, tpL: pL, tpR: pR } : null;
+    if (rec){
+      var phi = diffAngle4(rec);
       $('ephi' + i).textContent = fmtAngle(phi);
       if (d){ var lam = d * Math.sin(phi * RAD_MIN); $('elam' + i).textContent = lam.toFixed(2); $('erel' + i).textContent = fmtSig(Math.abs(lam - HE[i].nm) / HE[i].nm * 100, 2) + '%'; }
       else { $('elam' + i).textContent = '—'; $('erel' + i).textContent = '—'; }
@@ -953,37 +975,51 @@ function record(){
     var s2 = S.recHg;
     if (s2 >= HG.length * 2){ toast('汞灯定标已记录完毕'); return; }
     var li = Math.floor(s2 / 2), ord = s2 % 2;
-    if (ord === 0) $('hL' + li).value = fmtAngle(readLeft(S.T)); else $('hR' + li).value = fmtAngle(readLeft(S.T));
+    if (ord === 0){
+      $('h' + li + 'L').value = fmtAngle(readLeft(S.T));
+      $('h' + li + 'R').value = fmtAngle(readRight(S.T));
+    } else {
+      $('h' + li + 'pL').value = fmtAngle(readLeft(S.T));
+      $('h' + li + 'pR').value = fmtAngle(readRight(S.T));
+    }
     S.recHg++; recomputeHg(); updateTarget();
-    toast('已记录 Hg ' + HG[li].nm + ' nm ' + (ord === 0 ? '+1' : '−1') + ' 级');
+    toast('已记录 Hg ' + HG[li].nm + ' nm ' + (ord === 0 ? '+1 级 θ左、θ右' : '−1 级 θ′左、θ′右'));
   } else {
     var s3 = S.recHe;
     if (s3 >= HE.length * 2){ toast('氦灯谱线已记录完毕'); return; }
     var lj = Math.floor(s3 / 2), orj = s3 % 2;
-    if (orj === 0) $('eL' + lj).value = fmtAngle(readLeft(S.T)); else $('eR' + lj).value = fmtAngle(readLeft(S.T));
+    if (orj === 0){
+      $('e' + lj + 'L').value = fmtAngle(readLeft(S.T));
+      $('e' + lj + 'R').value = fmtAngle(readRight(S.T));
+    } else {
+      $('e' + lj + 'pL').value = fmtAngle(readLeft(S.T));
+      $('e' + lj + 'pR').value = fmtAngle(readRight(S.T));
+    }
     S.recHe++; recomputeHe(); updateTarget();
-    toast('已记录 He ' + HE[lj].nm + ' nm ' + (orj === 0 ? '+1' : '−1') + ' 级');
+    toast('已记录 He ' + HE[lj].nm + ' nm ' + (orj === 0 ? '+1 级 θ左、θ右' : '−1 级 θ′左、θ′右'));
   }
 }
 function undo(){
   if (S.mode === 'apex'){
     if (S.recApex <= 0){ toast('没有可撤销的记录'); return; }
     S.recApex--;
-    var tr = Math.floor(S.recApex), pos = S.recApex % 2;
+    var tr = Math.floor(S.recApex / 2), pos = S.recApex % 2;
     if (pos === 0){ $('a' + tr + 'L').value = ''; $('a' + tr + 'R').value = ''; }
     else { $('a' + tr + 'pL').value = ''; $('a' + tr + 'pR').value = ''; }
     recomputeApex(); updateTarget(); toast('已撤销上一条');
   } else if (S.src === 'hg'){
     if (S.recHg <= 0){ toast('没有可撤销的记录'); return; }
     S.recHg--;
-    var li = Math.floor(S.recHg), ord = S.recHg % 2;
-    if (ord === 0) $('hL' + li).value = ''; else $('hR' + li).value = '';
+    var li = Math.floor(S.recHg / 2), ord = S.recHg % 2;
+    if (ord === 0){ $('h' + li + 'L').value = ''; $('h' + li + 'R').value = ''; }
+    else { $('h' + li + 'pL').value = ''; $('h' + li + 'pR').value = ''; }
     recomputeHg(); updateTarget(); toast('已撤销上一条');
   } else {
     if (S.recHe <= 0){ toast('没有可撤销的记录'); return; }
     S.recHe--;
-    var lj = Math.floor(S.recHe), orj = S.recHe % 2;
-    if (orj === 0) $('eL' + lj).value = ''; else $('eR' + lj).value = '';
+    var lj = Math.floor(S.recHe / 2), orj = S.recHe % 2;
+    if (orj === 0){ $('e' + lj + 'L').value = ''; $('e' + lj + 'R').value = ''; }
+    else { $('e' + lj + 'pL').value = ''; $('e' + lj + 'pR').value = ''; }
     recomputeHe(); updateTarget(); toast('已撤销上一条');
   }
 }
@@ -1004,13 +1040,17 @@ function demoApex(){
 function demoGr(){
   for (var i = 0; i < HG.length; i++){
     var th = Math.round(Math.asin(HG[i].nm / D_NM) / RAD_MIN);
-    $('hL' + i).value = fmtAngle(readLeft(th));
-    $('hR' + i).value = fmtAngle(readLeft(-th));
+    $('h' + i + 'L').value = fmtAngle(readLeft(th));
+    $('h' + i + 'R').value = fmtAngle(readRight(th));
+    $('h' + i + 'pL').value = fmtAngle(readLeft(-th));
+    $('h' + i + 'pR').value = fmtAngle(readRight(-th));
   }
   for (var j = 0; j < HE.length; j++){
     var th2 = Math.round(Math.asin(HE[j].nm / D_NM) / RAD_MIN);
-    $('eL' + j).value = fmtAngle(readLeft(th2));
-    $('eR' + j).value = fmtAngle(readLeft(-th2));
+    $('e' + j + 'L').value = fmtAngle(readLeft(th2));
+    $('e' + j + 'R').value = fmtAngle(readRight(th2));
+    $('e' + j + 'pL').value = fmtAngle(readLeft(-th2));
+    $('e' + j + 'pR').value = fmtAngle(readRight(-th2));
   }
   recomputeHg();
   toast('已填入示例数据（汞灯定标 + 氦灯谱线）');
@@ -1109,8 +1149,8 @@ $('btnClearApex').addEventListener('click', function(){
 $('btnDemoGr').addEventListener('click', demoGr);
 $('btnClearGr').addEventListener('click', function(){
   if (!confirm('确定清空光栅光谱数据吗？')) return;
-  for (var i = 0; i < HG.length; i++){ $('hL' + i).value = ''; $('hR' + i).value = ''; }
-  for (var j = 0; j < HE.length; j++){ $('eL' + j).value = ''; $('eR' + j).value = ''; }
+  for (var i = 0; i < HG.length; i++){ $('h' + i + 'L').value = $('h' + i + 'R').value = $('h' + i + 'pL').value = $('h' + i + 'pR').value = ''; }
+  for (var j = 0; j < HE.length; j++){ $('e' + j + 'L').value = $('e' + j + 'R').value = $('e' + j + 'pL').value = $('e' + j + 'pR').value = ''; }
   S.recHg = 0; S.recHe = 0; recomputeHg(); updateTarget(); toast('已清空');
 });
 
