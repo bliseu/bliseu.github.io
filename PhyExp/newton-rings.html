@@ -317,7 +317,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li>逐差法：R = (D²m − D²n)/(4(m−n)λ)，本实验 m−n = 15，三组（30,15）（25,10）（20,5）取平均</li>
       <li>最小二乘法：D² = a + b·k 对 k 拟合，由斜率 b = 4Rλ 得 R = b/(4λ)</li>
     </ul>
-    <p>读数显微镜的主尺最小分度为 1 mm，读数鼓轮一周 100 格、每格 0.01 mm，估读到 0.001 mm，故读数共三位小数。钠黄光波长 λ = 589.3 nm。按教材要求，R 的不确定度只计 A 类分量：三组 R<sub>i</sub> 与平均值之差的标准偏差；实际测量中还应注意鼓轮单向转动以防回程差，并使叉丝对准条纹中心读数。不确定度至多保留两位有效数字（四舍六入五凑偶）。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 849.81 ± 0.16 记作 849.81(16)；U 不小于 1 时括号内原样保留。</p>
+    <p>读数显微镜的主尺最小分度为 1 mm，读数鼓轮一周 100 格、每格 0.01 mm，估读到 0.001 mm，故读数共三位小数。钠黄光波长 λ = 589.3 nm。按教材要求，R 的不确定度只计 A 类分量：三组 R<sub>i</sub> 与平均值之差的标准偏差；实际测量中还应注意鼓轮单向转动以防回程差，并使叉丝对准条纹中心读数。不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位（同样四舍六入五凑偶），两者末位对齐。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 849.813 ± 0.056 记作 849.813(56)；U 不小于 1 时括号内原样保留，如 849.8 ± 1.6 记作 849.8(1.6)。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -433,17 +433,35 @@ function uStd(u){
   return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
 }
 
-// 不确定度保留至多 2 位有效数字（四舍六入五凑偶），且小数位数不超过 maxDp（与测量值末位对齐）；
-// 末尾多余的 0 略去。如 fmtU2(0.00136,5) = "0.0014"、fmtU2(0.047,2) = "0.05"
-function fmtU2(u, maxDp){
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
   if (!Number.isFinite(u)) return '—';
   if (u === 0) return '0';
-  var abs = Math.abs(u);
-  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
-  var e = Math.floor(Math.log10(abs));
-  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
-  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
-  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-4) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"。
+// U 为 '0'、'—' 或 e 记数法时无法对齐，退回 fbDp 位小数（未给定时取 6 位有效数字）
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
 }
 
 // Heckbert 美观刻度
@@ -699,21 +717,21 @@ function recompute(){
       $('dq' + i).textContent = res.dq[i].toFixed(3);
       $('ri' + i).textContent = res.Ri[i].toFixed(2);
     }
-    $('rAvg').textContent = res.avg.toFixed(2);
-    $('rRDq').textContent = res.avg.toFixed(2) + ' mm';
-    var vDq = res.avg.toFixed(2), uDq = fmtU2(res.uA, 2);
+    var uDq = fmtU2(res.uA), vDq = fmtX(res.avg, uDq, 2);
+    $('rAvg').textContent = vDq;
+    $('rRDq').textContent = vDq + ' mm';
     $('exprDq').textContent = 'R = (' + vDq + ' ± ' + uDq + ') mm，即 ' + vDq + '(' + uStd(uDq) + ') mm';
-    $('uADq').textContent = res.uA.toFixed(2) + ' mm';
+    $('uADq').textContent = uDq + ' mm';
     $('relDq').textContent = fmtSig(res.relU, 2) + '%';
     $('resDq').classList.remove('hidden');
 
     var fit = linFit(K_LIST, res.Q);
     if (fit){
       lastFit = { ks: K_LIST.slice(), qs: res.Q.slice(), a: fit.a, b: fit.b };
-      $('rRLs').textContent = fit.Rls.toFixed(2) + ' mm';
-      var vLs = fit.Rls.toFixed(2), uLs = fmtU2(fit.uR, 2);
+      var uLs = fmtU2(fit.uR), vLs = fmtX(fit.Rls, uLs, 2);
+      $('rRLs').textContent = vLs + ' mm';
       $('exprLs').textContent = 'R = (' + vLs + ' ± ' + uLs + ') mm，即 ' + vLs + '(' + uStd(uLs) + ') mm';
-      var bS = fit.b.toFixed(4), ubS = fmtU2(fit.ub, 4);
+      var ubS = fmtU2(fit.ub), bS = fmtX(fit.b, ubS, 4);
       $('rSlope').textContent = bS + ' ± ' + ubS + '，即 ' + bS + '(' + uStd(ubS) + ')';
       $('rIcept').textContent = fit.a.toFixed(3);
       $('rRcor').textContent = Math.abs(fit.r).toFixed(6);

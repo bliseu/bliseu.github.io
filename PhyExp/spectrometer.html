@@ -228,7 +228,6 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
 
     <div class="ddiff">
       <div class="ddline hl"><span class="k">平均顶角 A = (A₁+A₂+A₃)/3</span><span class="v" id="aAvg">—</span></div>
-      <div class="ddline"><span class="k">A 类不确定度 u(A)</span><span class="v" id="aUA">—</span></div>
       <div class="ddline"><span class="k">结果表达式</span><span class="v" id="aRes">—</span></div>
     </div>
 
@@ -261,7 +260,6 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
     <div class="ddiff">
       <div class="ddline"><span class="k">拟合斜率 b = 1/d（sinφ = b·λ）</span><span class="v" id="rB">—</span></div>
       <div class="ddline hl"><span class="k">光栅常数 d = 1/b</span><span class="v" id="rD">—</span></div>
-      <div class="ddline"><span class="k">u(d)（由拟合残差估计）</span><span class="v" id="rUD">—</span></div>
       <div class="ddline"><span class="k">线性相关系数 r²</span><span class="v" id="rR2">—</span></div>
       <div class="ddline"><span class="k">每毫米刻线数 N = 1/d</span><span class="v" id="rN">—</span></div>
     </div>
@@ -323,7 +321,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li>定标最小二乘：sinφ = λ/d，斜率 b = 1/d，d = 1/b</li>
       <li>氦灯波长：λ = d·sinφ</li>
     </ul>
-    <p>角游标分度值 1′，读数以「度°分′」记录（如 60°30′）。反射法测顶角时，平行光从顶角方向同时入射两个反射面，两面反射像对称分立，望远镜在两侧转过的角度为 2A，故 A = φ/2。光栅光谱中，同一波长 ±1 级衍射分立于零级两侧，每条谱线在 +1 级（θ左、θ右）与 −1 级（θ′左、θ′右）分别读数，衍射角 φ = ¼(|θ′左−θ左|+|θ′右−θ右|)，取两侧读数与左右游标平均可消除零级位置、光栅法线倾斜及刻度盘偏心引起的系统偏差。顶角结果同时给出「A = (60°00′ ± 0′)」与新标准记法「60°00′(0′)」两种形式，括号内为不确定度（角分）。</p>
+    <p>角游标分度值 1′，读数以「度°分′」记录（如 60°30′）。反射法测顶角时，平行光从顶角方向同时入射两个反射面，两面反射像对称分立，望远镜在两侧转过的角度为 2A，故 A = φ/2。光栅光谱中，同一波长 ±1 级衍射分立于零级两侧，每条谱线在 +1 级（θ左、θ右）与 −1 级（θ′左、θ′右）分别读数，衍射角 φ = ¼(|θ′左−θ左|+|θ′右−θ右|)，取两侧读数与左右游标平均可消除零级位置、光栅法线倾斜及刻度盘偏心引起的系统偏差。顶角取三次测量的平均值作为测量结果（按教学要求，本页不作不确定度计算）。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -413,24 +411,16 @@ function fmtAngle(m){
 
 // 由 3 次测量求顶角 A（arcmin）；trials: [{tL,tR,tpL,tpR}] 或 null
 function computeApex(trials){
-  var As = [null, null, null], vals = [], sum = 0;
+  var As = [null, null, null], n = 0, sum = 0;
   for (var i = 0; i < 3; i++){
     var t = trials[i];
     if (!t) continue;
     var d1 = circDiffMin(t.tpL, t.tL), d2 = circDiffMin(t.tpR, t.tR);
     var A = (d1 + d2) / 4;
-    As[i] = A; vals.push(A); sum += A;
+    As[i] = A; n++; sum += A;
   }
-  var n = vals.length;
   var avg = n ? sum / n : null;
-  var uA = null;
-  if (n >= 2){
-    var s2 = 0;
-    for (var j = 0; j < n; j++) s2 += (vals[j] - avg) * (vals[j] - avg);
-    s2 /= (n - 1);
-    uA = Math.sqrt(s2 / n);
-  }
-  return { As: As, avg: avg, uA: uA };
+  return { As: As, avg: avg };
 }
 
 // 由 ±1 级在左右游标的 4 个读数求衍射角 φ（与顶角 A 同构）：
@@ -456,19 +446,16 @@ function computeGrating(lines){
   smean /= n;
   var b = Sxy / Sxx;             // 斜率（1/nm）
   var d = 1 / b;                 // 光栅常数（nm）
-  var ss = 0, Stot = 0, lamMean = 0;
-  for (var a = 0; a < n; a++){ var f = b * pts[a].nm; ss += (pts[a].s - f) * (pts[a].s - f); lamMean += pts[a].nm; }
+  var Stot = 0, lamMean = 0;
+  for (var a = 0; a < n; a++) lamMean += pts[a].nm;
   lamMean /= n;
   for (var c = 0; c < n; c++) Stot += (pts[c].s - smean) * (pts[c].s - smean);
   // Pearson r²
   var Sll = 0, Ssl = 0;
   for (var e = 0; e < n; e++){ Sll += (pts[e].nm - lamMean) * (pts[e].nm - lamMean); Ssl += (pts[e].s - smean) * (pts[e].nm - lamMean); }
   var r2 = (Stot > 0 && Sll > 0) ? (Ssl * Ssl) / (Stot * Sll) : null;
-  var sRes = Math.sqrt(ss / (n - 1));   // 过原点拟合残差（n−1 自由度）
-  var ub = sRes / Math.sqrt(Sxx);
-  var ud = ub / (b * b);
   var N = 1e6 / d;                       // 每毫米线数
-  return { b: b, d: d, ub: ub, ud: ud, r2: r2, N: N, pts: pts, n: n };
+  return { b: b, d: d, r2: r2, N: N, pts: pts, n: n };
 }
 
 // 氦灯：由光栅常数 d 与各谱线 ±1 级读数求波长
@@ -901,15 +888,11 @@ function recomputeApex(){
   for (var j = 0; j < 3; j++) $('aA' + j).textContent = (res.As[j] === null) ? '—' : fmtAngle(res.As[j]);
   if (res.avg !== null){
     $('aAvg').textContent = fmtAngle(res.avg);
-    $('aUA').textContent = (res.uA === null) ? '—' : fmtU(res.uA);
-    $('aRes').textContent = (res.uA === null)
-      ? ('A = ' + fmtAngle(res.avg))
-      : ('A = (' + fmtAngle(res.avg) + ' ± ' + fmtU(res.uA) + ')，即 ' + fmtAngle(res.avg) + '(' + fmtU(res.uA) + ')');
+    $('aRes').textContent = 'A = ' + fmtAngle(res.avg);
   } else {
-    $('aAvg').textContent = $('aUA').textContent = $('aRes').textContent = '—';
+    $('aAvg').textContent = $('aRes').textContent = '—';
   }
 }
-function fmtU(u){ return (u < 1) ? (Math.round(u * 10) / 10) + '′' : Math.round(u) + '′'; }
 
 function recomputeHg(){
   var lines = [];
@@ -931,13 +914,12 @@ function recomputeHg(){
     S.dComputed = g.d;
     $('rB').textContent = fmtSig(g.b, 4) + ' /nm';
     $('rD').textContent = g.d.toFixed(2) + ' nm';
-    $('rUD').textContent = fmtSig(g.ud, 1) + ' nm';
     $('rR2').textContent = (g.r2 === null) ? '—' : g.r2.toFixed(6);
     $('rN').textContent = (1e6 / g.d).toFixed(1) + ' 线/mm';
     drawPlot(g.pts, g.b);
   } else {
     S.dComputed = null;
-    $('rB').textContent = $('rD').textContent = $('rUD').textContent = $('rR2').textContent = $('rN').textContent = '—';
+    $('rB').textContent = $('rD').textContent = $('rR2').textContent = $('rN').textContent = '—';
     drawPlot([], null);
   }
   recomputeHe();

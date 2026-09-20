@@ -402,7 +402,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li>声速理论值：v理 = 331.45·√(1 + t/273.15)（m/s），t 为室温 ℃</li>
       <li>最小二乘法：L_k = a + b·k，斜率 b = λ/2，v = 2bf</li>
     </ul>
-    <p>游标卡尺分度值 0.02 mm，读数应为 0.02 mm 的整数倍。不确定度合成：U/v = √((U_f/f)² + (U_ΔL/ΔL)²)，其中 U_f/f 取 0.5%，U_ΔL 为 5 组逐差的 A 类分量（标准偏差除以 √5）。测量时应沿单一方向移动 S₂ 以防回程差，并在幅值极大（或直线段）附近仔细微调后再读数。不确定度至多保留两位有效数字（四舍六入五凑偶）。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 346.28 ± 0.05 记作 346.28(5)；U 不小于 1 时括号内原样保留，如 346.2(1.7)。</p>
+    <p>游标卡尺分度值 0.02 mm，读数应为 0.02 mm 的整数倍。不确定度合成：U/v = √((U_f/f)² + (U_ΔL/ΔL)²)，其中 U_f/f 取 0.5%，U_ΔL 为 5 组逐差的 A 类分量（标准偏差除以 √5）。测量时应沿单一方向移动 S₂ 以防回程差，并在幅值极大（或直线段）附近仔细微调后再读数。不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位（同样四舍六入五凑偶），两者末位对齐。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 346.283 ± 0.057 记作 346.283(57)；U 不小于 1 时括号内原样保留，如 346.3(1.7)。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -534,17 +534,35 @@ function uStd(u){
   return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
 }
 
-// 不确定度保留至多 2 位有效数字（四舍六入五凑偶），且小数位数不超过 maxDp（与测量值末位对齐）；
-// 末尾多余的 0 略去。如 fmtU2(0.00136,5) = "0.0014"、fmtU2(0.047,2) = "0.05"
-function fmtU2(u, maxDp){
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
   if (!Number.isFinite(u)) return '—';
   if (u === 0) return '0';
-  var abs = Math.abs(u);
-  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
-  var e = Math.floor(Math.log10(abs));
-  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
-  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
-  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-4) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"。
+// U 为 '0'、'—' 或 e 记数法时无法对齐，退回 fbDp 位小数（未给定时取 6 位有效数字）
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
 }
 
 // Heckbert 美观刻度
@@ -934,8 +952,8 @@ function fillMethod(prefix, ls, fKhz, tC){
     $(prefix + 'AvgDl').textContent = res.avgDl.toFixed(2) + ' mm';
     $(prefix + 'Lam').textContent = res.lam.toFixed(3) + ' mm';
     $(prefix + 'V').textContent = res.v.toFixed(2) + ' m/s';
-    $(prefix + 'U').textContent = res.uV.toFixed(2) + ' m/s';
-    var vStr = res.v.toFixed(1), uStr = fmtU2(res.uV, 1);
+    var uStr = fmtU2(res.uV), vStr = fmtX(res.v, uStr, 2);
+    $(prefix + 'U').textContent = uStr + ' m/s';
     $(prefix + 'Expr').textContent = 'v = (' + vStr + ' ± ' + uStr + ') m/s，即 ' + vStr + '(' + uStd(uStr) + ') m/s';
     $(prefix + 'Pct').textContent = fmtSig(res.pct, 2) + '%';
     $(prefix + 'Res').classList.remove('hidden');
@@ -972,9 +990,11 @@ function recompute(){
     var bAvg = (fitR.b + fitP.b) / 2, uB = Math.max(fitR.ub, fitP.ub);
     lastFit = { ls: ls.slice(), ps: ps.slice(), aR: fitR.a, bR: fitR.b, aP: fitP.a, bP: fitP.b };
     $('lsBig').textContent = ((vR + vP) / 2).toFixed(2) + ' m/s';
-    $('lsB').textContent = bAvg.toFixed(4) + ' ± ' + fmtU2(uB, 4) + '，即 ' + bAvg.toFixed(4) + '(' + uStd(fmtU2(uB, 4)) + ')';
-    $('lsV1').textContent = vR.toFixed(2) + ' ± ' + fmtU2(uR, 2) + '，即 ' + vR.toFixed(2) + '(' + uStd(fmtU2(uR, 2)) + ')';
-    $('lsV2').textContent = vP.toFixed(2) + ' ± ' + fmtU2(uP, 2) + '，即 ' + vP.toFixed(2) + '(' + uStd(fmtU2(uP, 2)) + ')';
+    var uBs = fmtU2(uB), uRs = fmtU2(uR), uPs = fmtU2(uP);
+    var bAs = fmtX(bAvg, uBs, 4), vRs = fmtX(vR, uRs, 2), vPs = fmtX(vP, uPs, 2);
+    $('lsB').textContent = bAs + ' ± ' + uBs + '，即 ' + bAs + '(' + uStd(uBs) + ')';
+    $('lsV1').textContent = vRs + ' ± ' + uRs + '，即 ' + vRs + '(' + uStd(uRs) + ')';
+    $('lsV2').textContent = vPs + ' ± ' + uPs + '，即 ' + vPs + '(' + uStd(uPs) + ')';
     $('lsRes').classList.remove('hidden');
   } else {
     lastFit = null;

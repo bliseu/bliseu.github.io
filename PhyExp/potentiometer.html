@@ -353,7 +353,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li>B 类不确定度：u_B = Ex·√[(ΔL/(√3·Lx))² ＋ (ΔL/(√3·Ls))²]，ΔL = 0.001 m。</li>
       <li>合成：U = √(u_A²＋u_B²)；结果 E = Ē ± U，即 Ē(U)。</li>
     </ul>
-    <p>补偿法的要点：检流计示零时测量回路电流为零，被测电动势不受测量装置分流影响。定标与测量之间必须保持工作电流不变（电源电压 E₀ 不动、电阻丝回路不断开）。B 类不确定度取刻度盘分辨率 ΔL = 0.001 m 按均匀分布处理；标准电池的影响远小于此项，已忽略。不确定度至多保留两位有效数字（四舍六入五凑偶），结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 1.5020 ± 0.0003 记作 1.5020(3)。</p>
+    <p>补偿法的要点：检流计示零时测量回路电流为零，被测电动势不受测量装置分流影响。定标与测量之间必须保持工作电流不变（电源电压 E₀ 不动、电阻丝回路不断开）。B 类不确定度取刻度盘分辨率 ΔL = 0.001 m 按均匀分布处理；标准电池的影响远小于此项，已忽略。不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位（同样四舍六入五凑偶），两者末位对齐，结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 E = 1.50207 ± 0.00025 V 即 1.50207(25) V。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -431,16 +431,35 @@ function uStd(u){
   if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
   return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
 }
-// 不确定度格式化：至多两位有效数字（凑偶），小数位数不超过 maxDp
-function fmtU2(u, maxDp){
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
   if (!Number.isFinite(u)) return '—';
   if (u === 0) return '0';
-  var abs = Math.abs(u);
-  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
-  var e = Math.floor(Math.log10(abs));
-  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
-  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
-  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-4) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"。
+// U 为 '0'、'—' 或 e 记数法时无法对齐，退回 fbDp 位小数（未给定时取 6 位有效数字）
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
 }
 
 // 算术平均与标准差
@@ -474,14 +493,10 @@ function statsOf(rows){
   var U = Math.sqrt(uA * uA + uB * uB);
   return { n: n, ebar: ms.m, s: ms.s, uA: uA, uB: uB, U: U };
 }
-// 结果表达式「E = Ē ± U，即 Ē(U) V」（末位对齐；U 用 maxDp = 4）
+// 结果表达式「E = Ē ± U，即 Ē(U) V」：U 修约到两位有效数字，Ē 修约到与 U 相同的末位
 function buildExpr(ebar, U){
   if (!Number.isFinite(ebar)) return '—';
-  var us = fmtU2(U, 4);
-  var dp;
-  if (us === '—' || us === '0'){ dp = 4; us = (us === '0') ? '0.0000' : '—'; }
-  else dp = (us.indexOf('.') < 0) ? 0 : us.length - us.indexOf('.') - 1;
-  var ev = ebar.toFixed(dp);
+  var us = fmtU2(U), ev = fmtX(ebar, us, 4);
   return 'E = ' + ev + ' ± ' + us + '，即 ' + ev + '(' + uStd(us) + ') V';
 }
 /*__CALC_END__*/
@@ -1092,8 +1107,8 @@ function recomputeTables(){
     $('bigAll').textContent = all.ebar.toFixed(4) + ' V';
     $('exprAll').textContent = buildExpr(all.ebar, all.U);
     $('rN').textContent = all.n;
-    $('rUa').textContent = all.n >= 2 ? all.uA.toFixed(4) : '—';
-    $('rUb').textContent = all.uB.toFixed(4);
+    $('rUa').textContent = all.n >= 2 ? fmtU2(all.uA) : '—';
+    $('rUb').textContent = fmtU2(all.uB);
   } else {
     $('resAll').classList.add('hidden');
   }

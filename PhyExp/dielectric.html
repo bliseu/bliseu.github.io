@@ -374,7 +374,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li>线性检验：1/C串 = a＋b·D，b = 1/(ε₀S) 反推面积，a = −t(1−1/εᵣ)b 给出 εᵣ = 1/(1＋a/(bt))。</li>
       <li>统计计算法：C = C分＋ε₀S₀/D 与 Y = A＋BX 对比（X = 1/D），A = C分，B = ε₀S₀，故 ε₀ = B/S₀。</li>
     </ul>
-    <p>两次测量必须保持同一极板间距 D 且系统状态不变，才能消去边界电容 C边 与分布电容 C分。样品直径用游标卡尺、厚度用螺旋测微器测量，电极直径由仪器标牌给出。不确定度至多保留两位有效数字（四舍六入五凑偶）。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 8.86 ± 0.01 记作 8.86(1)；U 不小于 1 时括号内原样保留。</p>
+    <p>两次测量必须保持同一极板间距 D 且系统状态不变，才能消去边界电容 C边 与分布电容 C分。样品直径用游标卡尺、厚度用螺旋测微器测量，电极直径由仪器标牌给出。不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位（同样四舍六入五凑偶），两者末位对齐。结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 8.86425 ± 0.01253 修约为 8.864 ± 0.012，即 8.864(12)；U 不小于 1 时括号内原样保留。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -472,16 +472,35 @@ function uStd(u){
   if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
   return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
 }
-// 不确定度格式化：至多两位有效数字（凑偶），小数位数不超过 maxDp
-function fmtU2(u, maxDp){
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
   if (!Number.isFinite(u)) return '—';
   if (u === 0) return '0';
-  var abs = Math.abs(u);
-  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
-  var e = Math.floor(Math.log10(abs));
-  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
-  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
-  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-4) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"。
+// U 为 '0'、'—' 或 e 记数法时无法对齐，退回 fbDp 位小数（未给定时取 6 位有效数字）
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
 }
 
 // 最小二乘直线拟合 y = a + b·x。返回 {b, a, s, ub, r}；数据退化返回 null
@@ -1140,7 +1159,7 @@ function recomputeTables(){
     var ss = 0, q;
     for (q = 0; q < 3; q++){ var ee = ers[q] - avg; ss += ee * ee; }
     var uA = Math.sqrt(ss / 2) / Math.sqrt(3);      // 平均值的 A 类不确定度
-    var vE = avg.toFixed(3), uE = fmtU2(uA, 3);
+    var uE = fmtU2(uA), vE = fmtX(avg, uE, 3);
     $('bigT1').textContent = vE;
     $('exprT1').innerHTML = 'ε<sub>r</sub> = ' + vE + ' ± ' + uE +
       '，即 ' + vE + '(' + uStd(uE) + ')';
@@ -1179,7 +1198,7 @@ function recomputeTables(){
       var A = f2.a, B = f2.b;
       var e0 = B / SIM.S0 * 1000;                   // 单位 10⁻¹² F/m
       var u0 = f2.ub / SIM.S0 * 1000;
-      var v0 = e0.toFixed(2), u0s = fmtU2(u0, 2);
+      var u0s = fmtU2(u0), v0 = fmtX(e0, u0s, 2);
       $('bigT2').innerHTML = v0 + '×10<sup>−12</sup> F/m';
       $('exprT2').innerHTML = 'ε<sub>0</sub> = (' + v0 + ' ± ' + u0s + ')×10<sup>−12</sup> F/m，即 ' +
         v0 + '(' + uStd(u0s) + ')×10<sup>−12</sup> F/m';

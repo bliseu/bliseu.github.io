@@ -161,7 +161,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
     <h2>二、拟合结果</h2>
     <p id="eq"></p>
     <table class="stats"><tbody id="statsBody"></tbody></table>
-    <p class="hint">u(k)、u(b) 为斜率与截距的 A 类标准不确定度；r 为相关系数，|r| 越接近 1 说明线性越好。不确定度至多保留两位有效数字（四舍六入五凑偶），测量值末位与不确定度对齐；结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如 0.149242 ± 0.00136 记作 0.14924 ± 0.0014，即 0.14924(14)、4.6170 ± 0.0006 记作 4.6170(6)；U 不小于 1 时括号内原样保留，如 3.1(1.2)。</p>
+    <p class="hint">u(k)、u(b) 为斜率与截距的 A 类标准不确定度；r 为相关系数，|r| 越接近 1 说明线性越好。不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位（同样四舍六入五凑偶），两者的末位对齐；结果同时给出「X ± U」与新标准记法「X(U)」两种形式：U 小于 1 时括号内省略前导「0.」，如原始算得 0.1472332 ± 0.002241 修约为 0.1472 ± 0.0022，即 0.1472(22)；U 不小于 1 时括号内原样保留，如 3.1(1.2)。</p>
     <div class="btnrow noprint">
       <button type="button" class="btn" id="btnCopy">复制结果文字</button>
       <button type="button" class="btn" onclick="window.print()">打印 / 存为 PDF</button>
@@ -315,26 +315,35 @@ function sigRound(x, n){
   return sg * r / scale;
 }
 
-// 不确定度保留至多 2 位有效数字（四舍六入五凑偶），且小数位数不超过 maxDp（与测量值末位对齐）；
-// 末尾多余的 0 略去。如 fmtU2(0.00136,5) = "0.0014"、fmtU2(0.047,2) = "0.05"
-function fmtU2(u, maxDp){
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
   if (!Number.isFinite(u)) return '—';
   if (u === 0) return '0';
-  var abs = Math.abs(u);
-  if (abs >= 1e6 || abs < 1e-4) return u.toExponential(1);
-  var e = Math.floor(Math.log10(abs));
-  var dp = Math.min(Math.max(0, 1 - e), Math.max(0, maxDp));
-  var s = sigRound(u, Math.max(1, dp + e + 1)).toFixed(dp);
-  return s.replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-4) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
 }
 
-// 测量值末位与不确定度的末位对齐：按 U 的三位有效数字参考显示取小数位数
-// （如 U = 0.00136 显示 "0.00136" → X 保留 5 位小数：0.149242 → "0.14924"）
-function xAligned(x, uStr3){
-  if (!Number.isFinite(x)) return fmtSig(x, 6);
-  var dot = uStr3.indexOf('.');
-  if (dot < 0 || uStr3.indexOf('e') >= 0 || Math.abs(x) >= 1e6) return fmtSig(x, 6);
-  return x.toFixed(uStr3.length - dot - 1);
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"。
+// U 为 '0'、'—' 或 e 记数法时无法对齐，退回 fbDp 位小数（未给定时取 6 位有效数字）
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
 }
 
 // 拟合方程字符串，如 "y = 0.149242 x + 0.003333"
@@ -454,12 +463,10 @@ function showResults(res){
   $('eq').textContent = eqStr(res);
   var rowsHtml = '';
   rowsHtml += '<tr><td>数据组数 n</td><td>' + res.n + '</td></tr>';
-  var uk3 = (res.uk != null) ? fmtSig(res.uk,3) : null;
-  var ub3 = (res.ub !== null) ? fmtSig(res.ub,3) : null;
-  var kStr = uk3 ? xAligned(res.k, uk3) : fmtSig(res.k,6);
-  var bStr = ub3 ? xAligned(res.b, ub3) : fmtSig(res.b,6);
-  var ukStr = (res.uk != null) ? fmtU2(res.uk, uk3.length - uk3.indexOf('.') - 1) : null;
-  var ubStr = (res.ub !== null) ? fmtU2(res.ub, ub3.length - ub3.indexOf('.') - 1) : null;
+  var ukStr = (res.uk != null) ? fmtU2(res.uk) : null;
+  var ubStr = (res.ub !== null) ? fmtU2(res.ub) : null;
+  var kStr = ukStr ? fmtX(res.k, ukStr) : fmtSig(res.k,6);
+  var bStr = ubStr ? fmtX(res.b, ubStr) : fmtSig(res.b,6);
   rowsHtml += '<tr><td>斜率 k</td><td>' + kStr +
               (ukStr ? ' ± ' + ukStr + '，即 ' + kStr + '(' + uStd(ukStr) + ')' : '') + '</td></tr>';
   if (res.ub !== null){
@@ -478,12 +485,10 @@ function showResults(res){
 function resultText(res){
   var t = '最小二乘法直线拟合结果\n';
   t += '拟合方程: ' + eqStr(res).replace('−','-') + '\n';
-  var uk3 = (res.uk != null) ? fmtSig(res.uk,3) : null;
-  var ub3 = (res.ub !== null) ? fmtSig(res.ub,3) : null;
-  var kStr = uk3 ? xAligned(res.k, uk3) : fmtSig(res.k,6);
-  var bStr = ub3 ? xAligned(res.b, ub3) : fmtSig(res.b,6);
-  var ukStr = (res.uk != null) ? fmtU2(res.uk, uk3.length - uk3.indexOf('.') - 1) : null;
-  var ubStr = (res.ub !== null) ? fmtU2(res.ub, ub3.length - ub3.indexOf('.') - 1) : null;
+  var ukStr = (res.uk != null) ? fmtU2(res.uk) : null;
+  var ubStr = (res.ub !== null) ? fmtU2(res.ub) : null;
+  var kStr = ukStr ? fmtX(res.k, ukStr) : fmtSig(res.k,6);
+  var bStr = ubStr ? fmtX(res.b, ubStr) : fmtSig(res.b,6);
   t += '斜率 k = ' + kStr +
        (ukStr ? ' ± ' + ukStr + '，即 ' + kStr + '(' + uStd(ukStr) + ')' : '') + '\n';
   t += res.ub !== null
