@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="迈克耳孙干涉仪测 He-Ne 激光波长：呈现红色等倾干涉同心圆环，模拟转动微调手轮数环读数，按主尺+粗调+微调三部分读取动镜位置，逐差法计算波长。">
+<meta name="description" content="迈克耳孙干涉仪测 He-Ne 激光波长：呈现红色等倾干涉同心圆环，模拟转动微调手轮数环读数，按主尺+粗调+微调三部分读取动镜位置，逐差法与最小二乘法计算波长并给出不确定度。">
 <title>迈克耳孙干涉仪测激光波长 · 实验数据处理</title>
 <script>
 (function(){try{var p=localStorage.getItem('phyexp-theme')||'auto';var t=(p==='light'||p==='dark')?p:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();
@@ -96,6 +96,12 @@ td.dcell{font-variant-numeric:tabular-nums;color:var(--blue-dark);font-weight:60
 .ddiff .ddline .v{font-weight:600;color:var(--blue-dark)}
 .ddiff .ddline.hl{background:var(--hl-bg);border-radius:6px;padding:6px 8px}
 .ddiff .ddline.hl .v{color:var(--accent);font-size:1.05rem}
+.mblock .mtitle{font-size:.88rem;font-weight:700;color:var(--blue-dark);margin:2px 0 4px}
+.mblock{border-top:1px dashed var(--line);margin-top:12px;padding-top:8px}
+.steprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:.85rem;color:var(--muted)}
+.stepin{width:76px;height:38px;font-size:16px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:0 4px;background:var(--field-bg);color:var(--ink);font-family:inherit;font-variant-numeric:tabular-nums}
+.stepin:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(42,120,214,.18)}
+.stepin.invalid{border-color:var(--danger);background:var(--invalid-bg)}
 
 /* 结果 */
 .result{text-align:center}
@@ -151,7 +157,7 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <a class="home noprint" href="index.html">⌂ 首页</a>
   <h1>迈克耳孙干涉仪测激光波长</h1>
   <p class="en">Michelson Interferometer &middot; Laser Wavelength</p>
-  <p>转动微调手轮数环读数，按主尺 + 粗调 + 微调三部分读取动镜位置，逐差法求波长</p>
+  <p>转动微调手轮数环读数，按主尺 + 粗调 + 微调三部分读取动镜位置，逐差法与最小二乘法求波长及不确定度</p>
 </header>
 
 <noscript><p style="text-align:center;color:#dc2626">本工具需要在浏览器中启用 JavaScript 才能运行。</p></noscript>
@@ -210,8 +216,8 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
 
   <!-- ======== 第二部分：数据记录 ======== -->
   <section class="card">
-    <h2>二、数据记录与逐差处理</h2>
-    <p class="hint" style="margin-top:0">转动微调手轮，每当圆环“冒出”（或“消失”）满 100 个时记录一次动镜位置 d；共记 6 次。也可直接填写三部分读数。</p>
+    <h2>二、数据记录与数据处理</h2>
+    <p class="hint" style="margin-top:0">转动微调手轮，每当圆环“冒出”（或“消失”）满 <b id="stepTxt">20</b> 条时记录一次动镜位置 d，共记 6 次；也可直接填写三部分读数。逐差法每对跨 3 步（<span id="pairTxt">60</span> 条），最小二乘法用 6 组数据对条纹数作直线拟合。</p>
     <table>
       <thead>
         <tr>
@@ -223,12 +229,12 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
         </tr>
       </thead>
       <tbody id="tbody">
-        <tr data-i="0"><td class="idx">第 0 个</td><td class="cell"><input id="main0" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第0个主尺读数"></td><td class="cell"><input id="coarse0" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第0个粗调读数"></td><td class="cell w3"><input id="fine0" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第0个微调读数"></td><td class="dcell" id="d0">—</td></tr>
-        <tr data-i="1"><td class="idx">第 100 个</td><td class="cell"><input id="main1" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第100个主尺读数"></td><td class="cell"><input id="coarse1" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第100个粗调读数"></td><td class="cell w3"><input id="fine1" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第100个微调读数"></td><td class="dcell" id="d1">—</td></tr>
-        <tr data-i="2"><td class="idx">第 200 个</td><td class="cell"><input id="main2" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第200个主尺读数"></td><td class="cell"><input id="coarse2" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第200个粗调读数"></td><td class="cell w3"><input id="fine2" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第200个微调读数"></td><td class="dcell" id="d2">—</td></tr>
-        <tr data-i="3"><td class="idx">第 300 个</td><td class="cell"><input id="main3" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第300个主尺读数"></td><td class="cell"><input id="coarse3" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第300个粗调读数"></td><td class="cell w3"><input id="fine3" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第300个微调读数"></td><td class="dcell" id="d3">—</td></tr>
-        <tr data-i="4"><td class="idx">第 400 个</td><td class="cell"><input id="main4" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第400个主尺读数"></td><td class="cell"><input id="coarse4" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第400个粗调读数"></td><td class="cell w3"><input id="fine4" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第400个微调读数"></td><td class="dcell" id="d4">—</td></tr>
-        <tr data-i="5"><td class="idx">第 500 个</td><td class="cell"><input id="main5" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第500个主尺读数"></td><td class="cell"><input id="coarse5" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第500个粗调读数"></td><td class="cell w3"><input id="fine5" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第500个微调读数"></td><td class="dcell" id="d5">—</td></tr>
+        <tr data-i="0"><td class="idx" id="idx0">第 0 个</td><td class="cell"><input id="main0" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第0个主尺读数"></td><td class="cell"><input id="coarse0" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第0个粗调读数"></td><td class="cell w3"><input id="fine0" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第0个微调读数"></td><td class="dcell" id="d0">—</td></tr>
+        <tr data-i="1"><td class="idx" id="idx1">第 20 个</td><td class="cell"><input id="main1" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第20个主尺读数"></td><td class="cell"><input id="coarse1" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第20个粗调读数"></td><td class="cell w3"><input id="fine1" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第20个微调读数"></td><td class="dcell" id="d1">—</td></tr>
+        <tr data-i="2"><td class="idx" id="idx2">第 40 个</td><td class="cell"><input id="main2" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第40个主尺读数"></td><td class="cell"><input id="coarse2" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第40个粗调读数"></td><td class="cell w3"><input id="fine2" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第40个微调读数"></td><td class="dcell" id="d2">—</td></tr>
+        <tr data-i="3"><td class="idx" id="idx3">第 60 个</td><td class="cell"><input id="main3" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第60个主尺读数"></td><td class="cell"><input id="coarse3" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第60个粗调读数"></td><td class="cell w3"><input id="fine3" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第60个微调读数"></td><td class="dcell" id="d3">—</td></tr>
+        <tr data-i="4"><td class="idx" id="idx4">第 80 个</td><td class="cell"><input id="main4" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第80个主尺读数"></td><td class="cell"><input id="coarse4" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第80个粗调读数"></td><td class="cell w3"><input id="fine4" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第80个微调读数"></td><td class="dcell" id="d4">—</td></tr>
+        <tr data-i="5"><td class="idx" id="idx5">第 100 个</td><td class="cell"><input id="main5" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第100个主尺读数"></td><td class="cell"><input id="coarse5" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="第100个粗调读数"></td><td class="cell w3"><input id="fine5" inputmode="numeric" autocomplete="off" maxlength="3" aria-label="第100个微调读数"></td><td class="dcell" id="d5">—</td></tr>
       </tbody>
     </table>
 
@@ -237,6 +243,12 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <div class="ddline"><span class="k">Δd₂ = d₄ − d₁</span><span class="v" id="dd2">—</span></div>
       <div class="ddline"><span class="k">Δd₃ = d₅ − d₂</span><span class="v" id="dd3">—</span></div>
       <div class="ddline hl"><span class="k">平均 Δd = (Δd₁+Δd₂+Δd₃)/3</span><span class="v" id="avgDd">—</span></div>
+    </div>
+
+    <div class="steprow noprint">
+      <label for="stepIn">每步条纹数</label>
+      <input id="stepIn" class="stepin" inputmode="numeric" autocomplete="off" maxlength="4" value="20" aria-label="每步条纹数">
+      <span>条／次（5–1000；本学期教学要求为每 20 条记录一次）</span>
     </div>
 
     <div class="btnrow noprint">
@@ -249,10 +261,31 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
   <section class="card result hidden" id="resultCard">
     <h2 style="text-align:left">三、测量结果</h2>
     <div class="big" id="rLambda">—</div>
-    <div class="lab">He-Ne 激光波长 λ = 2·平均Δd / N　（N = 300 条）</div>
+    <div class="lab" id="rLambdaLab">He-Ne 激光波长（逐差法）λ = 2·平均Δd / N</div>
+
+    <div class="ddiff mblock" style="text-align:left">
+      <div class="mtitle">① 逐差法</div>
+      <div class="ddline hl"><span class="k">结果表达式</span><span class="v" id="diffExpr">—</span></div>
+      <div class="ddline"><span class="k">A 类分量 u_A(λ)（3 对 Δd 分散）</span><span class="v" id="diffUa">—</span></div>
+      <div class="ddline"><span class="k">B 类分量 u_B(λ)（读数分辨力）</span><span class="v" id="diffUb">—</span></div>
+      <div class="ddline"><span class="k">相对不确定度 u(λ)/λ</span><span class="v" id="diffRel">—</span></div>
+    </div>
+
+    <div class="ddiff mblock" style="text-align:left">
+      <div class="mtitle">② 最小二乘法</div>
+      <div class="ddline"><span class="k">斜率 b = λ/2</span><span class="v" id="lsqB">—</span></div>
+      <div class="ddline"><span class="k">截距 a（应≈d₀）</span><span class="v" id="lsqA">—</span></div>
+      <div class="ddline"><span class="k">相关系数 r</span><span class="v" id="lsqR">—</span></div>
+      <div class="ddline hl"><span class="k">结果表达式</span><span class="v" id="lsqExpr">—</span></div>
+      <div class="ddline"><span class="k">A 类分量 u_A(λ)（拟合残差）</span><span class="v" id="lsqUa">—</span></div>
+      <div class="ddline"><span class="k">B 类分量 u_B(λ)（读数分辨力）</span><span class="v" id="lsqUb">—</span></div>
+      <div class="ddline"><span class="k">相对不确定度 u(λ)/λ</span><span class="v" id="lsqRel">—</span></div>
+    </div>
+
     <div class="row">
       <div class="item"><div class="v" id="rLambdaMm">—</div><div class="lab">λ / mm</div></div>
       <div class="item"><div class="v" id="rRel">—</div><div class="lab">相对误差（对 632.8 nm）</div></div>
+      <div class="item"><div class="v" id="rCmp">—</div><div class="lab">两法之差 |λ逐差 − λ最小二乘| / nm</div></div>
     </div>
   </section>
 </main>
@@ -270,17 +303,29 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
       <li><span class="flabel">逐差法：</span>
         <div class="mathwrap"><math display="block"><mi>Δ</mi><msub><mi>d</mi><mn>1</mn></msub><mo>=</mo><msub><mi>d</mi><mn>3</mn></msub><mo>−</mo><msub><mi>d</mi><mn>0</mn></msub><mtext>，</mtext><mi>Δ</mi><msub><mi>d</mi><mn>2</mn></msub><mo>=</mo><msub><mi>d</mi><mn>4</mn></msub><mo>−</mo><msub><mi>d</mi><mn>1</mn></msub><mtext>，</mtext><mi>Δ</mi><msub><mi>d</mi><mn>3</mn></msub><mo>=</mo><msub><mi>d</mi><mn>5</mn></msub><mo>−</mo><msub><mi>d</mi><mn>2</mn></msub></math></div>
       </li>
-      <li><span class="flabel">波长：</span>
-        <div class="mathwrap"><math display="block"><mi>λ</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>Δ</mi><mi>d</mi></mrow><mi>N</mi></mfrac><mtext>，</mtext><mi>N</mi><mo>=</mo><mn>300</mn><mtext>（Δd 为平均移动距离）</mtext></math></div>
+      <li><span class="flabel">逐差法波长：</span>
+        <div class="mathwrap"><math display="block"><mi>λ</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>Δ</mi><mi>d</mi></mrow><mi>N</mi></mfrac><mtext>，</mtext><mi>N</mi><mo>=</mo><mn>3</mn><mo>×</mo><mtext>每步条纹数（Δd 为三对差值的平均）</mtext></math></div>
+      </li>
+      <li><span class="flabel">逐差法不确定度：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>u</mi><mi>A</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mo>Σ</mo><msup><mrow><mo stretchy="false">(</mo><mi>Δ</mi><msub><mi>d</mi><mi>i</mi></msub><mo>−</mo><mover><mrow><mi>Δ</mi><mi>d</mi></mrow><mo>¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></mfrac></msqrt><mtext>（n = 3），</mtext><msub><mi>u</mi><mi>B</mi></msub><mo>=</mo><msqrt><mfrac><mn>2</mn><mn>3</mn></mfrac></msqrt><mfrac><mi>Δ</mi><msqrt><mn>3</mn></msqrt></mfrac><mtext>，</mtext><mi>u</mi><mo stretchy="false">(</mo><mi>Δ</mi><mi>d</mi><mo stretchy="false">)</mo><mo>=</mo><msqrt><msubsup><mi>u</mi><mi>A</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>u</mi><mi>B</mi><mn>2</mn></msubsup></msqrt></math></div>
+      </li>
+      <li><span class="flabel">最小二乘法：</span>
+        <div class="mathwrap"><math display="block"><mi>d</mi><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>k</mi><mtext>（k 为条纹数），</mtext><mi>λ</mi><mo>=</mo><mn>2</mn><mi>b</mi><mtext>，</mtext><mi>r</mi><mo>=</mo><mfrac><mrow><mo>Σ</mo><mo stretchy="false">(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mover><mi>k</mi><mo>¯</mo></mover><mo stretchy="false">)</mo><mo stretchy="false">(</mo><msub><mi>d</mi><mi>i</mi></msub><mo>−</mo><mover><mi>d</mi><mo>¯</mo></mover><mo stretchy="false">)</mo></mrow><msqrt><mo>Σ</mo><msup><mrow><mo stretchy="false">(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mover><mi>k</mi><mo>¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>Σ</mo><msup><mrow><mo stretchy="false">(</mo><msub><mi>d</mi><mi>i</mi></msub><mo>−</mo><mover><mi>d</mi><mo>¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></msqrt></mfrac></math></div>
+      </li>
+      <li><span class="flabel">最小二乘法不确定度：</span>
+        <div class="mathwrap"><math display="block"><msub><mi>u</mi><mi>A</mi></msub><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo><mo>=</mo><mi>s</mi><msqrt><mfrac><mi>n</mi><mrow><mi>n</mi><mo>Σ</mo><msup><mi>k</mi><mn>2</mn></msup><mo>−</mo><msup><mrow><mo stretchy="false">(</mo><mo>Σ</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></msqrt><mtext>，</mtext><mi>s</mi><mo>=</mo><msqrt><mfrac><mrow><mo>Σ</mo><msup><mrow><mo stretchy="false">(</mo><msub><mi>d</mi><mi>i</mi></msub><mo>−</mo><mi>a</mi><mo>−</mo><mi>b</mi><msub><mi>k</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></mfrac></msqrt><mtext>，</mtext><msub><mi>u</mi><mi>B</mi></msub><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mi>Δ</mi><mrow><msqrt><mn>3</mn></msqrt><msqrt><mo>Σ</mo><msup><mrow><mo stretchy="false">(</mo><msub><mi>k</mi><mi>i</mi></msub><mo>−</mo><mover><mi>k</mi><mo>¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></msqrt></mrow></mfrac></math></div>
       </li>
     </ul>
     <ul class="mathlist plain-fallback">
       <li>动镜位置读数：d = a + 0.01·b + 0.00001·c（mm），a 主尺、b 粗调手轮、c 微调手轮（含估读位）</li>
       <li>d 每改变 λ/2，中心“冒出”或“消失”一个圆环；N 个环对应 Δd = N·λ/2</li>
       <li>逐差法：Δd₁ = d₃ − d₀，Δd₂ = d₄ − d₁，Δd₃ = d₅ − d₂</li>
-      <li>波长：λ = 2·Δd / N，N = 300（Δd 为平均移动距离）</li>
+      <li>逐差法波长：λ = 2·Δd / N，N = 3 × 每步条纹数（Δd 为三对差值的平均）</li>
+      <li>逐差法不确定度：u_A(Δd) = √[ Σ(Δdᵢ − Δd)² / (n(n−1)) ]（n = 3，即三对 Δd 的分散）；u_B(Δd) = √(2/3)·(Δ/√3)（Δ = 0.00001 mm，读数分辨力）；u(λ) = 2·u(Δd)/N</li>
+      <li>最小二乘法：对 6 组 (k, d) 拟合 d = a + b·k（k 为条纹数），λ = 2b</li>
+      <li>最小二乘法不确定度：u_A(b) = s·√[ n / (nΣk² − (Σk)²) ]，s = √[ Σ(dᵢ − a − b·kᵢ)² / (n − 2) ] 为残差标准差；u_B(b) = Δ / (√3·√Σ(kᵢ − k̄)²)；u(λ) = 2·u(b)</li>
     </ul>
-    <p>迈克耳孙干涉仪中，M₁ 的位置由三部分读出：主尺（整数 mm，一般两位）、粗调手轮读数窗（100 等分，0.01 mm/格）、微调手轮（100 等分，0.0001 mm/格，可估读到 0.00001 mm）。故动镜位置 d 有 5 位小数：d = a + 0.01b + 0.00001c，其中微调读数 c 为三位数，末位为估读位。He-Ne 激光标准波长 632.8 nm。</p>
+    <p>迈克耳孙干涉仪中，M₁ 的位置由三部分读出：主尺（整数 mm，一般两位）、粗调手轮读数窗（100 等分，0.01 mm/格）、微调手轮（100 等分，0.0001 mm/格，可估读到 0.00001 mm）。故动镜位置 d 有 5 位小数：d = a + 0.01b + 0.00001c，其中微调读数 c 为三位数，末位为估读位。He-Ne 激光标准波长 632.8 nm。B 类不确定度取读数分辨力 Δ = 0.00001 mm 按均匀分布处理（u_B = Δ/√3）；不确定度修约到两位有效数字（四舍六入五凑偶），测量值修约到与不确定度相同的末位，结果写成「X ± U，即 X(U)」两种记法。</p>
   </details>
   <p class="copyright">© 2026 南京邮电大学　保留所有权利</p>
   <!-- 免费访问统计：新版不蒜子 busuanzi.cc（PV 访问量 + UV 访客数，国内可直连，按域名 libinlab.cn 累计）。
@@ -297,8 +342,8 @@ math{font-family:"Cambria Math","STIX Two Math",Georgia,"Times New Roman",serif;
 /* ===================== 常量与纯计算部分 ===================== */
 
 var LAMBDA = 0.0006328;      // He-Ne 激光标准波长 / mm
-var N_STRIPES = 300;         // 逐差法每组条纹数
 var LAMBDA_REF_NM = 632.8;   // 标准波长 / nm
+var READ_RES = 0.00001;      // 读数分辨力（微调手轮估读位）/ mm
 var KN_DEG_PER_MM = 360 / 0.01;  // 微调手轮：转 360° = 0.01 mm
 
 // 解析一个整数部位读数；非法或超范围返回 null
@@ -326,15 +371,75 @@ function dToParts(d){
   return { main: main, coarse: coarse, fine: fine };
 }
 
-// 由 6 个位置 d 逐差法求波长
-function computeLambda(ds){
+// 单次读数由分辨力引入的 B 类标准不确定度（均匀分布）：u_B = Δ/√3
+function uBRead(){ return READ_RES / Math.sqrt(3); }
+
+// 逐差法：Δd₁ = d₃−d₀、Δd₂ = d₄−d₁、Δd₃ = d₅−d₂（每对跨 3 步 = 3·step 条），
+// λ = 2·平均Δd / N；不确定度 = A 类（三对 Δd 的分散）+ B 类（读数分辨力）
+function computeDiff(ds, step){
   for (var i = 0; i < 6; i++) if (ds[i] === null) return null;
   var dd1 = ds[3] - ds[0], dd2 = ds[4] - ds[1], dd3 = ds[5] - ds[2];
   var avg = (dd1 + dd2 + dd3) / 3;
-  var lamMm = 2 * avg / N_STRIPES;
-  var lamNm = lamMm * 1e6;
-  var rel = Math.abs(lamNm - LAMBDA_REF_NM) / LAMBDA_REF_NM * 100;
-  return { dd1: dd1, dd2: dd2, dd3: dd3, avg: avg, lamMm: lamMm, lamNm: lamNm, rel: rel };
+  var N = 3 * step;                       // 每对逐差跨越的条纹数
+  var lamMm = 2 * avg / N, lamNm = lamMm * 1e6;
+  // A 类：三对 Δd 的分散，u_A = √[ Σ(Δdᵢ−平均Δd)² / (n(n−1)) ]，n = 3
+  var s2 = 0, dds = [dd1, dd2, dd3];
+  for (var j = 0; j < 3; j++) s2 += (dds[j] - avg) * (dds[j] - avg);
+  var uA = Math.sqrt(s2 / (3 * 2));
+  // B 类：6 个读数各出现一次、系数 ±1/3 → u_B(Δd) = √(2/3)·u_B(d)
+  var uB = Math.sqrt(2 / 3) * uBRead();
+  var uDd = Math.sqrt(uA * uA + uB * uB);
+  var uLamA = 2 * uA / N * 1e6, uLamB = 2 * uB / N * 1e6;
+  var uLamNm = 2 * uDd / N * 1e6;
+  return {
+    dd1: dd1, dd2: dd2, dd3: dd3, avg: avg, N: N,
+    lamMm: lamMm, lamNm: lamNm,
+    uDdA: uA, uDdB: uB, uDd: uDd, uLamNm: uLamNm,
+    uLamA: uLamA, uLamB: uLamB,
+    relU: uLamNm / lamNm * 100,
+    rel: Math.abs(lamNm - LAMBDA_REF_NM) / LAMBDA_REF_NM * 100
+  };
+}
+
+// 最小二乘法：对 6 组 (k, d) 拟合 d = a + b·k（k 为条纹数），斜率 b = λ/2，故 λ = 2b。
+// A 类来自拟合残差；B 类由读数分辨力按等权传播（u_B(b) = u_B(d)/√Σ(kᵢ−k̄)²）
+function computeLSQ(ds, step){
+  var n = 0, ks = [], i;
+  for (i = 0; i < 6; i++){ if (ds[i] === null) return null; ks.push(i * step); n++; }
+  var Sk = 0, Sd = 0, Skk = 0, Skd = 0;
+  for (i = 0; i < n; i++){
+    Sk += ks[i]; Sd += ds[i]; Skk += ks[i] * ks[i]; Skd += ks[i] * ds[i];
+  }
+  var D = n * Skk - Sk * Sk;
+  if (D === 0) return null;
+  var b = (n * Skd - Sk * Sd) / D;                 // mm/条
+  var a = (Skk * Sd - Sk * Skd) / D;               // mm
+  var kbar = Sk / n, SxxK = Skk - Sk * Sk / n;     // Σ(kᵢ−k̄)²
+  var ss = 0;
+  for (i = 0; i < n; i++){ var rr = ds[i] - (a + b * ks[i]); ss += rr * rr; }
+  var s = Math.sqrt(ss / (n - 2));                 // 残差标准差，自由度 n−2
+  var uAb = s * Math.sqrt(n / D);                  // A 类（斜率）
+  var uBb = uBRead() / Math.sqrt(SxxK);            // B 类（斜率）
+  var ub = Math.sqrt(uAb * uAb + uBb * uBb);
+  var uAa = s * Math.sqrt(Skk / D);                // A 类（截距）
+  var uBa = uBRead() * Math.sqrt(1 / n + kbar * kbar / SxxK);
+  var ua = Math.sqrt(uAa * uAa + uBa * uBa);
+  var lamNm = 2 * b * 1e6, uLamNm = 2 * ub * 1e6;
+  // 相关系数 r
+  var dbar = Sd / n, Sdk = 0, Sdd = 0;
+  for (i = 0; i < n; i++){
+    Sdk += (ks[i] - kbar) * (ds[i] - dbar);
+    Sdd += (ds[i] - dbar) * (ds[i] - dbar);
+  }
+  var r = (SxxK > 0 && Sdd > 0) ? Sdk / Math.sqrt(SxxK * Sdd) : NaN;
+  return {
+    n: n, kbar: kbar, a: a, b: b, r: r, s: s,
+    uA: uAb, uB: uBb, ub: ub, uaA: uAa, uaB: uBa, ua: ua,
+    lamNm: lamNm, uLamNm: uLamNm,
+    uLamA: 2 * uAb * 1e6, uLamB: 2 * uBb * 1e6,
+    relU: uLamNm / lamNm * 100,
+    rel: Math.abs(lamNm - LAMBDA_REF_NM) / LAMBDA_REF_NM * 100
+  };
 }
 
 // 四舍六入五凑偶（保留 n 位有效数字）
@@ -359,8 +464,52 @@ function fmtSig(x, n){
   if (!Number.isFinite(v)) return '—';
   if (v === 0) return '0';
   var abs = Math.abs(v);
-  if (abs >= 1e6 || abs < 1e-4) return v.toExponential(Math.max(0, n - 1));
+  if (abs >= 1e6 || abs < 1e-7) return v.toExponential(Math.max(0, n - 1));
   return v.toPrecision(n).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 新标准记法 X(U)：U 小于 1 时去掉「0.」与其后的前导零，如 0.0022 → 22
+function uStd(u){
+  var s = String(u);
+  if (s.indexOf('e') >= 0 || s.indexOf('E') >= 0) return s;   // 指数形式不缩写
+  return s.slice(0, 2) === '0.' ? (s.slice(2).replace(/^0+/, '') || '0') : s;
+}
+
+// 不确定度修约到两位有效数字（四舍六入五凑偶），末尾多余的 0 略去：
+// 0.00136 → "0.0014"、0.0022 → "0.0022"；过大（≥10⁶）或过小（<10⁻⁴）时改用 e 记数法
+function fmtU2(u){
+  if (!Number.isFinite(u)) return '—';
+  if (u === 0) return '0';
+  var v = sigRound(u, 2), av = Math.abs(v);
+  if (av >= 1e6 || av < 1e-7) return v.toExponential(1);
+  var e = Math.floor(Math.log10(Number(av.toPrecision(15))));
+  if (e > 1) return v.toExponential(1);          // 两位有效数字需修约到十位以上
+  return v.toFixed(1 - e).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+}
+
+// 按 dp 位小数修约（四舍六入五凑偶），保留末尾的 0
+function fixedDp(x, dp){
+  if (!Number.isFinite(x)) return '—';
+  var ax = Math.abs(x);
+  var e = (ax === 0) ? 0 : Math.floor(Math.log10(Number(ax.toPrecision(15))));
+  return sigRound(x, dp + e + 1).toFixed(dp);
+}
+
+// 测量值修约到与不确定度相同的末位（同样四舍六入五凑偶）：
+// 如 U = "0.0022"（4 位小数）时 0.147233 → "0.1472"
+function fmtX(x, uStr, fbDp){
+  if (!Number.isFinite(x)) return '—';
+  if (uStr === '0' || uStr === '—' || uStr.indexOf('e') >= 0)
+    return (fbDp == null) ? fmtSig(x, 6) : fixedDp(x, fbDp);
+  var dot = uStr.indexOf('.');
+  return fixedDp(x, (dot < 0) ? 0 : (uStr.length - dot - 1));
+}
+
+// 结果表达式「X ± U，即 X(U)」
+function exprXT(x, u){
+  if (!Number.isFinite(u)) return '—';
+  var us = fmtU2(u), xs = fmtX(x, us, 6);
+  return xs + ' ± ' + us + '，即 ' + xs + '(' + uStd(us) + ')';
 }
 
 /*__CALC_END__*/
@@ -542,7 +691,20 @@ $('btnRecord').addEventListener('click', function(){
   toast('6 组已记满，如需重记请先清空');
 });
 
-/* ---------- 数据表与逐差处理 ---------- */
+/* ---------- 每步条纹数 ---------- */
+function getStep(){
+  var s = $('stepIn').value.trim(), v = parseInt(s, 10);
+  var ok = /^\d{1,4}$/.test(s) && v >= 5 && v <= 1000;
+  $('stepIn').classList.toggle('invalid', !ok);
+  return ok ? v : null;
+}
+function updateStepLabels(step){
+  $('stepTxt').textContent = step;
+  $('pairTxt').textContent = 3 * step;
+  for (var i = 0; i < 6; i++) $('idx' + i).textContent = '第 ' + (i * step) + ' 个';
+}
+
+/* ---------- 数据表与数据处理 ---------- */
 function recompute(){
   var ds = [null, null, null, null, null, null];
   for (var i = 0; i < 6; i++){
@@ -561,18 +723,43 @@ function recompute(){
     }
   }
 
-  var res = computeLambda(ds);
-  if (res){
-    $('dd1').textContent = res.dd1.toFixed(5) + ' mm';
-    $('dd2').textContent = res.dd2.toFixed(5) + ' mm';
-    $('dd3').textContent = res.dd3.toFixed(5) + ' mm';
-    $('avgDd').textContent = res.avg.toFixed(5) + ' mm';
-    $('rLambda').textContent = fmtSig(res.lamNm, 4) + ' nm';
-    $('rLambdaMm').textContent = fmtSig(res.lamMm, 4) + ' mm';
-    $('rRel').textContent = fmtSig(res.rel, 2) + '%';
+  var step = getStep();
+  if (step !== null) updateStepLabels(step);
+  var diff = step ? computeDiff(ds, step) : null;
+  var lsq  = step ? computeLSQ(ds, step) : null;
+
+  if (diff && lsq){
+    /* 逐差法 */
+    $('dd1').textContent = diff.dd1.toFixed(5) + ' mm';
+    $('dd2').textContent = diff.dd2.toFixed(5) + ' mm';
+    $('dd3').textContent = diff.dd3.toFixed(5) + ' mm';
+    $('avgDd').textContent = diff.avg.toFixed(5) + ' mm';
+    $('diffExpr').textContent = exprXT(diff.lamNm, diff.uLamNm) + ' nm';
+    $('diffUa').textContent = fmtU2(diff.uLamA) + ' nm';
+    $('diffUb').textContent = fmtU2(diff.uLamB) + ' nm';
+    $('diffRel').textContent = fmtSig(diff.relU, 2) + '%';
+
+    /* 最小二乘法 */
+    $('lsqB').textContent = fmtX(lsq.b * 1e6, fmtU2(lsq.ub * 1e6), 6) + ' nm/条';
+    $('lsqA').textContent = fmtX(lsq.a, fmtU2(lsq.ua), 6) + ' mm';
+    $('lsqR').textContent = fmtSig(lsq.r, 8);
+    $('lsqExpr').textContent = exprXT(lsq.lamNm, lsq.uLamNm) + ' nm';
+    $('lsqUa').textContent = fmtU2(lsq.uLamA) + ' nm';
+    $('lsqUb').textContent = fmtU2(lsq.uLamB) + ' nm';
+    $('lsqRel').textContent = fmtSig(lsq.relU, 2) + '%';
+
+    /* 总览 */
+    $('rLambda').textContent = fmtX(diff.lamNm, fmtU2(diff.uLamNm), 4) + ' nm';
+    $('rLambdaLab').textContent = 'He-Ne 激光波长（逐差法，每对跨 ' + diff.N + ' 条）λ = 2·平均Δd / N';
+    $('rLambdaMm').textContent = fmtX(diff.lamMm, fmtU2(diff.uLamNm / 1e6), 4) + ' mm';
+    $('rRel').textContent = fmtSig(diff.rel, 2) + '%';
+    $('rCmp').textContent = fmtSig(Math.abs(diff.lamNm - lsq.lamNm), 2) + ' nm';
     $('resultCard').classList.remove('hidden');
   } else {
     $('dd1').textContent = $('dd2').textContent = $('dd3').textContent = $('avgDd').textContent = '—';
+    $('diffExpr').textContent = $('diffUa').textContent = $('diffUb').textContent = $('diffRel').textContent = '—';
+    $('lsqB').textContent = $('lsqA').textContent = $('lsqR').textContent = $('lsqExpr').textContent = '—';
+    $('lsqUa').textContent = $('lsqUb').textContent = $('lsqRel').textContent = '—';
     $('resultCard').classList.add('hidden');
   }
 }
@@ -590,24 +777,31 @@ $('btnClear').addEventListener('click', function(){
   toast('已清空');
 });
 
-/* 示例数据：自洽的 He-Ne 波长测量（λ 恰为 632.8 nm） */
-var DEMO = [
-  { m: 50, c: 0,  f: 0   },   // d0 = 50.00000
-  { m: 50, c: 3,  f: 164 },   // d1 = 50.03164
-  { m: 50, c: 6,  f: 328 },   // d2 = 50.06328
-  { m: 50, c: 9,  f: 492 },   // d3 = 50.09492
-  { m: 50, c: 12, f: 656 },   // d4 = 50.12656
-  { m: 50, c: 15, f: 820 }    // d5 = 50.15820
-];
-$('btnDemo').addEventListener('click', function(){
+/* 示例数据：按当前“每步条纹数”生成一组自洽读数（理想 d 值 + 各次停位偏差，单位 0.00001 mm），
+   λ 约 632.8 nm，逐差法与最小二乘法都会给出非零的 A 类不确定度 */
+var DEMO_DEV = [0, 4, -5, 4, -6, 3];
+function demoReadings(step){
+  var out = [], d0 = 50;                     // 起始动镜位置 50 mm
   for (var i = 0; i < 6; i++){
-    $('main' + i).value = DEMO[i].m;
-    $('coarse' + i).value = DEMO[i].c;
-    $('fine' + i).value = DEMO[i].f;
+    var d = d0 + i * step * LAMBDA / 2 + DEMO_DEV[i] * 1e-5;
+    out.push(Math.round(d * 1e5) / 1e5);
+  }
+  return out;
+}
+$('btnDemo').addEventListener('click', function(){
+  var step = getStep() || 20;
+  var ds = demoReadings(step);
+  for (var i = 0; i < 6; i++){
+    var p = dToParts(ds[i]);
+    $('main' + i).value = p.main;
+    $('coarse' + i).value = p.coarse;
+    $('fine' + i).value = p.fine;
   }
   recompute();
-  toast('已填入示例数据（λ = 632.8 nm）');
+  toast('已填入示例数据（每 ' + step + ' 条记录一次，λ ≈ 632.8 nm）');
 });
+
+$('stepIn').addEventListener('input', function(){ recompute(); });
 
 /* 窗口缩放时重绘圆环（防抖） */
 var resizeTimer = null;
